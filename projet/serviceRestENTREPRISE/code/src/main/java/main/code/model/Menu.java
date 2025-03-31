@@ -16,42 +16,42 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pk_menu")
-    private Integer pk_menu;
+    @Column(name = "Pk_Menu")
+    private Integer Pk_Menu;
 
-    @Column(name = "nom")
-    private String nom;
+    @Column(name = "Nom")
+    private String Nom;
 
-    @Column(name = "prix_unitaire")
-    private Integer prixUnitaire;
+    @Column(name = "PrixUnitaire")
+    private Integer PrixUnitaire;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_entreprise")
+    @JoinColumn(name = "Fk_Entreprise")
     private Entreprise entreprise;
 
     // Getters et Setters
     public Integer getPkMenu() {
-        return pk_menu;
+        return Pk_Menu;
     }
 
-    public void setPkMenu(Integer pk_menu) {
-        this.pk_menu = pk_menu;
+    public void setPkMenu(Integer Pk_Menu) {
+        this.Pk_Menu = Pk_Menu;
     }
 
     public String getNom() {
-        return nom;
+        return Nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNom(String Nom) {
+        this.Nom = Nom;
     }
 
     public Integer getPrixUnitaire() {
-        return prixUnitaire;
+        return PrixUnitaire;
     }
 
-    public void setPrixUnitaire(Integer prixUnitaire) {
-        this.prixUnitaire = prixUnitaire;
+    public void setPrixUnitaire(Integer PrixUnitaire) {
+        this.PrixUnitaire = PrixUnitaire;
     }
 
     public Entreprise getEntreprise() {

@@ -13,26 +13,26 @@ public class Entreprise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pk_entreprise")
-    private Integer pk_entreprise;
+    @Column(name = "Pk_Entreprise")
+    private Integer Pk_Entreprise;
 
-    @Column(name = "nom")
-    private String nom;
+    @Column(name = "Nom")
+    private String Nom;
 
     // Getters et Setters
     public Integer getPkEntreprise() {
-        return pk_entreprise;
+        return Pk_Entreprise;
     }
 
-    public void setPKEntreprise(Integer pk_entreprise) {
-        this.pk_entreprise = pk_entreprise;
+    public void setPKEntreprise(Integer Pk_Entreprise) {
+        this.Pk_Entreprise = Pk_Entreprise;
     }
 
     public String getNom() {
-        return nom;
+        return Nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNom(String Nom) {
+        this.Nom = Nom;
     }
 }

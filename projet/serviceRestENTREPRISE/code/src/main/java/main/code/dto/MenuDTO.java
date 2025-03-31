@@ -2,41 +2,41 @@ package main.code.dto;
 
 public class MenuDTO {
 
-    private Integer pk_menu;
-    private String nom;
-    private Integer prix_unitaire;
+    private Integer Pk_Menu;
+    private String Nom;
+    private Integer PrixUnitaire;
 
     // Constructeurs, getters et setters
     public MenuDTO() {}
 
-    public MenuDTO(Integer pk_menu, String nom, Integer prix_unitaire) {
-        this.pk_menu = pk_menu;
-        this.nom = nom;
-        this.prix_unitaire = prix_unitaire;
+    public MenuDTO(Integer Pk_Menu, String Nom, Integer PrixUnitaire) {
+        this.Pk_Menu = Pk_Menu;
+        this.Nom = Nom;
+        this.PrixUnitaire = PrixUnitaire;
     }
 
     public Integer getPkMenu() {
-        return pk_menu;
+        return Pk_Menu;
     }
 
-    public void setPkMenu(Integer pk_menu) {
-        this.pk_menu = pk_menu;
+    public void setPkMenu(Integer Pk_Menu) {
+        this.Pk_Menu = Pk_Menu;
     }
 
     public String getNom() {
-        return nom;
+        return Nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setNom(String Nom) {
+        this.Nom = Nom;
     }
 
     public Integer getPrixUnitaire() {
-        return prix_unitaire;
+        return PrixUnitaire;
     }
 
-    public void setPrixUnitaire(Integer prix_unitaire) {
-        this.prix_unitaire = prix_unitaire;
+    public void setPrixUnitaire(Integer PrixUnitaire) {
+        this.PrixUnitaire = PrixUnitaire;
     }
 
 }
