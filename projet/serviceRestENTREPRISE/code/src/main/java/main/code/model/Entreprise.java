@@ -13,10 +13,10 @@ public class Entreprise {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Pk_Entreprise")
+    @Column(name = "pk_entreprise")
     private Integer pk_entreprise;
 
-    @Column(name = "Nom")
+    @Column(name = "nom")
     private String nom;
 
     // Getters et Setters

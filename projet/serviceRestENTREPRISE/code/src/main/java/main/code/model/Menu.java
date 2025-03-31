@@ -16,17 +16,17 @@ public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Pk_Menu")
+    @Column(name = "pk_menu")
     private Integer pk_menu;
 
-    @Column(name = "Nom")
+    @Column(name = "nom")
     private String nom;
 
-    @Column(name = "PrixUnitaire")
+    @Column(name = "prix_unitaire")
     private Integer prixUnitaire;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Fk_Entreprise")
+    @JoinColumn(name = "fk_entreprise")
     private Entreprise entreprise;
 
     // Getters et Setters
