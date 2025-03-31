@@ -1,5 +1,10 @@
 package client.servicerestclient.wrk;
 
+import java.util.ArrayList;
+
+import client.servicerestclient.beans.Menu;
+import client.servicerestclient.beans.User;
+
 public class Wrk implements ItfWrkCtrl {
     private WrkDB wrkDB;
 
@@ -10,5 +15,15 @@ public class Wrk implements ItfWrkCtrl {
     @Override
     public boolean checkUser(String login) {
         return wrkDB.readUser(login);
+    }
+
+     @Override
+    public boolean addUser(User user) {
+        return wrkDB.addUser(user);
+    }
+
+    @Override
+    public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
+        return wrkDB.ajouterCommande(login, menus, total);
     }
 }
