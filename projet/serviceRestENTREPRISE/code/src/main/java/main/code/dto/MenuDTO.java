@@ -4,15 +4,15 @@ public class MenuDTO {
 
     private Integer Pk_Menu;
     private String Nom;
-    private Integer PrixUnitaire;
+    private Integer Prix_Unitaire;
 
     // Constructeurs, getters et setters
     public MenuDTO() {}
 
-    public MenuDTO(Integer Pk_Menu, String Nom, Integer PrixUnitaire) {
+    public MenuDTO(Integer Pk_Menu, String Nom, Integer Prix_Unitaire) {
         this.Pk_Menu = Pk_Menu;
         this.Nom = Nom;
-        this.PrixUnitaire = PrixUnitaire;
+        this.Prix_Unitaire = Prix_Unitaire;
     }
 
     public Integer getPkMenu() {
@@ -32,11 +32,11 @@ public class MenuDTO {
     }
 
     public Integer getPrixUnitaire() {
-        return PrixUnitaire;
+        return Prix_Unitaire;
     }
 
-    public void setPrixUnitaire(Integer PrixUnitaire) {
-        this.PrixUnitaire = PrixUnitaire;
+    public void setPrixUnitaire(Integer Prix_Unitaire) {
+        this.Prix_Unitaire = Prix_Unitaire;
     }
 
 }

@@ -15,8 +15,8 @@ public class Entreprise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Pk_Entreprise")
     private Integer Pk_Entreprise;
-
-    @Column(name = "Nom")
+    
+    @Column(name = "Nom", length = 50)
     private String Nom;
 
     // Getters et Setters
@@ -24,7 +24,7 @@ public class Entreprise {
         return Pk_Entreprise;
     }
 
-    public void setPKEntreprise(Integer Pk_Entreprise) {
+    public void setPkEntreprise(Integer Pk_Entreprise) {
         this.Pk_Entreprise = Pk_Entreprise;
     }
 

@@ -22,8 +22,8 @@ public class Menu {
     @Column(name = "Nom")
     private String Nom;
 
-    @Column(name = "PrixUnitaire")
-    private Integer PrixUnitaire;
+    @Column(name = "Prix_Unitaire")
+    private Integer Prix_Unitaire;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Fk_Entreprise")
@@ -47,11 +47,11 @@ public class Menu {
     }
 
     public Integer getPrixUnitaire() {
-        return PrixUnitaire;
+        return Prix_Unitaire;
     }
 
-    public void setPrixUnitaire(Integer PrixUnitaire) {
-        this.PrixUnitaire = PrixUnitaire;
+    public void setPrixUnitaire(Integer Prix_Unitaire) {
+        this.Prix_Unitaire = Prix_Unitaire;
     }
 
     public Entreprise getEntreprise() {
