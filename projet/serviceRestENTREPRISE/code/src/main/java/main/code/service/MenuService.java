@@ -36,8 +36,8 @@ public class MenuService {
         return menuDTOs;
     }
     @Transactional
-    public String addNewMenu(String nom, Integer prixUnitaire, Integer pkEntreprise) {
-        Entreprise entreprise = entrepriseRepository.findById(pkEntreprise).orElse(null);
+    public String addNewMenu(String nom, Integer prixUnitaire, Integer pk_entreprise) {
+        Entreprise entreprise = entrepriseRepository.findById(pk_entreprise).orElse(null);
         if (entreprise == null) {
             return "entreprise not found";
         }
@@ -50,13 +50,13 @@ public class MenuService {
     }
 
     @Transactional
-    public String modifyMenu(Integer pkMenu, String nom, Integer prixUnitaire, Integer pkEntreprise) {
-        Menu menu = menuRepository.findById(pkMenu).orElse(null);
+    public String modifyMenu(Integer pk_menu, String nom, Integer prixUnitaire, Integer pk_entreprise) {
+        Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) {
             return "menu not found";
         }
 
-        Entreprise entreprise = entrepriseRepository.findById(pkEntreprise).orElse(null);
+        Entreprise entreprise = entrepriseRepository.findById(pk_entreprise).orElse(null);
         if (entreprise == null) {
             return "entreprise not found";
         }
@@ -70,8 +70,8 @@ public class MenuService {
     }
 
     @Transactional
-    public String deleteMenu(Integer pkMenu) {
-        Menu menu = menuRepository.findById(pkMenu).orElse(null);
+    public String deleteMenu(Integer pk_menu) {
+        Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) {
             return "menu not found";
     }

@@ -15,9 +15,9 @@ import jakarta.persistence.Table;
 public class Menu {
 
     @Id
-    @Column(name = "PK_Menu")
+    @Column(name = "Pk_Menu")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer pkMenu;
+    private Integer pk_menu;
     
     @Column(name = "Nom", length = 50)
     private String nom;
@@ -26,16 +26,16 @@ public class Menu {
     private Integer prixUnitaire;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "fk_entreprise")
+    @JoinColumn(name = "Fk_Entreprise")
     private Entreprise entreprise;
 
     // Getters et Setters
     public Integer getPkMenu() {
-        return pkMenu;
+        return pk_menu;
     }
 
-    public void setPkMenu(Integer pkMenu) {
-        this.pkMenu = pkMenu;
+    public void setPkMenu(Integer pk_menu) {
+        this.pk_menu = pk_menu;
     }
 
     public String getNom() {

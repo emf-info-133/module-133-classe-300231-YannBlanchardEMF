@@ -26,20 +26,20 @@ public class Controller {
     }
 
     @PostMapping(path = "/addMenu")
-    public @ResponseBody String addNewMenu(@RequestParam String name, @RequestParam Integer prixUnitaire,
-            @RequestParam Integer fkEntreprise) {
-        return menuService.addNewMenu(name, prixUnitaire, fkEntreprise);
+    public @ResponseBody String addNewMenu(@RequestParam String nom, @RequestParam Integer prixUnitaire,
+            @RequestParam Integer fk_entreprise) {
+        return menuService.addNewMenu(nom, prixUnitaire, fk_entreprise);
     }
 
     @PostMapping(path = "/modifyMenu")
-    public @ResponseBody String modifyMenu(@RequestParam Integer pkMenu, @RequestParam String name, @RequestParam Integer prixUnitaire,
-            @RequestParam Integer fkEntreprise) {
-        return menuService.modifyMenu(pkMenu, name, prixUnitaire, fkEntreprise);
+    public @ResponseBody String modifyMenu(@RequestParam Integer pk_menu, @RequestParam String nom, @RequestParam Integer prixUnitaire,
+            @RequestParam Integer fk_entreprise) {
+        return menuService.modifyMenu(pk_menu, nom, prixUnitaire, fk_entreprise);
     }
 
     @PostMapping(path = "/deleteMenu")
-    public @ResponseBody String deleteMenu(@RequestParam Integer pkMenu) {
-        return menuService.deleteMenu(pkMenu);
+    public @ResponseBody String deleteMenu(@RequestParam Integer pk_menu) {
+        return menuService.deleteMenu(pk_menu);
     }
 
     @GetMapping(path = "/getMenu")
