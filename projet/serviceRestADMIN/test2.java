@@ -1,4 +1,4 @@
-package projet.serviceRest3;
+package projet.serviceRestADMIN;
 
 public class test2 {
     
