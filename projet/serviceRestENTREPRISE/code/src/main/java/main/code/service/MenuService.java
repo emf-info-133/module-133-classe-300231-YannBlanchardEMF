@@ -36,33 +36,33 @@ public class MenuService {
         return menuDTOs;
     }
     @Transactional
-    public String addNewMenu(String Nom, Integer Prix_Unitaire, Integer Pk_Entreprise) {
-        Entreprise entreprise = entrepriseRepository.findById(Pk_Entreprise).orElse(null);
+    public String addNewMenu(String nom, Integer prix_unitaire, Integer pk_entreprise) {
+        Entreprise entreprise = entrepriseRepository.findById(pk_entreprise).orElse(null);
         if (entreprise == null) {
             return "entreprise not found";
         }
         Menu newMenu = new Menu();
-        newMenu.setNom(Nom);
-        newMenu.setPrixUnitaire(Prix_Unitaire);
+        newMenu.setNom(nom);
+        newMenu.setPrixUnitaire(prix_unitaire);
         newMenu.setEntreprise(entreprise);
         menuRepository.save(newMenu);
         return "Saved";
     }
 
     @Transactional
-    public String modifyMenu(Integer Pk_Menu, String Nom, Integer Prix_Unitaire, Integer Pk_Entreprise) {
+    public String modifyMenu(Integer Pk_Menu, String nom, Integer prix_unitaire, Integer pk_entreprise) {
         Menu menu = menuRepository.findById(Pk_Menu).orElse(null);
         if (menu == null) {
             return "menu not found";
         }
 
-        Entreprise entreprise = entrepriseRepository.findById(Pk_Entreprise).orElse(null);
+        Entreprise entreprise = entrepriseRepository.findById(pk_entreprise).orElse(null);
         if (entreprise == null) {
             return "entreprise not found";
         }
 
-        menu.setNom(Nom);
-        menu.setPrixUnitaire(Prix_Unitaire);
+        menu.setNom(nom);
+        menu.setPrixUnitaire(prix_unitaire);
         menu.setEntreprise(entreprise);
 
         menuRepository.save(menu);
@@ -70,8 +70,8 @@ public class MenuService {
     }
 
     @Transactional
-    public String deleteMenu(Integer Pk_Menu) {
-        Menu menu = menuRepository.findById(Pk_Menu).orElse(null);
+    public String deleteMenu(Integer pk_menu) {
+        Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) {
             return "menu not found";
     }
