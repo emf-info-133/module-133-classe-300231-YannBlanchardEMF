@@ -15,8 +15,8 @@ public class Entreprise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Pk_Entreprise")
     private Integer pk_entreprise;
-    
-    @Column(name = "Nom", length = 50)
+
+    @Column(name = "Nom")
     private String nom;
 
     // Getters et Setters

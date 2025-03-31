@@ -15,11 +15,11 @@ import jakarta.persistence.Table;
 public class Menu {
 
     @Id
-    @Column(name = "Pk_Menu")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Pk_Menu")
     private Integer pk_menu;
-    
-    @Column(name = "Nom", length = 50)
+
+    @Column(name = "Nom")
     private String nom;
 
     @Column(name = "PrixUnitaire")
