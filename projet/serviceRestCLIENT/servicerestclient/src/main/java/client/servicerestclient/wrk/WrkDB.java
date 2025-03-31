@@ -152,11 +152,13 @@ public class WrkDB {
             PreparedStatement stmtTR = connection.prepareStatement(sqlInsertTR);
 
             for (Menu menu : menus) {
+                System.out.println("CommandeId = " + commandeId + ", MenuId = " + menu.getPkMenu() + ", Quantité = " + menu.getQuantite());
                 stmtTR.setInt(1, commandeId);
                 stmtTR.setInt(2, menu.getPkMenu());
                 stmtTR.setInt(3, menu.getQuantite());
                 stmtTR.executeUpdate();
             }
+            
 
             // Valider la transaction
             connection.commit();
