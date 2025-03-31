@@ -22,7 +22,7 @@ public class Menu {
     @Column(name = "Nom", length = 50)
     private String nom;
 
-    @Column(name = "PrixUnitaire", length = 50)
+    @Column(name = "PrixUnitaire")
     private Integer prixUnitaire;
 
     @ManyToOne(fetch = FetchType.LAZY)
