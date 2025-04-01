@@ -9,7 +9,7 @@ public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_Menu")
-    private int PK_Menu;
+    private int pkMenu;
 
     @Column(name = "nom")
     private String nom;
@@ -38,7 +38,7 @@ public class Menu {
     // Getters et Setters
 
     public int getPkMenu() {
-        return PK_Menu;
+        return pkMenu;
     }
 
     public String getNom() {
@@ -61,8 +61,8 @@ public class Menu {
         return quantite;
     }
 
-    public void setPKMenu(int PK_Menu) {
-        this.PK_Menu = PK_Menu;
+    public void setPKMenu(int pkMenu) {
+        this.pkMenu = pkMenu;
     }
 
     public void setNom(String nom) {
