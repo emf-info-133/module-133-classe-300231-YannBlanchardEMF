@@ -69,38 +69,46 @@ public class WrkDB {
     }
     
 
-    public boolean addUser(User user) {
+    public User addUser(User user) {
         if (connection == null) {
-            return false;
+            return null;
         }
-
+    
         try {
             connection.setAutoCommit(false);
-
+    
             String query = "INSERT INTO T_Users (nom, prenom, isAdmin, FK_Entreprise, mdp, login) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = connection.prepareStatement(query);
+            PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+    
             stmt.setString(1, user.getNom());
             stmt.setString(2, user.getPrenom());
             stmt.setBoolean(3, user.isAdmin());
-
+    
             if (user.getFKEntreprise() != null) {
                 stmt.setInt(4, user.getFKEntreprise());
             } else {
                 stmt.setNull(4, Types.INTEGER);
             }
-
+    
             stmt.setString(5, user.getPassword());
             stmt.setString(6, user.getLogin());
-
+    
             int rows = stmt.executeUpdate();
             if (rows != 1) {
                 connection.rollback();
-                return false;
+                return null;
             }
-
+    
+            // Récupérer la clé générée
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                int generatedId = rs.getInt(1);
+                user.setPK(generatedId);
+            }
+    
             connection.commit();
-            return true;
-
+            return user;
+    
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -108,7 +116,7 @@ public class WrkDB {
                 ex.printStackTrace();
             }
             e.printStackTrace();
-            return false;
+            return null;
         } finally {
             try {
                 connection.setAutoCommit(true);
@@ -117,6 +125,7 @@ public class WrkDB {
             }
         }
     }
+    
 
     public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
         if (connection == null) {

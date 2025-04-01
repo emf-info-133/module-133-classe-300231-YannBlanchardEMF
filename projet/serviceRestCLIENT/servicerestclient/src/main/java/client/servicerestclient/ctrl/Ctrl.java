@@ -24,14 +24,22 @@ public class Ctrl {
     }
 
     @PostMapping("/register")
-    public boolean register(@RequestBody RegisterDTO dto) {
+    public User register(@RequestBody RegisterDTO dto) {
+        
+        
         User user = new User();
         user.setNom(dto.getNom());
         user.setPrenom(dto.getPrenom());
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
         user.setIdEntreprise(dto.getIdEntreprise());
-        return wrk.addUser(user);
+
+        if (wrk.addUser(user) != null) {
+            return user;
+        } else{
+            return null;
+        }
+        
     }
 
     @PostMapping("/commande")

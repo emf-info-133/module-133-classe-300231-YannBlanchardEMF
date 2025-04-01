@@ -18,7 +18,7 @@ public class Wrk implements ItfWrkCtrl {
     }
 
      @Override
-    public boolean addUser(User user) {
+    public User addUser(User user) {
         return wrkDB.addUser(user);
     }
 
