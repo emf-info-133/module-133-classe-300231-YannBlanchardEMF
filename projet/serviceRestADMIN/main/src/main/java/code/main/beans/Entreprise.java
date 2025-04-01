@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 @Table(name = "t_entreprise")
 public class Entreprise {
 
+    public Entreprise() {
+    }    
+
     public Entreprise(String nom, String adresse) {
         this.nom = nom;
         this.adresse = adresse;

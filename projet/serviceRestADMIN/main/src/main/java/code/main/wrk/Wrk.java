@@ -13,7 +13,7 @@ public class Wrk implements ItfWrkCtrl {
 
     @Override
     public boolean addEntreprise(String nom, String adresse) {
-        Entreprise e = new Entreprise(nom, adresse);
+        Entreprise e = new Entreprise();
         entrepriseService.addEntreprise(e);
         return true;
     }
