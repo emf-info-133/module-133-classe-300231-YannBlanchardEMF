@@ -1,6 +1,10 @@
 package client.servicerestclient.ctrl;
 
 import client.servicerestclient.wrk.*;
+
+import java.util.ArrayList;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +19,7 @@ public class Ctrl {
     ItfWrkCtrl wrk;
 
     public Ctrl() {
-        wrk = new Wrk(); 
+        wrk = new Wrk();
     }
 
     @PostMapping("/login")
@@ -25,8 +29,7 @@ public class Ctrl {
 
     @PostMapping("/register")
     public User register(@RequestBody RegisterDTO dto) {
-        
-        
+
         User user = new User();
         user.setNom(dto.getNom());
         user.setPrenom(dto.getPrenom());
@@ -36,14 +39,20 @@ public class Ctrl {
 
         if (wrk.addUser(user) != null) {
             return user;
-        } else{
+        } else {
             return null;
         }
-        
+
     }
 
     @PostMapping("/commande")
     public boolean ajouterCommande(@RequestBody CommandeDTO dto) {
         return wrk.ajouterCommande(dto.getLogin(), dto.getMenus(), dto.getTotal());
     }
+
+    @GetMapping("/users")
+    public ArrayList<User> getAllUsers() {
+        return wrk.getAllUsers();
+    }
+
 }

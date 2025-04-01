@@ -6,19 +6,18 @@ import client.servicerestclient.beans.User;
 
 public class Wrk implements ItfWrkCtrl {
     private WrkDB wrkDB;
-     
 
     public Wrk() {
         wrkDB = new WrkDB();
-       
+
     }
 
     @Override
-    public User checkUser(String login , String mdp) {
-        return wrkDB.readUser(login , mdp);
+    public User checkUser(String login, String mdp) {
+        return wrkDB.readUser(login, mdp);
     }
 
-     @Override
+    @Override
     public User addUser(User user) {
         return wrkDB.addUser(user);
     }
@@ -27,4 +26,10 @@ public class Wrk implements ItfWrkCtrl {
     public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
         return wrkDB.ajouterCommande(login, menus, total);
     }
+
+    @Override
+    public ArrayList<User> getAllUsers() {
+        return wrkDB.getAllUsers();
+    }
+
 }

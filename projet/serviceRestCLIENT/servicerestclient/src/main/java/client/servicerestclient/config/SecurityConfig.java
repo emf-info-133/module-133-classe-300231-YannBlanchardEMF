@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    // 🔓 Désactive toute forme de sécurité (aucune auth requise)
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -19,7 +19,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // 🔐 Fournit un encodeur de mots de passe que tu peux appeler depuis WrkDB
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

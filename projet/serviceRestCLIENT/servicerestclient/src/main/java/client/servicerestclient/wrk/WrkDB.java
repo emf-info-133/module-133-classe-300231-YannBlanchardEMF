@@ -73,6 +73,39 @@ public class WrkDB {
     
         return null;
     }
+
+
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = new ArrayList<>();
+    
+        if (connection == null) {
+            return users;
+        }
+    
+        try {
+            String query = "SELECT * FROM T_Users";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+    
+            while (rs.next()) {
+                User user = new User();
+                user.setPK(rs.getInt("PK_Users"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setAdmin(rs.getBoolean("isAdmin"));
+                user.setIdEntreprise(rs.getInt("FK_Entreprise"));
+                user.setLogin(rs.getString("login"));
+                user.setPassword(null);
+                users.add(user);
+            }
+    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return users;
+    }
+    
     
     
 
@@ -116,6 +149,7 @@ public class WrkDB {
             }
     
             connection.commit();
+            user.setPassword(null);
             return user;
     
         } catch (SQLException e) {
