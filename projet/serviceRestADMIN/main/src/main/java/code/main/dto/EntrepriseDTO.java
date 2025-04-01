@@ -1,21 +1,21 @@
-package code.main.beans;
+package code.main.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "t_entreprise")
-public class Entreprise {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class EntrepriseDTO {
     private Integer id;
-
-    @Column(name = "nom", length = 100)
     private String nom;
-
-    @Column(name = "adresse", length = 255)
     private String adresse;
 
+    // Constructeur vide
+    public EntrepriseDTO() {}
+
+    // Constructeur avec paramètres
+    public EntrepriseDTO(Integer id, String nom, String adresse) {
+        this.id = id;
+        this.nom = nom;
+        this.adresse = adresse;
+    }
+
+    // Getters et Setters
     public Integer getId() {
         return id;
     }
@@ -40,3 +40,4 @@ public class Entreprise {
         this.adresse = adresse;
     }
 }
+
