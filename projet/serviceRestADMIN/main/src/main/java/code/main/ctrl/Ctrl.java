@@ -2,7 +2,6 @@ package code.main.ctrl;
 
 import code.main.beans.Entreprise;
 import code.main.service.EntrepriseService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -13,7 +12,6 @@ public class Ctrl {
 
     private final EntrepriseService entrepriseService;
 
-    @Autowired
     public Ctrl(EntrepriseService entrepriseService) {
         this.entrepriseService = entrepriseService;
     }
