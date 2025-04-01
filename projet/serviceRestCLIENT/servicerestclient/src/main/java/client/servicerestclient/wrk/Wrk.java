@@ -2,14 +2,18 @@ package client.servicerestclient.wrk;
 
 import java.util.ArrayList;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import client.servicerestclient.beans.Menu;
 import client.servicerestclient.beans.User;
 
 public class Wrk implements ItfWrkCtrl {
     private WrkDB wrkDB;
+     
 
     public Wrk() {
         wrkDB = new WrkDB();
+       
     }
 
     @Override

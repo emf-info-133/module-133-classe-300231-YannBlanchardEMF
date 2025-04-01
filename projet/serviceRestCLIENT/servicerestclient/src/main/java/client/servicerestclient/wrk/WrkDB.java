@@ -6,6 +6,8 @@ import client.servicerestclient.beans.User;
 import java.sql.*;
 import java.util.ArrayList;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 public class WrkDB {
     private final String URL = "jdbc:mysql://localhost:3308/mydb";
     private final String USER = "root";
@@ -13,8 +15,11 @@ public class WrkDB {
 
     private Connection connection;
 
+    private BCryptPasswordEncoder passwordEncoder;
+
     public WrkDB() {
         dbConnect();
+        passwordEncoder = new BCryptPasswordEncoder();
     }
 
     private void dbConnect() {
@@ -43,22 +48,23 @@ public class WrkDB {
         }
     
         try {
-            String query = "SELECT * FROM T_Users WHERE login = ? AND mdp = ?";
+            String query = "SELECT * FROM T_Users WHERE login = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, login);
-            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
     
             if (rs.next()) {
-                User user = new User();
-                user.setPK(((rs.getInt("PK_Users"))));
-                user.setNom(rs.getString("nom"));
-                user.setPrenom(rs.getString("prenom"));
-                user.setAdmin(rs.getBoolean("isAdmin"));
-                user.setIdEntreprise(rs.getInt("FK_Entreprise"));
-                user.setPassword(rs.getString("mdp"));
-                user.setLogin(rs.getString("login"));
-                return user;
+                String hashed = rs.getString("mdp");
+                if (passwordEncoder.matches(password, hashed)) {
+                    User user = new User();
+                    user.setPK(rs.getInt("PK_Users"));
+                    user.setNom(rs.getString("nom"));
+                    user.setPrenom(rs.getString("prenom"));
+                    user.setAdmin(rs.getBoolean("isAdmin"));
+                    user.setIdEntreprise(rs.getInt("FK_Entreprise"));
+                    user.setLogin(rs.getString("login"));
+                    return user;
+                }
             }
     
         } catch (SQLException e) {
@@ -68,6 +74,7 @@ public class WrkDB {
         return null;
     }
     
+    
 
     public User addUser(User user) {
         if (connection == null) {
@@ -76,6 +83,10 @@ public class WrkDB {
     
         try {
             connection.setAutoCommit(false);
+    
+            // hash du mot de passe
+            String hashed = passwordEncoder.encode(user.getPassword());
+            user.setPassword(hashed);
     
             String query = "INSERT INTO T_Users (nom, prenom, isAdmin, FK_Entreprise, mdp, login) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -90,7 +101,7 @@ public class WrkDB {
                 stmt.setNull(4, Types.INTEGER);
             }
     
-            stmt.setString(5, user.getPassword());
+            stmt.setString(5, user.getPassword()); // stocke le hash
             stmt.setString(6, user.getLogin());
     
             int rows = stmt.executeUpdate();
@@ -99,11 +110,9 @@ public class WrkDB {
                 return null;
             }
     
-            // Récupérer la clé générée
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                int generatedId = rs.getInt(1);
-                user.setPK(generatedId);
+                user.setPK(rs.getInt(1));
             }
     
             connection.commit();
@@ -125,6 +134,7 @@ public class WrkDB {
             }
         }
     }
+    
     
 
     public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
