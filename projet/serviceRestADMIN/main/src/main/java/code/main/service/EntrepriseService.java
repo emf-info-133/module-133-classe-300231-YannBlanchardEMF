@@ -45,4 +45,3 @@ public class EntrepriseService {
         return entrepriseRepository.findById(id);
     }
 }
-
