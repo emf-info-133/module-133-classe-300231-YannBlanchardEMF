@@ -9,7 +9,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_Users")
-    private int id;
+    private int pkUser;
 
     @Column(name = "nom", nullable = false)
     private String nom;
@@ -27,28 +27,28 @@ public class User {
     private boolean isAdmin;
 
     @Column(name = "FK_Entreprise")
-    private Integer FK_Entreprise;
+    private Integer fkEntreprise;
 
     public User() {
     }
 
-    public User(String nom, String prenom, String login, String password, boolean isAdmin, Integer FK_Entreprise) {
+    public User(String nom, String prenom, String login, String password, boolean isAdmin, Integer fkEntreprise) {
         this.nom = nom;
         this.prenom = prenom;
         this.login = login;
         this.password = password;
         this.isAdmin = isAdmin;
-        this.FK_Entreprise = FK_Entreprise;
+        this.fkEntreprise = fkEntreprise;
     }
 
     // Getters & Setters
 
-    public int getId() {
-        return id;
+    public int getPK() {
+        return pkUser;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPK(int pkUser) {
+        this.pkUser = pkUser;
     }
 
     public String getNom() {
@@ -87,11 +87,15 @@ public class User {
         return isAdmin;
     }
 
-    public Integer getIdEntreprise() {
-        return FK_Entreprise;
+    public boolean setAdmin( boolean statu) {
+        return this.isAdmin = statu;
     }
 
-    public void setIdEntreprise(Integer FK_Entreprise) {
-        this.FK_Entreprise = FK_Entreprise;
+    public Integer getFKEntreprise() {
+        return fkEntreprise;
+    }
+
+    public void setIdEntreprise(Integer fkEntreprise) {
+        this.fkEntreprise = fkEntreprise;
     }
 }

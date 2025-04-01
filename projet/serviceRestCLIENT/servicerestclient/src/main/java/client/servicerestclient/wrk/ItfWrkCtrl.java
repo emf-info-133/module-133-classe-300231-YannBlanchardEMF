@@ -6,7 +6,7 @@ import client.servicerestclient.beans.Menu;
 import client.servicerestclient.beans.User;
 
 public interface ItfWrkCtrl {
-     boolean checkUser(String login);
+    User checkUser(String login , String mdp);
     boolean addUser(User user);
     boolean ajouterCommande(String login, ArrayList<Menu> menus, float total);
 }

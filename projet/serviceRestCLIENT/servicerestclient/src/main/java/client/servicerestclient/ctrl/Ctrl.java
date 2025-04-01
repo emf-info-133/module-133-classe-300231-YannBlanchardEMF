@@ -19,8 +19,8 @@ public class Ctrl {
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestBody LoginDTO dto) {
-        return wrk.checkUser(dto.getLogin());
+    public User login(@RequestBody LoginDTO dto) {
+        return wrk.checkUser(dto.getLogin(), dto.getPassword());
     }
 
     @PostMapping("/register")

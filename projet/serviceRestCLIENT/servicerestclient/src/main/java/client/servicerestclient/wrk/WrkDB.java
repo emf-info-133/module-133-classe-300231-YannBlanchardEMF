@@ -37,24 +37,37 @@ public class WrkDB {
         }
     }
 
-    public boolean readUser(String login) {
+    public User readUser(String login, String password) {
         if (connection == null) {
-            return false;
+            return null;
         }
-
+    
         try {
-            String query = "SELECT * FROM T_Users WHERE login = ?";
+            String query = "SELECT * FROM T_Users WHERE login = ? AND mdp = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, login);
+            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
-
-            return rs.next();
-
+    
+            if (rs.next()) {
+                User user = new User();
+                user.setPK(((rs.getInt("PK_Users"))));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setAdmin(rs.getBoolean("isAdmin"));
+                user.setIdEntreprise(rs.getInt("FK_Entreprise"));
+                user.setPassword(rs.getString("mdp"));
+                user.setLogin(rs.getString("login"));
+                return user;
+            }
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+    
+        return null;
     }
+    
 
     public boolean addUser(User user) {
         if (connection == null) {
@@ -70,8 +83,8 @@ public class WrkDB {
             stmt.setString(2, user.getPrenom());
             stmt.setBoolean(3, user.isAdmin());
 
-            if (user.getIdEntreprise() != null) {
-                stmt.setInt(4, user.getIdEntreprise());
+            if (user.getFKEntreprise() != null) {
+                stmt.setInt(4, user.getFKEntreprise());
             } else {
                 stmt.setNull(4, Types.INTEGER);
             }

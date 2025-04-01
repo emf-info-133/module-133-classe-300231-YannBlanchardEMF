@@ -13,8 +13,8 @@ public class Wrk implements ItfWrkCtrl {
     }
 
     @Override
-    public boolean checkUser(String login) {
-        return wrkDB.readUser(login);
+    public User checkUser(String login , String mdp) {
+        return wrkDB.readUser(login , mdp);
     }
 
      @Override
