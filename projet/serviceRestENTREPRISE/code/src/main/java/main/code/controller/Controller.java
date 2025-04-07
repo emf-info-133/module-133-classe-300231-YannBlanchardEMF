@@ -31,16 +31,16 @@ public class Controller {
 
     @PostMapping(path = "/addMenu")
     public @ResponseBody String addNewMenu(@RequestParam String nom, @RequestParam Integer prix_unitaire,
-                                           @RequestParam Integer userId) {
+            @RequestParam Integer userId) {
         return menuService.addNewMenu(nom, prix_unitaire, userId);
     }
-    
+
     @PostMapping(path = "/modifyMenu")
     public @ResponseBody String modifyMenu(@RequestParam Integer pk_menu, @RequestParam String nom,
-                                           @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
+            @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
         return menuService.modifyMenu(pk_menu, nom, prix_unitaire, userId);
     }
-    
+
     @PostMapping(path = "/deleteMenu")
     public @ResponseBody String deleteMenu(@RequestParam Integer pk_menu, @RequestParam Integer userId) {
         return menuService.deleteMenu(pk_menu, userId);

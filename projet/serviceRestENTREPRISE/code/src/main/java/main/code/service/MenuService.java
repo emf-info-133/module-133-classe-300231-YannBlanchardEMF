@@ -92,7 +92,7 @@ public class MenuService {
 
     private Integer getEntrepriseIdFromUser(Integer userId) {
         try {
-            String url = "http://localhost:8080/getUser/?pk_menu=" + userId;
+            String url = "http://api-gateway/client/api/user/" + userId;
             ResponseEntity<UserResponse> response = restTemplate.getForEntity(url, UserResponse.class);
             UserResponse user = response.getBody();
             return (user != null) ? user.getFkEntreprise() : null;
