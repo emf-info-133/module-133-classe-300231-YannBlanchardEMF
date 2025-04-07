@@ -3,8 +3,8 @@ package main.src.dto;
 public class EntrepriseDTO {
     private String nom;
     private String image;
-    private float prix;
-    private int fkEntreprise;
+    private Integer prix;
+    private Integer fkEntreprise;
 
     // Getters et Setters
 }

@@ -28,39 +28,29 @@ public class GatewayController {
         return restTemplate.postForEntity(clientBaseUrl + "/commande", dto, String.class);
     }
 
-    @PostMapping("/menu")
-    public ResponseEntity<?> ajouterMenu(@RequestBody EntrepriseDTO dto) {
-        return restTemplate.postForEntity(entrepriseBaseUrl + "/menu", dto, String.class);
-    }
-
-    @PostMapping("/entreprise")
-    public ResponseEntity<?> ajouterEntreprise(@RequestBody AdminDTO dto) {
-        return restTemplate.postForEntity(adminBaseUrl + "/entreprise", dto, String.class);
-    }
-
     // ENTREPRISE
     @PostMapping("/addMenu")
     public ResponseEntity<String> addMenu(@RequestParam String nom, @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
-        String url = entrepriseServiceBaseUrl + "/addMenu?nom=" + nom + "&prix_unitaire=" + prix_unitaire + "&userId=" + userId;
+        String url = entrepriseBaseUrl + "/addMenu?nom=" + nom + "&prix_unitaire=" + prix_unitaire + "&userId=" + userId;
         return restTemplate.postForEntity(url, null, String.class);
     }
 
     @PostMapping("/modifyMenu")
     public ResponseEntity<String> modifyMenu(@RequestParam Integer pk_menu, @RequestParam String nom, @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
-        String url = entrepriseServiceBaseUrl + "/modifyMenu?pk_menu=" + pk_menu + "&nom=" + nom +
+        String url = entrepriseBaseUrl + "/modifyMenu?pk_menu=" + pk_menu + "&nom=" + nom +
                 "&prix_unitaire=" + prix_unitaire + "&userId=" + userId;
         return restTemplate.postForEntity(url, null, String.class);
     }
 
     @PostMapping("/deleteMenu")
     public ResponseEntity<String> deleteMenu(@RequestParam Integer pk_menu, @RequestParam Integer userId) {
-        String url = entrepriseServiceBaseUrl + "/deleteMenu?pk_menu=" + pk_menu + "&userId=" + userId;
+        String url = entrepriseBaseUrl + "/deleteMenu?pk_menu=" + pk_menu + "&userId=" + userId;
         return restTemplate.postForEntity(url, null, String.class);
     }
 
     @GetMapping("/getMenuList")
     public ResponseEntity<Object> getMenuList() {
-        String url = entrepriseServiceBaseUrl + "/getMenu";
+        String url = entrepriseBaseUrl + "/getMenu";
         return restTemplate.getForEntity(url, Object.class);
     }
 
