@@ -1,4 +1,4 @@
-package ctrl;
+package main.src.ctrl;
 
 public class Ctrl {
     
