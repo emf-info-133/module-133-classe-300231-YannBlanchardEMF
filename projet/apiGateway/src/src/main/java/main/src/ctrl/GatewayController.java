@@ -1,5 +1,19 @@
 package main.src.ctrl;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
 import main.src.dto.ClientDTO;
 import main.src.dto.EntrepriseDTO;
 
@@ -30,13 +44,16 @@ public class GatewayController {
 
     // ENTREPRISE
     @PostMapping("/addMenu")
-    public ResponseEntity<String> addMenu(@RequestParam String nom, @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
-        String url = entrepriseBaseUrl + "/addMenu?nom=" + nom + "&prix_unitaire=" + prix_unitaire + "&userId=" + userId;
+    public ResponseEntity<String> addMenu(@RequestParam String nom, @RequestParam Integer prix_unitaire,
+            @RequestParam Integer userId) {
+        String url = entrepriseBaseUrl + "/addMenu?nom=" + nom + "&prix_unitaire=" + prix_unitaire + "&userId="
+                + userId;
         return restTemplate.postForEntity(url, null, String.class);
     }
 
     @PostMapping("/modifyMenu")
-    public ResponseEntity<String> modifyMenu(@RequestParam Integer pk_menu, @RequestParam String nom, @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
+    public ResponseEntity<String> modifyMenu(@RequestParam Integer pk_menu, @RequestParam String nom,
+            @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
         String url = entrepriseBaseUrl + "/modifyMenu?pk_menu=" + pk_menu + "&nom=" + nom +
                 "&prix_unitaire=" + prix_unitaire + "&userId=" + userId;
         return restTemplate.postForEntity(url, null, String.class);
@@ -56,6 +73,32 @@ public class GatewayController {
 
     // ADMIN
 
+    @PostMapping("/addEntreprise")
+    public ResponseEntity<?> addEntreprise(@RequestBody EntrepriseDTO dto) {
+        return restTemplate.postForEntity(adminBaseUrl + "/addEntreprise", dto, String.class);
+    }
+
+    @GetMapping("/getEntreprises")
+    public ResponseEntity<?> getAllEntreprises() {
+        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises", Object.class);
+    }
+
+    @GetMapping("/getEntreprise/{id}")
+    public ResponseEntity<?> getEntrepriseById(@PathVariable Integer id) {
+        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, Object.class);
+    }
+
+    @PutMapping("/modifyEntreprise/{id}")
+    public ResponseEntity<?> modifyEntreprise(@PathVariable Integer id, @RequestBody EntrepriseDTO dto) {
+        HttpEntity<EntrepriseDTO> requestEntity = new HttpEntity<>(dto);
+        return restTemplate.exchange(adminBaseUrl + "/modifyEntreprise/" + id, HttpMethod.PUT, requestEntity,
+                String.class);
+    }
+
+    @DeleteMapping("/deleteEntreprise/{id}")
+    public ResponseEntity<?> deleteEntreprise(@PathVariable Integer id) {
+        restTemplate.delete(adminBaseUrl + "/deleteEntreprise/" + id);
+        return ResponseEntity.ok("Entreprise supprimée");
+    }
 
 }
-
