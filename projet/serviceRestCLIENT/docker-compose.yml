@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  servicerestclient:
+    image: servicerestclient
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8081:8081
