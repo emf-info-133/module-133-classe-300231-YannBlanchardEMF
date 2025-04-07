@@ -8,13 +8,13 @@ WORKDIR /app
 RUN apk update && apk add maven
 
 # Copier le POM
-COPY apigateway/pom.xml /app/pom.xml
+COPY pom.xml /app/pom.xml
 
 # Télécharger les dépendances
 RUN mvn dependency:go-offline
 
 # Copier le code source
-COPY apigateway/src /app/src
+COPY src /app/src
 
 # Build le JAR (skip tests pour rapidité)
 RUN mvn clean package -DskipTests

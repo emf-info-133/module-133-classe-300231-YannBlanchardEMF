@@ -8,13 +8,13 @@ WORKDIR /app
 RUN apk update && apk add maven
 
 # Copier le pom.xml pour installer les dépendances
-COPY servicerestadmin/pom.xml /app/pom.xml
+COPY pom.xml /app/pom.xml
 
 # Pré-charger les dépendances
 RUN mvn dependency:go-offline
 
 # Copier le code source
-COPY servicerestadmin/src /app/src
+COPY src /app/src
 
 # Build de l'application sans exécuter les tests
 RUN mvn clean package -DskipTests

@@ -8,11 +8,11 @@ WORKDIR /app
 RUN apk update && apk add maven
 
 # Copier le pom.xml (et download les deps)
-COPY servicerestentreprise/pom.xml /app/pom.xml
+COPY pom.xml /app/pom.xml
 RUN mvn dependency:go-offline
 
 # Copier le code source
-COPY servicerestentreprise/src /app/src
+COPY src /app/src
 
 # Build du projet (skip tests pour rapidité)
 RUN mvn clean package -DskipTests
