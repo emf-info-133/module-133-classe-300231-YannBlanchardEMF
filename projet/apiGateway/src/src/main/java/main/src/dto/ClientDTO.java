@@ -17,7 +17,7 @@ public class ClientDTO {
 
     // Pour commande
     private float total;
-    private ArrayList<Menu> menus;  // <- Utilisation directe du bean Menu
+    private ArrayList<Menu> menus;
 
     // Pour getUserById
     private Integer id;
