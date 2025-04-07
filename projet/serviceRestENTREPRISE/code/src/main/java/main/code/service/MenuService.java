@@ -99,7 +99,7 @@ public class MenuService {
 
     private Integer getEntrepriseIdFromUser(Integer userId) {
         try {
-            String url = "http://localhost:8081/getUser?=" + userId;
+            String url = "http://localhost:8081/user?PK_Users=" + userId;
             ResponseEntity<UserResponse> response = restTemplate.getForEntity(url, UserResponse.class);
             UserResponse user = response.getBody();
             return (user != null) ? user.getFkEntreprise() : null;
