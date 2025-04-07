@@ -8,11 +8,11 @@ WORKDIR /app
 RUN apk update && apk add maven
 
 # Copier le pom.xml (et download les deps)
-COPY pom.xml /app/pom.xml
+COPY code/pom.xml /app/pom.xml
 RUN mvn dependency:go-offline
 
 # Copier le code source
-COPY src /app/src
+COPY code/src /app/src
 
 # Build du projet (skip tests pour rapidité)
 RUN mvn clean package -DskipTests

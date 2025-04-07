@@ -1,83 +1,77 @@
-version: "3.8"
-
 services:
 
-  # API Gateway
   apigateway:
     build:
-      context: ./apigateway
+      context: ./apiGateway
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"  # Gateway sur port 8080 local
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - "8080:8080"
     networks:
       - backend
-    depends_on:
-      - client
-      - entreprise
-      - admin
 
-  # REST Client Service
   client:
     build:
-      context: ./servicerestclient
+      context: ./serviceRestCLIENT
       dockerfile: Dockerfile
     ports:
-      - "8081:8080"  # port interne reste 8080, externe 8081
+      - "8081:8080"
     environment:
-      - SPRING_APPLICATION_NAME=service-client
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/rest1_database
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/rest_database
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=emf123
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_JPA_SHOW_SQL=true
     depends_on:
       - mysql
     networks:
       - backend
 
-  # REST Entreprise Service
   entreprise:
     build:
-      context: ./servicerestentreprise
+      context: ./serviceRestENTREPRISE
       dockerfile: Dockerfile
     ports:
       - "8082:8080"
     environment:
-      - SPRING_APPLICATION_NAME=service-entreprise
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/rest1_database
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/rest_database
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=emf123
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_JPA_SHOW_SQL=true
     depends_on:
       - mysql
     networks:
       - backend
 
-  # REST Admin Service
   admin:
     build:
-      context: ./servicerestadmin
+      context: ./serviceRestADMIN
       dockerfile: Dockerfile
     ports:
       - "8083:8080"
     environment:
-      - SPRING_APPLICATION_NAME=service-admin
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/rest1_database
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/rest_database
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=emf123
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQL8Dialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_JPA_SHOW_SQL=true
     depends_on:
       - mysql
     networks:
       - backend
 
+  mysql:
+    image: mysql:8.0
+    container_name: projet-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=emf123
+      - MYSQL_DATABASE=rest_database
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+
+networks:
+  backend:
