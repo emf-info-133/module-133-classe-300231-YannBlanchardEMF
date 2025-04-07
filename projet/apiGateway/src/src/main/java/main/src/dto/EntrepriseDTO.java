@@ -1,25 +1,31 @@
 package main.src.dto;
 
 public class EntrepriseDTO {
-    private Integer pk_menu;
+    private int pkMenu;
     private String nom;
+    private String image;
     private Integer prix_unitaire;
+    private Integer quantite;
+    private Integer fkEntreprise;
 
-    // Constructeurs, getters et setters
     public EntrepriseDTO() {}
 
-    public EntrepriseDTO(Integer pk_menu, String nom, Integer prix_unitaire) {
-        this.pk_menu = pk_menu;
+    public EntrepriseDTO(Integer pk_menu, String nom, String image, Integer prix_unitaire, Integer quantite, Integer fkEntreprise) {
         this.nom = nom;
+        this.image = image;
         this.prix_unitaire = prix_unitaire;
+        this.quantite = quantite;
+        this.fkEntreprise = fkEntreprise;
     }
+
+    // Getters & Setters
 
     public Integer getPkMenu() {
-        return pk_menu;
+        return pkMenu;
     }
 
-    public void setPkMenu(Integer pk_menu) {
-        this.pk_menu = pk_menu;
+    public void setPkMenu(Integer pkMenu) {
+        this.pkMenu = pkMenu;
     }
 
     public String getNom() {
@@ -30,12 +36,36 @@ public class EntrepriseDTO {
         this.nom = nom;
     }
 
-    public Integer getPrixUnitaire() {
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Integer getPrix() {
         return prix_unitaire;
     }
 
-    public void setPrixUnitaire(Integer prix_unitaire) {
+    public void setPrix(Integer prix_unitaire) {
         this.prix_unitaire = prix_unitaire;
+    }
+
+    public Integer getFkEntreprise() {
+        return fkEntreprise;
+    }
+
+    public void setFkEntreprise(Integer fkEntreprise) {
+        this.fkEntreprise = fkEntreprise;
+    }
+
+    public Integer getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(Integer quantite) {
+        this.quantite = quantite;
     }
 }
 

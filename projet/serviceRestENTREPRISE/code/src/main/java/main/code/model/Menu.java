@@ -22,8 +22,14 @@ public class Menu {
     @Column(name = "Nom")
     private String nom;
 
+    @Column(name = "Image")
+    private String image;
+
     @Column(name = "Prix_Unitaire")
     private Integer prix_unitaire;
+
+    @Column(name = "Quantite")
+    private Integer quantite;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Fk_Entreprise")
@@ -54,6 +60,22 @@ public class Menu {
         this.prix_unitaire = prix_unitaire;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Integer getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(Integer quantite) {
+        this.quantite = quantite;
+    }
+
     public Entreprise getEntreprise() {
         return entreprise;
     }
@@ -61,5 +83,7 @@ public class Menu {
     public void setEntreprise(Entreprise entreprise) {
         this.entreprise = entreprise;
     }
+
+    
 
 }
