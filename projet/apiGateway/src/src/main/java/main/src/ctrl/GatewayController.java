@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import main.src.dto.AdminDTO;
 import main.src.dto.ClientDTO;
 import main.src.dto.EntrepriseDTO;
 
@@ -71,7 +72,7 @@ public class GatewayController {
         return restTemplate.getForEntity(url, Object.class);
     }
 
-    // ADMIN
+    // -------------------------------------- ADMIN -------------------------------------- //
 
     @PostMapping("/addEntreprise")
     public ResponseEntity<?> addEntreprise(@RequestBody EntrepriseDTO dto) {
@@ -99,6 +100,33 @@ public class GatewayController {
     public ResponseEntity<?> deleteEntreprise(@PathVariable Integer id) {
         restTemplate.delete(adminBaseUrl + "/deleteEntreprise/" + id);
         return ResponseEntity.ok("Entreprise supprimée");
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<?> addUser(@RequestBody AdminDTO dto) {
+        return restTemplate.postForEntity(adminBaseUrl + "/addUser", dto, String.class);
+    }
+
+    @PutMapping("/modifyUser/{id}")
+    public ResponseEntity<?> modifyUser(@PathVariable Integer id, @RequestBody AdminDTO dto) {
+        HttpEntity<AdminDTO> requestEntity = new HttpEntity<>(dto);
+        return restTemplate.exchange(adminBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
+        restTemplate.delete(adminBaseUrl + "/deleteUser/" + id);
+        return ResponseEntity.ok("Utilisateur supprimé");
+    }
+
+    @GetMapping("/getUsers")
+    public ResponseEntity<?> getUsers() {
+        return restTemplate.getForEntity(adminBaseUrl + "/getUsers", Object.class);
+    }
+
+    @PostMapping("/loginUser")
+    public ResponseEntity<?> loginUser(@RequestBody AdminDTO dto) {
+        return restTemplate.postForEntity(adminBaseUrl + "/loginUser", dto, Boolean.class);
     }
 
 }
