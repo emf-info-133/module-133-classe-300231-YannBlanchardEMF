@@ -12,6 +12,7 @@ import client.servicerestclient.beans.User;
 import client.servicerestclient.dto.CommandeDTO;
 import client.servicerestclient.dto.LoginDTO;
 import client.servicerestclient.dto.RegisterDTO;
+import client.servicerestclient.dto.UserDTO;
 
 @RestController
 public class Ctrl {
@@ -56,9 +57,8 @@ public class Ctrl {
     }
 
     @GetMapping("/user")
-    public User getUser(@RequestBody LoginDTO dto) {
-
-        return wrk.getUser(dto.getLogin());
+    public User getUser(@RequestBody UserDTO dto) {
+        return wrk.getUser(String.valueOf(dto.getId()));
     }
-
+    
 }
