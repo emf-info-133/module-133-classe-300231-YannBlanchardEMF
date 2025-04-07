@@ -2,7 +2,6 @@ package code.main.service;
 
 import code.main.beans.User;
 import code.main.dto.UserDTO;
-import code.main.repository.EntrepriseRepository;
 import code.main.repository.UtilisateurRepository;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +11,9 @@ import java.util.Optional;
 public class UtilisateurService {
 
     private final UtilisateurRepository utilisateurRepository;
-    private final EntrepriseRepository entrepriseRepository;
 
-    public UtilisateurService(UtilisateurRepository utilisateurRepository, EntrepriseRepository entrepriseRepository) {
+    public UtilisateurService(UtilisateurRepository utilisateurRepository) {
         this.utilisateurRepository = utilisateurRepository;
-        this.entrepriseRepository = entrepriseRepository;
     }
 
     public User addUser(UserDTO dto) {
