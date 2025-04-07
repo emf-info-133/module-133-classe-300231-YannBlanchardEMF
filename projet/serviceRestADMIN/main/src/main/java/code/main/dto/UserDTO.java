@@ -6,8 +6,18 @@ public class UserDTO {
     private boolean admin;
     private String password;
     private Integer idEntreprise;
+    private String login;
 
-    public UserDTO() {}
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public UserDTO() {
+    }
 
     public String getNom() {
         return nom;

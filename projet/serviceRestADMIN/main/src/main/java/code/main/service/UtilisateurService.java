@@ -1,6 +1,5 @@
 package code.main.service;
 
-
 import code.main.beans.User;
 import code.main.dto.UserDTO;
 import code.main.repository.EntrepriseRepository;
@@ -24,11 +23,12 @@ public class UtilisateurService {
         User user = new User();
         user.setNom(dto.getNom());
         user.setPrenom(dto.getPrenom());
+        user.setLogin(dto.getLogin());
         user.setAdmin(dto.isAdmin());
         user.setPassword(dto.getPassword());
 
         if (dto.getIdEntreprise() != null) {
-            entrepriseRepository.findById(dto.getIdEntreprise()).ifPresent(user::setFKEntreprise);
+            user.setFKEntreprise(dto.getIdEntreprise());
         }
 
         return utilisateurRepository.save(user);
@@ -40,11 +40,12 @@ public class UtilisateurService {
             User user = optionalUser.get();
             user.setNom(dto.getNom());
             user.setPrenom(dto.getPrenom());
+            user.setLogin(dto.getLogin());
             user.setAdmin(dto.isAdmin());
             user.setPassword(dto.getPassword());
 
             if (dto.getIdEntreprise() != null) {
-                entrepriseRepository.findById(dto.getIdEntreprise()).ifPresent(user::setFKEntreprise);
+                user.setFKEntreprise(dto.getIdEntreprise());
             }
 
             return utilisateurRepository.save(user);
@@ -60,8 +61,8 @@ public class UtilisateurService {
         return utilisateurRepository.findAll();
     }
 
-    public boolean login(String nom, String password) {
-        User user = utilisateurRepository.findByNomAndPassword(nom, password);
+    public boolean login(String login, String password) {
+        User user = utilisateurRepository.findByNomAndPassword(login, password);
         return user != null;
     }
 }

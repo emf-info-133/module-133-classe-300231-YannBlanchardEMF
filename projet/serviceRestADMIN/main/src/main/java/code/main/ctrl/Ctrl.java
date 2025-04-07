@@ -1,7 +1,7 @@
 package code.main.ctrl;
 
 import code.main.beans.Entreprise;
-import code.main.beans.Utilisateur;
+import code.main.beans.User;
 import code.main.dto.UserDTO;
 import code.main.service.EntrepriseService;
 import code.main.service.UtilisateurService;
@@ -56,12 +56,12 @@ public class Ctrl {
     // Utilisateur (Admin) --------------------------
 
     @PostMapping("/addUser")
-    public Utilisateur addUser(@RequestBody UserDTO dto) {
+    public User addUser(@RequestBody UserDTO dto) {
         return utilisateurService.addUser(dto);
     }
 
     @PutMapping("/modifyUser/{id}")
-    public Utilisateur modifyUser(@PathVariable Integer id, @RequestBody UserDTO dto) {
+    public User modifyUser(@PathVariable Integer id, @RequestBody UserDTO dto) {
         return utilisateurService.modifyUser(id, dto);
     }
 
@@ -71,7 +71,7 @@ public class Ctrl {
     }
 
     @GetMapping("/getUsers")
-    public Iterable<Utilisateur> getUsers() {
+    public Iterable<User> getUsers() {
         return utilisateurService.getAllUsers();
     }
 
