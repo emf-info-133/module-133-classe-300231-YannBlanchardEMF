@@ -1,4 +1,4 @@
-package main.code.model;
+package code.main.beans;
 
 import jakarta.persistence.*;
 
@@ -27,7 +27,7 @@ public class User {
     private boolean isAdmin;
 
     @Column(name = "FK_Entreprise")
-    private int fkEntreprise;
+    private Integer fkEntreprise;
 
     public User() {
     }

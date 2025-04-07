@@ -7,7 +7,7 @@ public class UserResponse {
     private String username;
     private Integer fk_entreprise;
 
-    public UserResponse(Integer pk_user, String username, Entreprise entreprise) {
+    public UserResponse(Integer pk_user, String username, Integer entreprise) {
     }
 
     public Integer getPk_user() {

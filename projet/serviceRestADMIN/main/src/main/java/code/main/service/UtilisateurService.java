@@ -1,7 +1,7 @@
 package code.main.service;
 
 
-import code.main.beans.Utilisateur;
+import code.main.beans.User;
 import code.main.dto.UserDTO;
 import code.main.repository.EntrepriseRepository;
 import code.main.repository.UtilisateurRepository;
@@ -20,31 +20,31 @@ public class UtilisateurService {
         this.entrepriseRepository = entrepriseRepository;
     }
 
-    public Utilisateur addUser(UserDTO dto) {
-        Utilisateur user = new Utilisateur();
+    public User addUser(UserDTO dto) {
+        User user = new User();
         user.setNom(dto.getNom());
         user.setPrenom(dto.getPrenom());
         user.setAdmin(dto.isAdmin());
         user.setPassword(dto.getPassword());
 
         if (dto.getIdEntreprise() != null) {
-            entrepriseRepository.findById(dto.getIdEntreprise()).ifPresent(user::setEntreprise);
+            entrepriseRepository.findById(dto.getIdEntreprise()).ifPresent(user::setFKEntreprise);
         }
 
         return utilisateurRepository.save(user);
     }
 
-    public Utilisateur modifyUser(int id, UserDTO dto) {
-        Optional<Utilisateur> optionalUser = utilisateurRepository.findById(id);
+    public User modifyUser(int id, UserDTO dto) {
+        Optional<User> optionalUser = utilisateurRepository.findById(id);
         if (optionalUser.isPresent()) {
-            Utilisateur user = optionalUser.get();
+            User user = optionalUser.get();
             user.setNom(dto.getNom());
             user.setPrenom(dto.getPrenom());
             user.setAdmin(dto.isAdmin());
             user.setPassword(dto.getPassword());
 
             if (dto.getIdEntreprise() != null) {
-                entrepriseRepository.findById(dto.getIdEntreprise()).ifPresent(user::setEntreprise);
+                entrepriseRepository.findById(dto.getIdEntreprise()).ifPresent(user::setFKEntreprise);
             }
 
             return utilisateurRepository.save(user);
@@ -56,12 +56,12 @@ public class UtilisateurService {
         utilisateurRepository.deleteById(id);
     }
 
-    public Iterable<Utilisateur> getAllUsers() {
+    public Iterable<User> getAllUsers() {
         return utilisateurRepository.findAll();
     }
 
     public boolean login(String nom, String password) {
-        Utilisateur user = utilisateurRepository.findByNomAndPassword(nom, password);
+        User user = utilisateurRepository.findByNomAndPassword(nom, password);
         return user != null;
     }
 }

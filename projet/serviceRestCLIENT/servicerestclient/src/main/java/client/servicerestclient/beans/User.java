@@ -95,7 +95,7 @@ public class User {
         return fkEntreprise;
     }
 
-    public void setIdEntreprise(Integer fkEntreprise) {
+    public void setFKEntreprise(Integer fkEntreprise) {
         this.fkEntreprise = fkEntreprise;
     }
 }

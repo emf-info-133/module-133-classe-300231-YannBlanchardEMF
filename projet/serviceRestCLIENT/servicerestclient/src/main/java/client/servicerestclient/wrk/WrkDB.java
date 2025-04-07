@@ -61,7 +61,7 @@ public class WrkDB {
                     user.setNom(rs.getString("nom"));
                     user.setPrenom(rs.getString("prenom"));
                     user.setAdmin(rs.getBoolean("isAdmin"));
-                    user.setIdEntreprise(rs.getInt("FK_Entreprise"));
+                    user.setFKEntreprise(rs.getInt("FK_Entreprise"));
                     user.setLogin(rs.getString("login"));
                     return user;
                 }
@@ -91,7 +91,7 @@ public class WrkDB {
                 user.setPK(rs.getInt("PK_Users"));
                 user.setNom(rs.getString("nom"));
                 user.setPrenom(rs.getString("prenom"));
-                user.setIdEntreprise(rs.getInt("FK_Entreprise"));
+                user.setFKEntreprise(rs.getInt("FK_Entreprise"));
                 user.setLogin(rs.getString("login"));
                 return user;
 
@@ -122,7 +122,7 @@ public class WrkDB {
                 user.setNom(rs.getString("nom"));
                 user.setPrenom(rs.getString("prenom"));
                 user.setAdmin(rs.getBoolean("isAdmin"));
-                user.setIdEntreprise(rs.getInt("FK_Entreprise"));
+                user.setFKEntreprise(rs.getInt("FK_Entreprise"));
                 user.setLogin(rs.getString("login"));
                 user.setPassword(null);
                 users.add(user);

@@ -31,9 +31,9 @@ public class UserService {
         List<UserResponse> userDTOs = new ArrayList<>();
         for (User user : users) {
             UserResponse userDTO = new UserResponse(
-                user.getPkUser(),
-                user.getUsername(),
-                user.getEntreprise());
+                user.getPK(),
+                user.getLogin(),
+                user.getFKEntreprise());
             userDTOs.add(userDTO);
         }
         return userDTOs;
