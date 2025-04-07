@@ -3,7 +3,7 @@ package code.main.beans;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "t_entreprise")
+@Table(name = "T_entreprise")
 public class Entreprise {
 
     @Id
