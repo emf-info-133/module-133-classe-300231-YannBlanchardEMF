@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import main.src.beans.User;
+import main.src.dto.AdminDTO;
 import main.src.dto.ClientDTO;
 import main.src.dto.EntrepriseDTO;
 
@@ -32,7 +33,7 @@ public class GatewayController {
     public ResponseEntity<User> login(@RequestBody ClientDTO dto) {
         return restTemplate.postForEntity(clientBaseUrl + "/login", dto, User.class);
     }
-    
+
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody ClientDTO dto) {
         return restTemplate.postForEntity(clientBaseUrl + "/register", dto, User.class);
@@ -79,7 +80,7 @@ public class GatewayController {
 
     @GetMapping("/getMenuList")
     public ResponseEntity<Object> getMenuList() {
-    // 
+        //
         String url = entrepriseBaseUrl + "/getMenu";
         return restTemplate.getForEntity(url, Object.class);
     }
@@ -87,31 +88,58 @@ public class GatewayController {
     // ADMIN
 
     @PostMapping("/addEntreprise")
-    public ResponseEntity<?> addEntreprise(@RequestBody EntrepriseDTO dto) {
+    public ResponseEntity<String> addEntreprise(@RequestBody EntrepriseDTO dto) {
         return restTemplate.postForEntity(adminBaseUrl + "/addEntreprise", dto, String.class);
     }
 
     @GetMapping("/getEntreprises")
-    public ResponseEntity<?> getAllEntreprises() {
-        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises", Object.class);
+    public ResponseEntity<EntrepriseDTO[]> getAllEntreprises() {
+        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises", EntrepriseDTO[].class);
     }
 
     @GetMapping("/getEntreprise/{id}")
-    public ResponseEntity<?> getEntrepriseById(@PathVariable Integer id) {
-        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, Object.class);
+    public ResponseEntity<EntrepriseDTO> getEntrepriseById(@PathVariable Integer id) {
+        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, EntrepriseDTO.class);
     }
 
     @PutMapping("/modifyEntreprise/{id}")
-    public ResponseEntity<?> modifyEntreprise(@PathVariable Integer id, @RequestBody EntrepriseDTO dto) {
+    public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody EntrepriseDTO dto) {
         HttpEntity<EntrepriseDTO> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(adminBaseUrl + "/modifyEntreprise/" + id, HttpMethod.PUT, requestEntity,
                 String.class);
     }
 
     @DeleteMapping("/deleteEntreprise/{id}")
-    public ResponseEntity<?> deleteEntreprise(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteEntreprise(@PathVariable Integer id) {
         restTemplate.delete(adminBaseUrl + "/deleteEntreprise/" + id);
         return ResponseEntity.ok("Entreprise supprimée");
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<String> addUser(@RequestBody AdminDTO dto) {
+        return restTemplate.postForEntity(adminBaseUrl + "/addUser", dto, String.class);
+    }
+
+    @PutMapping("/modifyUser/{id}")
+    public ResponseEntity<String> modifyUser(@PathVariable Integer id, @RequestBody AdminDTO dto) {
+        HttpEntity<AdminDTO> requestEntity = new HttpEntity<>(dto);
+        return restTemplate.exchange(adminBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        restTemplate.delete(adminBaseUrl + "/deleteUser/" + id);
+        return ResponseEntity.ok("Utilisateur supprimé");
+    }
+
+    @GetMapping("/getUsers")
+    public ResponseEntity<?> getUsers() {
+        return restTemplate.getForEntity(adminBaseUrl + "/getUsers", User.class);
+    }
+
+    @PostMapping("/loginUser")
+    public ResponseEntity<Boolean> loginUser(@RequestBody AdminDTO dto) {
+        return restTemplate.postForEntity(adminBaseUrl + "/loginUser", dto, Boolean.class);
     }
 
 }
