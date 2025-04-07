@@ -6,17 +6,10 @@ import jakarta.persistence.*;
 @Table(name = "t_entreprise")
 public class Entreprise {
 
-    public Entreprise() {
-    }    
-
-    public Entreprise(String nom, String adresse) {
-        this.nom = nom;
-        this.adresse = adresse;
-    }
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @Column(name = "PK_Entreprise")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // si MySQL auto-incrémente
+    private Integer pkEntreprise;
 
     @Column(name = "nom", length = 100)
     private String nom;
@@ -24,12 +17,20 @@ public class Entreprise {
     @Column(name = "adresse", length = 255)
     private String adresse;
 
-    public Integer getId() {
-        return id;
+    public Entreprise() {
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Entreprise(String nom, String adresse) {
+        this.nom = nom;
+        this.adresse = adresse;
+    }
+
+    public Integer getPkEntreprise() {
+        return pkEntreprise;
+    }
+
+    public void setPkEntreprise(Integer pkEntreprise) {
+        this.pkEntreprise = pkEntreprise;
     }
 
     public String getNom() {
@@ -46,5 +47,14 @@ public class Entreprise {
 
     public void setAdresse(String adresse) {
         this.adresse = adresse;
+    }
+
+    @Override
+    public String toString() {
+        return "Entreprise{" +
+                "pkEntreprise=" + pkEntreprise +
+                ", nom='" + nom + '\'' +
+                ", adresse='" + adresse + '\'' +
+                '}';
     }
 }
