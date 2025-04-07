@@ -1,89 +1,88 @@
 package main.code.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "t_menu")
+@Table(name = "T_Menu")
 public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Pk_Menu")
-    private Integer pk_menu;
+    @Column(name = "PK_Menu")
+    private int pkMenu;
 
-    @Column(name = "Nom")
+    @Column(name = "nom")
     private String nom;
 
-    @Column(name = "Image")
+    @Column(name = "image")
     private String image;
 
-    @Column(name = "Prix_Unitaire")
-    private Integer prix_unitaire;
+    @Column(name = "prix")
+    private float prix;
 
-    @Column(name = "Quantite")
-    private Integer quantite;
+    @Column(name = "FK_Entreprise")
+    private int FK_Entreprise;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Fk_Entreprise")
-    private Entreprise entreprise;
+    private int quantite;
 
-    // Getters et Setters
-    public Integer getPkMenu() {
-        return pk_menu;
+    public Menu() {}
+
+    public Menu(String nom, String image, float prix, int FK_Entreprise, int quantite) {
+        this.nom = nom;
+        this.image = image;
+        this.prix = prix;
+        this.FK_Entreprise = FK_Entreprise;
+        this.quantite = quantite;
     }
 
-    public void setPkMenu(Integer pk_menu) {
-        this.pk_menu = pk_menu;
+    // Getters et Setters
+
+    public int getPkMenu() {
+        return pkMenu;
     }
 
     public String getNom() {
         return nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public Integer getPrixUnitaire() {
-        return prix_unitaire;
-    }
-
-    public void setPrixUnitaire(Integer prix_unitaire) {
-        this.prix_unitaire = prix_unitaire;
-    }
-
     public String getImage() {
         return image;
+    }
+
+    public float getPrix() {
+        return prix;
+    }
+
+    public int getFKEntreprise() {
+        return FK_Entreprise;
+    }
+
+    public int getQuantite(){
+        return quantite;
+    }
+
+    public void setPKMenu(int pkMenu) {
+        this.pkMenu = pkMenu;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public void setImage(String image) {
         this.image = image;
     }
 
-    public Integer getQuantite() {
-        return quantite;
+    public void setPrix(float prix) {
+        this.prix = prix;
     }
 
-    public void setQuantite(Integer quantite) {
+    public void setFKEntreprise(int FK_Entreprise) {
+        this.FK_Entreprise = FK_Entreprise;
+    }
+
+    public void setQuantite(int quantite){
         this.quantite = quantite;
     }
-
-    public Entreprise getEntreprise() {
-        return entreprise;
-    }
-
-    public void setEntreprise(Entreprise entreprise) {
-        this.entreprise = entreprise;
-    }
-
-    
-
 }
+

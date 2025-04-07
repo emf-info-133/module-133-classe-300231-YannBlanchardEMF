@@ -35,7 +35,7 @@ public class MenuService {
         Iterable<Menu> menus = menuRepository.findAll();
         List<MenuDTO> menuDTOs = new ArrayList<>();
         for (Menu menu : menus) {
-            menuDTOs.add(new MenuDTO(menu.getPkMenu(), menu.getNom(), menu.getPrixUnitaire()));
+            menuDTOs.add(new MenuDTO(menu.getPkMenu(), menu.getNom(), menu.getPrix()));
         }
         return menuDTOs;
     }
@@ -50,15 +50,15 @@ public class MenuService {
 
         // Vérifie si un menu avec ce nom existe déjà pour cette entreprise
         for (Menu m : menuRepository.findAll()) {
-            if (m.getNom().equalsIgnoreCase(nom) && m.getEntreprise().getPkEntreprise().equals(fkEntreprise)) {
+            if (m.getNom().equalsIgnoreCase(nom) && m.getFKEntreprise() == fkEntreprise) {
                 return "menu already exists for this entreprise";
             }
         }
 
         Menu newMenu = new Menu();
         newMenu.setNom(nom);
-        newMenu.setPrixUnitaire(prix_unitaire);
-        newMenu.setEntreprise(entreprise);
+        newMenu.setPrix(prix_unitaire);
+        newMenu.setFKEntreprise(entreprise.getPkEntreprise());
         menuRepository.save(newMenu);
         return "Saved";
     }
@@ -71,12 +71,12 @@ public class MenuService {
         if (menu == null) return "menu not found";
 
         Integer fkEntreprise = getEntrepriseIdFromUser(userId);
-        if (fkEntreprise == null || !menu.getEntreprise().getPkEntreprise().equals(fkEntreprise)) {
+        if (fkEntreprise == null || menu.getFKEntreprise() != fkEntreprise) {
             return "unauthorized: you can't modify this menu";
         }
 
         menu.setNom(nom);
-        menu.setPrixUnitaire(prix_unitaire);
+        menu.setPrix(prix_unitaire);
         menuRepository.save(menu);
         return "Modified";
     }
@@ -89,7 +89,7 @@ public class MenuService {
         if (menu == null) return "menu not found";
 
         Integer fkEntreprise = getEntrepriseIdFromUser(userId);
-        if (fkEntreprise == null || !menu.getEntreprise().getPkEntreprise().equals(fkEntreprise)) {
+        if (fkEntreprise == null || menu.getFKEntreprise() != fkEntreprise) {
             return "unauthorized: you can't delete this menu";
         }
 
