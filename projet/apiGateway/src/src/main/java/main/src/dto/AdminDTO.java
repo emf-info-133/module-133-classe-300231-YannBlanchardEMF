@@ -94,18 +94,4 @@ public class AdminDTO {
     public void setEntrepriseAdresse(String entrepriseAdresse) {
         this.entrepriseAdresse = entrepriseAdresse;
     }
-
-    @Override
-    public String toString() {
-        return "AdminDTO{" +
-                "nom='" + nom + '\'' +
-                ", prenom='" + prenom + '\'' +
-                ", admin=" + admin +
-                ", password='" + password + '\'' +
-                ", idEntreprise=" + idEntreprise +
-                ", entrepriseId=" + entrepriseId +
-                ", entrepriseNom='" + entrepriseNom + '\'' +
-                ", entrepriseAdresse='" + entrepriseAdresse + '\'' +
-                '}';
-    }
 }
