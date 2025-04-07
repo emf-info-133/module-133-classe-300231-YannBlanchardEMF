@@ -55,4 +55,10 @@ public class Ctrl {
         return wrk.getAllUsers();
     }
 
+    @GetMapping("/user")
+    public User getUser(@RequestBody LoginDTO dto) {
+
+        return wrk.getUser(dto.getLogin());
+    }
+
 }

@@ -10,5 +10,6 @@ public interface ItfWrkCtrl {
     User addUser(User user);
     boolean ajouterCommande(String login, ArrayList<Menu> menus, float total);
     ArrayList<User> getAllUsers();
+    User getUser(String pk);
 
 }

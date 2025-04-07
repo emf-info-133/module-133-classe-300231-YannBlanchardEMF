@@ -46,13 +46,13 @@ public class WrkDB {
         if (connection == null) {
             return null;
         }
-    
+
         try {
             String query = "SELECT * FROM T_Users WHERE login = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setString(1, login);
             ResultSet rs = stmt.executeQuery();
-    
+
             if (rs.next()) {
                 String hashed = rs.getString("mdp");
                 if (passwordEncoder.matches(password, hashed)) {
@@ -66,27 +66,56 @@ public class WrkDB {
                     return user;
                 }
             }
-    
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    
+
         return null;
     }
 
+    public User getUser(String pk) {
+        if (connection == null) {
+            return null;
+        }
+
+        try {
+            String query = "SELECT * FROM T_Users WHERE PK_Users = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, pk);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+
+                User user = new User();
+                user.setPK(rs.getInt("PK_Users"));
+                user.setNom(rs.getString("nom"));
+                user.setPrenom(rs.getString("prenom"));
+                user.setIdEntreprise(rs.getInt("FK_Entreprise"));
+                user.setLogin(rs.getString("login"));
+                return user;
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 
     public ArrayList<User> getAllUsers() {
         ArrayList<User> users = new ArrayList<>();
-    
+
         if (connection == null) {
             return users;
         }
-    
+
         try {
             String query = "SELECT * FROM T_Users";
             PreparedStatement stmt = connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
-    
+
             while (rs.next()) {
                 User user = new User();
                 user.setPK(rs.getInt("PK_Users"));
@@ -98,60 +127,57 @@ public class WrkDB {
                 user.setPassword(null);
                 users.add(user);
             }
-    
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    
+
         return users;
     }
-    
-    
-    
 
     public User addUser(User user) {
         if (connection == null) {
             return null;
         }
-    
+
         try {
             connection.setAutoCommit(false);
-    
+
             // hash du mot de passe
             String hashed = passwordEncoder.encode(user.getPassword());
             user.setPassword(hashed);
-    
+
             String query = "INSERT INTO T_Users (nom, prenom, isAdmin, FK_Entreprise, mdp, login) VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-    
+
             stmt.setString(1, user.getNom());
             stmt.setString(2, user.getPrenom());
             stmt.setBoolean(3, user.isAdmin());
-    
+
             if (user.getFKEntreprise() != null) {
                 stmt.setInt(4, user.getFKEntreprise());
             } else {
                 stmt.setNull(4, Types.INTEGER);
             }
-    
+
             stmt.setString(5, user.getPassword()); // stocke le hash
             stmt.setString(6, user.getLogin());
-    
+
             int rows = stmt.executeUpdate();
             if (rows != 1) {
                 connection.rollback();
                 return null;
             }
-    
+
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
                 user.setPK(rs.getInt(1));
             }
-    
+
             connection.commit();
             user.setPassword(null);
             return user;
-    
+
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -168,8 +194,6 @@ public class WrkDB {
             }
         }
     }
-    
-    
 
     public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
         if (connection == null) {
@@ -218,13 +242,13 @@ public class WrkDB {
             PreparedStatement stmtTR = connection.prepareStatement(sqlInsertTR);
 
             for (Menu menu : menus) {
-                System.out.println("CommandeId = " + commandeId + ", MenuId = " + menu.getPkMenu() + ", Quantité = " + menu.getQuantite());
+                System.out.println("CommandeId = " + commandeId + ", MenuId = " + menu.getPkMenu() + ", Quantité = "
+                        + menu.getQuantite());
                 stmtTR.setInt(1, commandeId);
                 stmtTR.setInt(2, menu.getPkMenu());
                 stmtTR.setInt(3, menu.getQuantite());
                 stmtTR.executeUpdate();
             }
-            
 
             // Valider la transaction
             connection.commit();

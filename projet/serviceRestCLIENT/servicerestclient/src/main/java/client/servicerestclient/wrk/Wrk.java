@@ -32,4 +32,10 @@ public class Wrk implements ItfWrkCtrl {
         return wrkDB.getAllUsers();
     }
 
+    @Override
+    public User getUser(String pk) {
+        
+        return wrkDB.getUser(pk);
+    }
+
 }
