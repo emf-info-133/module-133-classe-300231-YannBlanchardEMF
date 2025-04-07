@@ -20,7 +20,7 @@ COPY servicerestadmin/src /app/src
 RUN mvn clean package -DskipTests
 
 # Étape 2 : Utiliser une image Java optimisée pour exécuter l'application
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-alpine
 
 # Définir le répertoire de travail
 WORKDIR /app

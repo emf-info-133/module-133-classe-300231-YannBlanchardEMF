@@ -18,7 +18,7 @@ COPY servicerestentreprise/src /app/src
 RUN mvn clean package -DskipTests
 
 # Étape 2 : Image légère pour lancer le JAR
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-alpine
 
 # Dossier de travail pour l'exécution
 WORKDIR /app

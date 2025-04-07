@@ -20,7 +20,7 @@ COPY servicerestclient/src /app/src
 RUN mvn clean package -DskipTests
 
 # Étape 2 : Image légère pour exécuter le .jar
-FROM openjdk:17-jdk-slim
+FROM openjdk:17-jdk-alpine
 
 # Dossier de travail
 WORKDIR /app
