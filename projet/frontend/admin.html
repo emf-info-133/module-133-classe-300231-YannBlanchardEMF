@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Administration</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header>
+    <div class="nav-left">
+      <a href="index.html">Accueil</a>
+      <a href="menus.html">Menus</a>
+      <a href="panier.html">Panier</a>
+    </div>
+    <div class="nav-right">
+      <button class="signup">Sign Up</button>
+      <button>Log In</button>
+    </div>
+  </header>
+
+  <main class="admin-container">
+
+    <!-- Gestion des entreprises -->
+    <section class="admin-section">
+      <div class="admin-block">
+        <h3>LISTE_ENTREPRISE</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>ENTREPRISE</th>
+              <th>ADRESSE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
+            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
+            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
+            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="admin-form">
+        <h3>ENTREPRISE</h3>
+        <input type="text" placeholder="NOM" />
+        <input type="text" placeholder="ADRESSE" />
+        <div class="btn-group">
+          <button>ADD</button>
+          <button>MODIFY</button>
+          <button>DELETE</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gestion des utilisateurs -->
+    <section class="admin-section">
+      <div class="admin-block">
+        <h3>LISTE_UTILISATEUR</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>UTILISATEUR</th>
+              <th>ENTREPRISE</th>
+              <th>ADMIN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>UTILISATEUR</td><td>ENTREPRISE</td><td>ADMIN</td></tr>
+            <tr><td>UTILISATEUR</td><td>PAS D’ENTREPRISE</td><td>PAS ADMIN</td></tr>
+            <tr><td>UTILISATEUR</td><td>ENTREPRISE</td><td>PAS ADMIN</td></tr>
+            <tr><td>UTILISATEUR</td><td>PAS D’ENTREPRISE</td><td>PAS ADMIN</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="admin-form">
+        <h3>UTILISATEUR</h3>
+        <input type="text" placeholder="NOM" />
+        <select>
+          <option>ENTREPRISE</option>
+        </select>
+        <label style="display: flex; align-items: center; gap: 5px; margin: 10px 0;">
+          <input type="checkbox" />
+          ADMIN
+        </label>
+        <div class="btn-group">
+          <button>ADD</button>
+          <button>MODIFY</button>
+          <button>DELETE</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</body>
+</html>

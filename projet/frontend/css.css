@@ -1,0 +1,412 @@
+/* --------- Général --------- */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  h2, h3 {
+    margin: 0;
+  }
+  
+  /* --------- Header --------- */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .nav-left, .nav-right {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+  }
+  
+  .nav-left a, .nav-right button {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .nav-right button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .nav-right .signup {
+    background-color: #333;
+    color: #fff;
+    border: none;
+  }
+  
+  /* --------- Page Accueil --------- */
+  main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 100px;
+    flex-wrap: wrap;
+  }
+  
+  .text-content {
+    max-width: 400px;
+  }
+  
+  .text-content h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .text-content p {
+    color: #777;
+    line-height: 1.6;
+  }
+  
+  .image-content {
+    width: 500px;
+    height: 280px;
+    background-color: #f3f3f3;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    position: relative;
+  }
+  
+  .image-content::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 80px;
+    background: #ddd;
+    clip-path: polygon(0 100%, 50% 0, 100% 100%);
+  }
+  
+  /* --------- Footer --------- */
+  footer {
+    text-align: center;
+    padding: 40px 20px 20px;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .footer-links a {
+    color: #666;
+    text-decoration: none;
+  }
+  
+  .footer-bottom {
+    color: #aaa;
+  }
+  
+  /* --------- Liste Menus --------- */
+  main h2 {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  main p {
+    text-align: center;
+    color: #777;
+    margin-bottom: 40px;
+    width: 100%;
+  }
+  
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .menu-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  .menu-image {
+    width: 100%;
+    height: 100px;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .menu-card h4 {
+    margin: 10px 0 5px;
+    font-size: 16px;
+    color: #444;
+  }
+  
+  .price {
+    font-size: 24px;
+    font-weight: bold;
+    color: #111;
+    margin: 10px 0;
+  }
+  
+  .qty-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .qty-controls button {
+    width: 30px;
+    height: 30px;
+    font-size: 18px;
+    border: 1px solid #999;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .qty-controls span {
+    width: 30px;
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .commander-btn {
+    padding: 8px 16px;
+    border: 1px solid #333;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .commander-btn.dark {
+    background-color: #333;
+    color: #fff;
+    border: none;
+  }
+  
+  /* --------- Register / Login --------- */
+  .register-container {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+  
+  .register-container h2 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+  }
+  
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .register-form input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .register-form button {
+    font-size: 16px;
+    padding: 12px;
+  }
+  
+  /* --------- Panier --------- */
+  .panier-container {
+    max-width: 600px;
+    margin: 100px auto;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .panier-container h2 {
+    font-size: 24px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+  
+  .panier-box {
+    border: 1px solid #aaa;
+    border-radius: 16px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .panier-content {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+  }
+  
+  .panier-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .valider-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: 1px solid #999;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  /* --------- Gestion Menus --------- */
+  .gestion-container {
+    padding: 60px 40px;
+    text-align: center;
+  }
+  
+  .gestion-container h2 {
+    font-size: 24px;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+  
+  .gestion-grid {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  
+  .liste-menus {
+    text-align: center;
+  }
+  
+  .liste-menus table {
+    border-collapse: collapse;
+    width: 300px;
+  }
+  
+  .liste-menus th,
+  .liste-menus td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .menu-form {
+    text-align: center;
+    width: 300px;
+  }
+  
+  .menu-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .btn-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .btn-group button {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #999;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .menu-image-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #f3f3f3;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  /* --------- Admin (Entreprise / Utilisateur) --------- */
+  .admin-container {
+    padding: 60px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+    align-items: center;
+  }
+  
+  .admin-section {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 60px;
+    width: 100%;
+    max-width: 1200px;
+  }
+  
+  .admin-block, .admin-form {
+    width: 350px;
+  }
+  
+  .admin-block h3,
+  .admin-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  
+  .admin-block table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .admin-block th,
+  .admin-block td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .admin-form input,
+  .admin-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
