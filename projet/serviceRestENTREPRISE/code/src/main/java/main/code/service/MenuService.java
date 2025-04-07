@@ -1,7 +1,7 @@
 package main.code.service;
 
-import main.code.dto.UserResponse;
 import main.code.dto.MenuDTO;
+import main.code.dto.UserResponse;
 import main.code.model.Entreprise;
 import main.code.model.Menu;
 import main.code.repository.EntrepriseRepository;
@@ -35,11 +35,7 @@ public class MenuService {
         Iterable<Menu> menus = menuRepository.findAll();
         List<MenuDTO> menuDTOs = new ArrayList<>();
         for (Menu menu : menus) {
-            MenuDTO menuDTO = new MenuDTO(
-                menu.getPkMenu(),
-                menu.getNom(),
-                menu.getPrixUnitaire());
-            menuDTOs.add(menuDTO);
+            menuDTOs.add(new MenuDTO(menu.getPkMenu(), menu.getNom(), menu.getPrixUnitaire()));
         }
         return menuDTOs;
     }
@@ -47,10 +43,17 @@ public class MenuService {
     @Transactional
     public String addNewMenu(String nom, Integer prix_unitaire, Integer userId) {
         Integer fkEntreprise = getEntrepriseIdFromUser(userId);
-        if (fkEntreprise == null) return "unauthorized: user not linked to entreprise";
+        if (fkEntreprise == null) return "unauthorized: user not linked to an entreprise";
 
         Entreprise entreprise = entrepriseRepository.findById(fkEntreprise).orElse(null);
         if (entreprise == null) return "entreprise not found";
+
+        // Vérifie si un menu avec ce nom existe déjà pour cette entreprise
+        for (Menu m : menuRepository.findAll()) {
+            if (m.getNom().equalsIgnoreCase(nom) && m.getEntreprise().getPkEntreprise().equals(fkEntreprise)) {
+                return "menu already exists for this entreprise";
+            }
+        }
 
         Menu newMenu = new Menu();
         newMenu.setNom(nom);
@@ -62,12 +65,14 @@ public class MenuService {
 
     @Transactional
     public String modifyMenu(Integer pk_menu, String nom, Integer prix_unitaire, Integer userId) {
+        if (pk_menu == null) return "no menu selected";
+
         Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) return "menu not found";
 
         Integer fkEntreprise = getEntrepriseIdFromUser(userId);
         if (fkEntreprise == null || !menu.getEntreprise().getPkEntreprise().equals(fkEntreprise)) {
-            return "unauthorized: can't modify this menu";
+            return "unauthorized: you can't modify this menu";
         }
 
         menu.setNom(nom);
@@ -78,12 +83,14 @@ public class MenuService {
 
     @Transactional
     public String deleteMenu(Integer pk_menu, Integer userId) {
+        if (pk_menu == null) return "no menu selected";
+
         Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) return "menu not found";
 
         Integer fkEntreprise = getEntrepriseIdFromUser(userId);
         if (fkEntreprise == null || !menu.getEntreprise().getPkEntreprise().equals(fkEntreprise)) {
-            return "unauthorized: can't delete this menu";
+            return "unauthorized: you can't delete this menu";
         }
 
         menuRepository.delete(menu);
@@ -92,7 +99,7 @@ public class MenuService {
 
     private Integer getEntrepriseIdFromUser(Integer userId) {
         try {
-            String url = "http://api-gateway/client/api/user/" + userId;
+            String url = "http://localhost:8080/getUser?pk_menu=" + userId;
             ResponseEntity<UserResponse> response = restTemplate.getForEntity(url, UserResponse.class);
             UserResponse user = response.getBody();
             return (user != null) ? user.getFkEntreprise() : null;
