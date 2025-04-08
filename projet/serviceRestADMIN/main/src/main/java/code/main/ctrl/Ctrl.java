@@ -5,6 +5,8 @@ import code.main.beans.User;
 import code.main.dto.UserDTO;
 import code.main.service.EntrepriseService;
 import code.main.service.UtilisateurService;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -49,8 +51,9 @@ public class Ctrl {
     }
 
     @DeleteMapping("/deleteEntreprise/{id}")
-    public void deleteEntreprise(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteEntreprise(@PathVariable Integer id) {
         entrepriseService.deleteEntreprise(id);
+        return ResponseEntity.ok("Entreprise supprimée avec succès !");
     }
 
     // Utilisateur (Admin) --------------------------
