@@ -9,7 +9,7 @@ public class Menu {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PK_Menu")
-    private int pkMenu;
+    private Integer pkMenu;
 
     @Column(name = "nom")
     private String nom;
@@ -21,21 +21,21 @@ public class Menu {
     private float prix;
 
     @Column(name = "FK_Entreprise")
-    private int FK_Entreprise;
+    private Integer fkEntreprise;
 
 
     public Menu() {}
 
-    public Menu(String nom, String image, float prix, int FK_Entreprise) {
+    public Menu(String nom, String image, float prix, Integer fkEntreprise) {
         this.nom = nom;
         this.image = image;
         this.prix = prix;
-        this.FK_Entreprise = FK_Entreprise;
+        this.fkEntreprise = fkEntreprise;
     }
 
     // Getters et Setters
 
-    public int getPkMenu() {
+    public Integer getPkMenu() {
         return pkMenu;
     }
 
@@ -51,11 +51,11 @@ public class Menu {
         return prix;
     }
 
-    public int getFKEntreprise() {
-        return FK_Entreprise;
+    public Integer getFkEntreprise() {
+        return fkEntreprise;
     }
 
-    public void setPKMenu(int pkMenu) {
+    public void setPKMenu(Integer pkMenu) {
         this.pkMenu = pkMenu;
     }
 
@@ -71,8 +71,8 @@ public class Menu {
         this.prix = prix;
     }
 
-    public void setFKEntreprise(int FK_Entreprise) {
-        this.FK_Entreprise = FK_Entreprise;
+    public void setFkEntreprise(Integer fkEntreprise) {
+        this.fkEntreprise = fkEntreprise;
     }
 }
 

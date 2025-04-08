@@ -7,8 +7,10 @@ import main.code.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-public class Controller implements ItfController {
+public class Controller {
 
     private final UserService userService;
     private final MenuService menuService;
@@ -19,32 +21,46 @@ public class Controller implements ItfController {
         this.userService = userService;
     }
 
-    @Override
+    @GetMapping("/")
     public String getNothing() {
         return "";
     }
 
-    @Override
-    public String addNewMenu(String nom, String image, float prix_unitaire, int fk_entreprise) {
-        return menuService.addNewMenu(nom, image, prix_unitaire, fk_entreprise);
+    @PostMapping(path = "/addMenu")
+    public String addNewMenu(@RequestBody MenuDTO dto) {
+        return menuService.addNewMenu(
+                dto.getNom(),
+                dto.getImage(),
+                dto.getPrixUnitaire(),
+                dto.getFkEntreprise()
+        );
     }
 
-    @Override
-    public String modifyMenu(int pk_menu, String nom, String image, float prix_unitaire, int fk_entreprise) {
-        return menuService.modifyMenu(pk_menu, nom, image, prix_unitaire, fk_entreprise);
+    @PostMapping(path = "/modifyMenu")
+    public String modifyMenu(@RequestBody MenuDTO dto) {
+        return menuService.modifyMenu(
+                dto.getPkMenu(),
+                dto.getNom(),
+                dto.getImage(),
+                dto.getPrixUnitaire(),
+                dto.getFkEntreprise()
+        );
     }
 
-    @Override
-    public String deleteMenu(int pk_menu, int fk_entreprise) {
-        return menuService.deleteMenu(pk_menu, fk_entreprise);
+    @PostMapping(path = "/deleteMenu")
+    public String deleteMenu(@RequestBody MenuDTO dto) {
+        return menuService.deleteMenu(
+                dto.getPkMenu(),
+                dto.getFkEntreprise()
+        );
     }
 
-    @Override
-    public Iterable<MenuDTO> getAllMenusbyID(int fk_entreprise) {
-        return menuService.findAllMenu(fk_entreprise);
+    @GetMapping(path = "/getMenu")
+    public Iterable<MenuDTO> getAllMenusbyID(@RequestParam Integer fkEntreprise) {
+        return menuService.findAllMenu(fkEntreprise);
     }
 
-    @Override
+    @GetMapping(path = "/getUser")
     public Iterable<UserResponse> getAllUser() {
         return userService.findAllUser();
     }

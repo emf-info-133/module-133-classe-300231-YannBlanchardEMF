@@ -4,13 +4,13 @@ public class EntrepriseDTO {
     private int pkMenu;
     private String nom;
     private String image;
-    private float prix_unitaire;
-    private int quantite;
-    private int fkEntreprise;
+    private Integer prix_unitaire;
+    private Integer quantite;
+    private Integer fkEntreprise;
 
     public EntrepriseDTO() {}
 
-    public EntrepriseDTO(int pk_menu, String nom, String image, float prix_unitaire, int quantite, int fkEntreprise) {
+    public EntrepriseDTO(int pk_menu, String nom, String image, Integer prix_unitaire, Integer quantite, int fkEntreprise) {
         this.nom = nom;
         this.image = image;
         this.prix_unitaire = prix_unitaire;
@@ -20,11 +20,11 @@ public class EntrepriseDTO {
 
     // Getters & Setters
 
-    public int getPkMenu() {
+    public Integer getPkMenu() {
         return pkMenu;
     }
 
-    public void setPkMenu(int pkMenu) {
+    public void setPkMenu(Integer pkMenu) {
         this.pkMenu = pkMenu;
     }
 
@@ -44,27 +44,27 @@ public class EntrepriseDTO {
         this.image = image;
     }
 
-    public float getPrix() {
+    public Integer getPrix() {
         return prix_unitaire;
     }
 
-    public void setPrix(float prix_unitaire) {
+    public void setPrix(Integer prix_unitaire) {
         this.prix_unitaire = prix_unitaire;
     }
 
-    public int getFkEntreprise() {
+    public Integer getFkEntreprise() {
         return fkEntreprise;
     }
 
-    public void setFkEntreprise(int fkEntreprise) {
+    public void setFkEntreprise(Integer fkEntreprise) {
         this.fkEntreprise = fkEntreprise;
     }
 
-    public int getQuantite() {
+    public Integer getQuantite() {
         return quantite;
     }
 
-    public void setQuantite(int quantite) {
+    public void setQuantite(Integer quantite) {
         this.quantite = quantite;
     }
 }

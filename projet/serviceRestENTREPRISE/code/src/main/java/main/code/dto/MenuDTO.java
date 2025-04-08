@@ -2,27 +2,27 @@ package main.code.dto;
 
 public class MenuDTO {
 
-    private int pk_menu;
+    private Integer pk_menu;
     private String nom;
     private String image;
     private float prix_unitaire;
-    private int fk_entreprise;
+    private Integer fkEntreprise;
 
     public MenuDTO() {}
 
-    public MenuDTO(int pk_menu, String nom, String image, float prix_unitaire, int fk_entreprise) {
+    public MenuDTO(Integer pk_menu, String nom, String image, float prix_unitaire, Integer fkEntreprise) {
         this.pk_menu = pk_menu;
         this.nom = nom;
         this.image = image;
         this.prix_unitaire = prix_unitaire;
-        this.fk_entreprise = fk_entreprise;
+        this.fkEntreprise = fkEntreprise;
     }
 
-    public int getPkMenu() {
+    public Integer getPkMenu() {
         return pk_menu;
     }
 
-    public void setPkMenu(int pk_menu) {
+    public void setPkMenu(Integer pk_menu) {
         this.pk_menu = pk_menu;
     }
 
@@ -50,11 +50,11 @@ public class MenuDTO {
         this.prix_unitaire = prix_unitaire;
     }
 
-    public int getFkEntreprise() {
-        return fk_entreprise;
+    public Integer getFkEntreprise() {
+        return fkEntreprise;
     }
 
-    public void setFkEntreprise(int fk_entreprise) {
-        this.fk_entreprise = fk_entreprise;
+    public void setFkEntreprise(Integer fkEntreprise) {
+        this.fkEntreprise = fkEntreprise;
     }
 }

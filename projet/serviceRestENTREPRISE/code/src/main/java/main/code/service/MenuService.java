@@ -20,41 +20,40 @@ public class MenuService {
     private MenuRepository menuRepository;
 
     @Transactional
-    public String addNewMenu(String nom, String image, float prix_unitaire, int fk_entreprise) {
+    public String addNewMenu(String nom, String image, float prix_unitaire, Integer fk_entreprise) {
         Menu newMenu = new Menu();
         newMenu.setNom(nom);
         newMenu.setImage(image);
         newMenu.setPrix(prix_unitaire);
-        newMenu.setFKEntreprise(fk_entreprise);
+        newMenu.setFkEntreprise(fk_entreprise);
         menuRepository.save(newMenu);
         return "Saved";
     }
 
     @Transactional
-    public String modifyMenu(int pk_menu, String nom, String image, float prix_unitaire, int fk_entreprise) {
+    public String modifyMenu(Integer pk_menu, String nom, String image, float prix_unitaire, Integer fkEntreprise) {
         Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) return "menu not found";
 
         menu.setNom(nom);
         menu.setImage(image);
         menu.setPrix(prix_unitaire);
-        menu.setFKEntreprise(fk_entreprise);
+        menu.setFkEntreprise(fkEntreprise);
         menuRepository.save(menu);
         return "Modified";
     }
 
     @Transactional
-    public String deleteMenu(int pk_menu, int fk_entreprise) {
+    public String deleteMenu(Integer pk_menu, Integer fkEntreprise) {
         Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) return "menu not found";
-
         menuRepository.delete(menu);
         return "Deleted";
     }
 
     @Transactional
     public List<MenuDTO> findAllMenu(Integer fkEntreprise) {
-        List<Menu> menus = menuRepository.findByFKEntreprise(fkEntreprise);
+        List<Menu> menus = menuRepository.findByFkEntreprise(fkEntreprise);
         List<MenuDTO> menuDTOs = new ArrayList<>();
     
         for (Menu menu : menus) {
@@ -63,7 +62,7 @@ public class MenuService {
                 menu.getNom(),
                 menu.getImage(),
                 menu.getPrix(),
-                menu.getFKEntreprise()
+                menu.getFkEntreprise()
             );
             menuDTOs.add(menuDTO);
         }
