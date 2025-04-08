@@ -11,19 +11,19 @@
   <header>
     <div class="nav-left">
       <a href="index.html">Accueil</a>
-      <a href="menus.html">Menus</a>
+      <a href="menu.html">Menus</a>
       <a href="panier.html">Panier</a>
     </div>
     <div class="nav-right">
-      <button class="signup">Sign Up</button>
-      <button>Log In</button>
+      <button id="btnSignUp" class="signup">Sign Up</button>
+      <button id="btnLogin">Log In</button>
     </div>
   </header>
 
   <main class="gestion-container">
-    <h2>NOM_ENTREPRISE</h2>
+    <h2 id="nomEntreprise">NOM_ENTREPRISE</h2>
     <div class="gestion-grid">
-      
+
       <!-- Tableau de menus -->
       <div class="liste-menus">
         <h3>LISTE_MENUS</h3>
@@ -34,23 +34,8 @@
               <th>PRIX UNITE</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>NOM MENU</td>
-              <td>PRIX UNITE</td>
-            </tr>
-            <tr>
-              <td>NOM MENU</td>
-              <td>PRIX UNITE</td>
-            </tr>
-            <tr>
-              <td>NOM MENU</td>
-              <td>PRIX UNITE</td>
-            </tr>
-            <tr>
-              <td>NOM MENU</td>
-              <td>PRIX UNITE</td>
-            </tr>
+          <tbody id="tableBodyMenus">
+            <!-- Les lignes de menus seront injectées ici -->
           </tbody>
         </table>
       </div>
@@ -58,11 +43,13 @@
       <!-- Formulaire + image -->
       <div class="menu-form">
         <h3>MENU</h3>
-        <input type="text" placeholder="NOM" />
+        <input type="text" id="inputNomMenu" placeholder="NOM" />
+        <input type="number" id="inputPrixUnitaire" placeholder="PRIX UNITAIRE" />
+        <input type="hidden" id="inputPkMenu" />
         <div class="btn-group">
-          <button>ADD</button>
-          <button>MODIFY</button>
-          <button>DELETE</button>
+          <button id="btnAdd">ADD</button>
+          <button id="btnModify">MODIFY</button>
+          <button id="btnDelete">DELETE</button>
         </div>
         <div class="menu-image-placeholder"></div>
       </div>
@@ -70,5 +57,6 @@
     </div>
   </main>
 
+  <script src="js/entreprise.js"></script>
 </body>
 </html>

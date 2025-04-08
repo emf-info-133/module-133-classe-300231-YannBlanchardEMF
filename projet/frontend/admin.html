@@ -11,12 +11,12 @@
   <header>
     <div class="nav-left">
       <a href="index.html">Accueil</a>
-      <a href="menus.html">Menus</a>
+      <a href="menu.html">Menus</a>
       <a href="panier.html">Panier</a>
     </div>
     <div class="nav-right">
-      <button class="signup">Sign Up</button>
-      <button>Log In</button>
+      <button id="btnSignUp" class="signup">Sign Up</button>
+      <button id="btnLogin">Log In</button>
     </div>
   </header>
 
@@ -33,23 +33,21 @@
               <th>ADRESSE</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
-            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
-            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
-            <tr><td>ENTREPRISE</td><td>ADRESSE</td></tr>
+          <tbody id="entrepriseTable">
+            <!-- Lignes d’entreprises injectées par JS -->
           </tbody>
         </table>
       </div>
 
       <div class="admin-form">
         <h3>ENTREPRISE</h3>
-        <input type="text" placeholder="NOM" />
-        <input type="text" placeholder="ADRESSE" />
+        <input type="text" id="entrepriseNom" placeholder="NOM" />
+        <input type="text" id="entrepriseAdresse" placeholder="ADRESSE" />
+        <input type="hidden" id="entrepriseId" />
         <div class="btn-group">
-          <button>ADD</button>
-          <button>MODIFY</button>
-          <button>DELETE</button>
+          <button id="btnAddEntreprise">ADD</button>
+          <button id="btnModifyEntreprise">MODIFY</button>
+          <button id="btnDeleteEntreprise">DELETE</button>
         </div>
       </div>
     </section>
@@ -66,34 +64,33 @@
               <th>ADMIN</th>
             </tr>
           </thead>
-          <tbody>
-            <tr><td>UTILISATEUR</td><td>ENTREPRISE</td><td>ADMIN</td></tr>
-            <tr><td>UTILISATEUR</td><td>PAS D’ENTREPRISE</td><td>PAS ADMIN</td></tr>
-            <tr><td>UTILISATEUR</td><td>ENTREPRISE</td><td>PAS ADMIN</td></tr>
-            <tr><td>UTILISATEUR</td><td>PAS D’ENTREPRISE</td><td>PAS ADMIN</td></tr>
+          <tbody id="userTable">
+            <!-- Lignes d’utilisateurs injectées par JS -->
           </tbody>
         </table>
       </div>
 
       <div class="admin-form">
         <h3>UTILISATEUR</h3>
-        <input type="text" placeholder="NOM" />
-        <select>
-          <option>ENTREPRISE</option>
+        <input type="text" id="userNom" placeholder="NOM" />
+        <select id="entrepriseSelect">
+          <!-- Options entreprises ajoutées dynamiquement -->
         </select>
         <label style="display: flex; align-items: center; gap: 5px; margin: 10px 0;">
-          <input type="checkbox" />
+          <input type="checkbox" id="isAdmin" />
           ADMIN
         </label>
+        <input type="hidden" id="userId" />
         <div class="btn-group">
-          <button>ADD</button>
-          <button>MODIFY</button>
-          <button>DELETE</button>
+          <button id="btnAddUser">ADD</button>
+          <button id="btnModifyUser">MODIFY</button>
+          <button id="btnDeleteUser">DELETE</button>
         </div>
       </div>
     </section>
 
   </main>
 
+  <script src="js/admin.js"></script>
 </body>
 </html>

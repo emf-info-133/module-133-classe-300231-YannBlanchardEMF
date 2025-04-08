@@ -11,12 +11,12 @@
   <header>
     <div class="nav-left">
       <a href="index.html">Accueil</a>
-      <a href="menus.html">Menus</a>
-      <a href="#">Panier</a>
+      <a href="menu.html">Menus</a>
+      <a href="panier.html">Panier</a>
     </div>
     <div class="nav-right">
-      <button class="signup">Sign Up</button>
-      <button>Log In</button>
+      <button id="btnSignUp" class="signup">Sign Up</button>
+      <button id="btnLogin">Log In</button>
     </div>
   </header>
 
@@ -24,75 +24,11 @@
     <h2>Liste Menus</h2>
     <p>Choose a plan that's right for your growing team. Simple pricing. No hidden charges.</p>
 
-    <div class="menu-grid">
-      <div class="menu-card">
-        <div class="menu-image"></div>
-        <h4>BURGER</h4>
-        <p class="price">$9</p>
-        <div class="qty-controls">
-          <button>-</button>
-          <span>0</span>
-          <button>+</button>
-        </div>
-        <button class="commander-btn">Commander</button>
-      </div>
-      <div class="menu-card">
-        <div class="menu-image"></div>
-        <h4>BURGER</h4>
-        <p class="price">$9</p>
-        <div class="qty-controls">
-          <button>-</button>
-          <span>0</span>
-          <button>+</button>
-        </div>
-        <button class="commander-btn">Commander</button>
-      </div>
-      <div class="menu-card">
-        <div class="menu-image"></div>
-        <h4>BURGER</h4>
-        <p class="price">$9</p>
-        <div class="qty-controls">
-          <button>-</button>
-          <span>0</span>
-          <button>+</button>
-        </div>
-        <button class="commander-btn">Commander</button>
-      </div>
-      <div class="menu-card">
-        <div class="menu-image"></div>
-        <h4>BURGER</h4>
-        <p class="price">$9</p>
-        <div class="qty-controls">
-          <button>-</button>
-          <span>0</span>
-          <button>+</button>
-        </div>
-        <button class="commander-btn">Commander</button>
-      </div>
-      <div class="menu-card">
-        <div class="menu-image"></div>
-        <h4>BURGER</h4>
-        <p class="price">$9</p>
-        <div class="qty-controls">
-          <button>-</button>
-          <span>0</span>
-          <button>+</button>
-        </div>
-        <button class="commander-btn">Commander</button>
-      </div>
-      <div class="menu-card">
-        <div class="menu-image"></div>
-        <h4>BURGER</h4>
-        <p class="price">$9</p>
-        <div class="qty-controls">
-          <button>-</button>
-          <span>0</span>
-          <button>+</button>
-        </div>
-        <button class="commander-btn">Commander</button>
-      </div>
+    <div id="menuGrid" class="menu-grid">
+      <!-- Les cartes menu seront injectées ici -->
     </div>
   </main>
 
+  <script src="js/menu.js"></script>
 </body>
 </html>

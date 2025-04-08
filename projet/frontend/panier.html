@@ -11,28 +11,29 @@
   <header>
     <div class="nav-left">
       <a href="index.html">Accueil</a>
-      <a href="menus.html">Menus</a>
+      <a href="menu.html">Menus</a>
       <a href="panier.html">Panier</a>
     </div>
     <div class="nav-right">
-      <button class="signup">Sign Up</button>
-      <button>Log In</button>
+      <button id="btnSignUp" class="signup">Sign Up</button>
+      <button id="btnLogin">Log In</button>
     </div>
   </header>
 
   <main class="panier-container">
     <h2>Panier</h2>
     <div class="panier-box">
-      <div class="panier-content">
-        <p>PANIER VIDE</p>
+      <div id="panierContent" class="panier-content">
+        <p id="panierVide">PANIER VIDE</p>
       </div>
       <div class="panier-total">
         <span>TOTAL :</span>
-        <span>0.00 CHF</span>
+        <span id="panierTotal">0.00 CHF</span>
       </div>
-      <button class="valider-btn">VALIDER PANIER</button>
+      <button id="btnValiderPanier" class="valider-btn">VALIDER PANIER</button>
     </div>
   </main>
 
+  <script src="js/panier.js"></script>
 </body>
 </html>
