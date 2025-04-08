@@ -4,7 +4,6 @@ import main.code.dto.MenuDTO;
 import main.code.dto.UserResponse;
 import main.code.service.MenuService;
 import main.code.service.UserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,22 +25,22 @@ public class Controller implements ItfController {
     }
 
     @Override
-    public String addNewMenu(String nom, Integer prix_unitaire, Integer userId) {
-        return menuService.addNewMenu(nom, prix_unitaire, userId);
+    public String addNewMenu(String nom, String image, float prix_unitaire, int fk_entreprise) {
+        return menuService.addNewMenu(nom, image, prix_unitaire, fk_entreprise);
     }
 
     @Override
-    public String modifyMenu(Integer pk_menu, String nom, Integer prix_unitaire, Integer userId) {
-        return menuService.modifyMenu(pk_menu, nom, prix_unitaire, userId);
+    public String modifyMenu(int pk_menu, String nom, String image, float prix_unitaire, int fk_entreprise) {
+        return menuService.modifyMenu(pk_menu, nom, image, prix_unitaire, fk_entreprise);
     }
 
     @Override
-    public String deleteMenu(Integer pk_menu, Integer userId) {
-        return menuService.deleteMenu(pk_menu, userId);
+    public String deleteMenu(int pk_menu, int fk_entreprise) {
+        return menuService.deleteMenu(pk_menu, fk_entreprise);
     }
 
     @Override
-    public Iterable<MenuDTO> getAllUsers() {
+    public Iterable<MenuDTO> getAllMenus() {
         return menuService.findAllMenu();
     }
 

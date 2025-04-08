@@ -32,7 +32,7 @@ public class User {
     public User() {
     }
 
-    public User(String nom, String prenom, String login, String password, boolean isAdmin, Integer fkEntreprise) {
+    public User(String nom, String prenom, String login, String password, boolean isAdmin, int fkEntreprise) {
         this.nom = nom;
         this.prenom = prenom;
         this.login = login;
