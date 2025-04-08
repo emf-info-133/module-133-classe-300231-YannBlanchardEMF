@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import main.src.beans.Entreprise;
 import main.src.beans.User;
 import main.src.dto.AdminDTO;
 import main.src.dto.ClientDTO;
@@ -88,23 +89,23 @@ public class GatewayController {
     // ADMIN
 
     @PostMapping("/addEntreprise")
-    public ResponseEntity<String> addEntreprise(@RequestBody EntrepriseDTO dto) {
+    public ResponseEntity<String> addEntreprise(@RequestBody AdminDTO dto) {
         return restTemplate.postForEntity(adminBaseUrl + "/addEntreprise", dto, String.class);
     }
 
     @GetMapping("/getEntreprises")
-    public ResponseEntity<EntrepriseDTO[]> getAllEntreprises() {
-        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises", EntrepriseDTO[].class);
+    public ResponseEntity<Entreprise[]> getAllEntreprises() {
+        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises", Entreprise[].class);
     }
 
     @GetMapping("/getEntreprise/{id}")
-    public ResponseEntity<EntrepriseDTO> getEntrepriseById(@PathVariable Integer id) {
-        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, EntrepriseDTO.class);
+    public ResponseEntity<AdminDTO> getEntrepriseById(@PathVariable Integer id) {
+        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, AdminDTO.class);
     }
 
     @PutMapping("/modifyEntreprise/{id}")
-    public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody EntrepriseDTO dto) {
-        HttpEntity<EntrepriseDTO> requestEntity = new HttpEntity<>(dto);
+    public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody AdminDTO dto) {
+        HttpEntity<AdminDTO> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(adminBaseUrl + "/modifyEntreprise/" + id, HttpMethod.PUT, requestEntity,
                 String.class);
     }

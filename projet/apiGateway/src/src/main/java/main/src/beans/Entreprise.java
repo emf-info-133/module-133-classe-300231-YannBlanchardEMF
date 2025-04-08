@@ -1,27 +1,15 @@
-package code.main.beans;
+package main.src.beans;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "T_Entreprise")
 public class Entreprise {
 
-    @Id
-    @Column(name = "PK_Entreprise")
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // si MySQL auto-incrémente
     private Integer pkEntreprise;
-
-    @Column(name = "nom", length = 100)
     private String nom;
-
-    @Column(name = "adresse", length = 255)
     private String adresse;
 
     public Entreprise() {
     }
 
-    public Entreprise(Integer pkEntreprise,String nom, String adresse) {
-        this.pkEntreprise = pkEntreprise;
+    public Entreprise(String nom, String adresse) {
         this.nom = nom;
         this.adresse = adresse;
     }
@@ -49,5 +37,5 @@ public class Entreprise {
     public void setAdresse(String adresse) {
         this.adresse = adresse;
     }
-
 }
+
