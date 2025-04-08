@@ -46,10 +46,10 @@ public class GatewayController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<User> getUserById(@RequestBody ClientDTO dto) {
-        HttpEntity<ClientDTO> request = new HttpEntity<>(dto);
-        return restTemplate.exchange(clientBaseUrl + "/user", HttpMethod.GET, request, User.class);
+    public ResponseEntity<User> getUserById(@RequestParam int id) {
+        return restTemplate.getForEntity(clientBaseUrl + "/user?id=" + id, User.class);
     }
+    
 
     @GetMapping("/users")
     public ResponseEntity<User[]> getAllUsers() {
