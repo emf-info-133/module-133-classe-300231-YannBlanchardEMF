@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CommandeAvenir</title>
-  <link rel="stylesheet" href="css/css.css">
+  <link rel="stylesheet" href="css/css.css" />
 </head>
 <body>
-
   <header>
     <div class="nav-left">
       <a href="index.html">Accueil</a>
@@ -15,22 +14,24 @@
       <a href="panier.html">Panier</a>
     </div>
     <div class="nav-right">
-      <button id="btnSignUp" class="signup">Sign Up</button>
-      <button id="btnLogin">Log In</button>
-    </div>
+      <button id="btnSignUp" class="signup" onclick="window.location.href='register.html'">Sign Up</button>
+      <button id="btnLogin" class="login" onclick="window.location.href='login.html'">Log In</button>
+    </div>    
   </header>
 
   <main>
     <div class="text-content">
-      <h1>CommandeAvenir</h1>
-      <p>
-        Supporting statement for your product's tagline.<br>
+      <h1 id="mainTitle">CommandeAvenir</h1>
+      <p id="sloganText">
+        Supporting statement for your product's tagline.<br />
         This text should communicate your unique selling proposition to the reader.
       </p>
     </div>
-    <div class="image-content">
+    <div class="image-content" id="mainImage">
       <!-- Placeholder image box -->
     </div>
   </main>
+
+  <script src="js/index.js"></script>
 </body>
 </html>
