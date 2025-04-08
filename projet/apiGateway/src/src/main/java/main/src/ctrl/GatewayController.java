@@ -89,7 +89,7 @@ public class GatewayController {
     // ADMIN
 
     @PostMapping("/addEntreprise")
-    public ResponseEntity<String> addEntreprise(@RequestBody AdminDTO dto) {
+    public ResponseEntity<String> addEntreprise(@RequestBody Entreprise dto) {
         return restTemplate.postForEntity(adminBaseUrl + "/addEntreprise", dto, String.class);
     }
 
@@ -99,13 +99,13 @@ public class GatewayController {
     }
 
     @GetMapping("/getEntreprise/{id}")
-    public ResponseEntity<AdminDTO> getEntrepriseById(@PathVariable Integer id) {
-        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, AdminDTO.class);
+    public ResponseEntity<Entreprise> getEntrepriseById(@PathVariable Integer id) {
+        return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, Entreprise.class);
     }
 
     @PutMapping("/modifyEntreprise/{id}")
-    public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody AdminDTO dto) {
-        HttpEntity<AdminDTO> requestEntity = new HttpEntity<>(dto);
+    public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody Entreprise dto) {
+        HttpEntity<Entreprise> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(adminBaseUrl + "/modifyEntreprise/" + id, HttpMethod.PUT, requestEntity,
                 String.class);
     }
@@ -117,13 +117,13 @@ public class GatewayController {
     }
 
     @PostMapping("/addUser")
-    public ResponseEntity<String> addUser(@RequestBody AdminDTO dto) {
+    public ResponseEntity<String> addUser(@RequestBody User dto) {
         return restTemplate.postForEntity(adminBaseUrl + "/addUser", dto, String.class);
     }
 
     @PutMapping("/modifyUser/{id}")
-    public ResponseEntity<String> modifyUser(@PathVariable Integer id, @RequestBody AdminDTO dto) {
-        HttpEntity<AdminDTO> requestEntity = new HttpEntity<>(dto);
+    public ResponseEntity<String> modifyUser(@PathVariable Integer id, @RequestBody User dto) {
+        HttpEntity<User> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(adminBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
     }
 
@@ -134,12 +134,12 @@ public class GatewayController {
     }
 
     @GetMapping("/getUsers")
-    public ResponseEntity<?> getUsers() {
-        return restTemplate.getForEntity(adminBaseUrl + "/getUsers", User.class);
+    public ResponseEntity<User[]> getUsers() {
+        return restTemplate.getForEntity(adminBaseUrl + "/getUsers", User[].class);
     }
 
     @PostMapping("/loginUser")
-    public ResponseEntity<Boolean> loginUser(@RequestBody AdminDTO dto) {
+    public ResponseEntity<Boolean> loginUser(@RequestBody User dto) {
         return restTemplate.postForEntity(adminBaseUrl + "/loginUser", dto, Boolean.class);
     }
 
