@@ -23,16 +23,14 @@ public class Menu {
     @Column(name = "FK_Entreprise")
     private int FK_Entreprise;
 
-    private int quantite;
 
     public Menu() {}
 
-    public Menu(String nom, String image, float prix, int FK_Entreprise, int quantite) {
+    public Menu(String nom, String image, float prix, int FK_Entreprise) {
         this.nom = nom;
         this.image = image;
         this.prix = prix;
         this.FK_Entreprise = FK_Entreprise;
-        this.quantite = quantite;
     }
 
     // Getters et Setters
@@ -57,10 +55,6 @@ public class Menu {
         return FK_Entreprise;
     }
 
-    public int getQuantite(){
-        return quantite;
-    }
-
     public void setPKMenu(int pkMenu) {
         this.pkMenu = pkMenu;
     }
@@ -79,10 +73,6 @@ public class Menu {
 
     public void setFKEntreprise(int FK_Entreprise) {
         this.FK_Entreprise = FK_Entreprise;
-    }
-
-    public void setQuantite(int quantite){
-        this.quantite = quantite;
     }
 }
 
