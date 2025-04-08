@@ -14,26 +14,26 @@ public interface ItfController {
     @PostMapping(path = "/addMenu")
     @ResponseBody
     String addNewMenu(@RequestParam String nom,
-                      @RequestParam String image,
-                      @RequestParam float prix_unitaire,
-                      @RequestParam int fk_entreprise);
+            @RequestParam String image,
+            @RequestParam float prix_unitaire,
+            @RequestParam int fk_entreprise);
 
     @PostMapping(path = "/modifyMenu")
     @ResponseBody
     String modifyMenu(@RequestParam int pk_menu,
-                      @RequestParam String nom,
-                      @RequestParam String image,
-                      @RequestParam float prix_unitaire,
-                      @RequestParam int fk_entreprise);
+            @RequestParam String nom,
+            @RequestParam String image,
+            @RequestParam float prix_unitaire,
+            @RequestParam int fk_entreprise);
 
     @PostMapping(path = "/deleteMenu")
     @ResponseBody
     String deleteMenu(@RequestParam int pk_menu,
-                      @RequestParam int fk_entreprise);
+            @RequestParam int fk_entreprise);
 
     @GetMapping(path = "/getMenu")
     @ResponseBody
-    Iterable<MenuDTO> getAllMenus();
+    Iterable<MenuDTO> getAllMenusbyID(@RequestParam int fk_entreprise);
 
     @GetMapping(path = "/getUser")
     @ResponseBody

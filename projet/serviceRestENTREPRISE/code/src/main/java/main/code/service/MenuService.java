@@ -53,18 +53,22 @@ public class MenuService {
     }
 
     @Transactional
-   public Iterable<MenuDTO> findAllMenu() {
-        Iterable<Menu> menus = menuRepository.findAll();
+    public List<MenuDTO> findAllMenu(Integer fkEntreprise) {
+        List<Menu> menus = menuRepository.findByFKEntreprise(fkEntreprise);
         List<MenuDTO> menuDTOs = new ArrayList<>();
+    
         for (Menu menu : menus) {
             MenuDTO menuDTO = new MenuDTO(
                 menu.getPkMenu(),
                 menu.getNom(),
                 menu.getImage(),
                 menu.getPrix(),
-                menu.getFKEntreprise());
-                menuDTOs.add(menuDTO);
+                menu.getFKEntreprise()
+            );
+            menuDTOs.add(menuDTO);
         }
+    
         return menuDTOs;
     }
+    
 }

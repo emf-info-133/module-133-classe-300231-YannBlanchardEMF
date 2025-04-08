@@ -40,8 +40,8 @@ public class Controller implements ItfController {
     }
 
     @Override
-    public Iterable<MenuDTO> getAllMenus() {
-        return menuService.findAllMenu();
+    public Iterable<MenuDTO> getAllMenusbyID(int fk_entreprise) {
+        return menuService.findAllMenu(fk_entreprise);
     }
 
     @Override

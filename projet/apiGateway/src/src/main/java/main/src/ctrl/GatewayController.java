@@ -49,7 +49,6 @@ public class GatewayController {
     public ResponseEntity<User> getUserById(@RequestParam int id) {
         return restTemplate.getForEntity(clientBaseUrl + "/user?id=" + id, User.class);
     }
-    
 
     @GetMapping("/users")
     public ResponseEntity<User[]> getAllUsers() {
@@ -58,33 +57,32 @@ public class GatewayController {
 
     // ENTREPRISE
     @PostMapping("/addMenu")
-    public ResponseEntity<String> addMenu(@RequestParam String nom, @RequestParam Integer prix_unitaire,
-            @RequestParam Integer userId) {
-        String url = entrepriseBaseUrl + "/addMenu?nom=" + nom + "&prix_unitaire=" + prix_unitaire + "&userId="
-                + userId;
-        return restTemplate.postForEntity(url, null, String.class);
+    public ResponseEntity<String> addMenu(@RequestBody EntrepriseDTO dto) {
+        return restTemplate.postForEntity(entrepriseBaseUrl + "/addMenu", dto, String.class);
     }
 
-    @PostMapping("/modifyMenu")
-    public ResponseEntity<String> modifyMenu(@RequestParam Integer pk_menu, @RequestParam String nom,
-            @RequestParam Integer prix_unitaire, @RequestParam Integer userId) {
-        String url = entrepriseBaseUrl + "/modifyMenu?pk_menu=" + pk_menu + "&nom=" + nom +
-                "&prix_unitaire=" + prix_unitaire + "&userId=" + userId;
-        return restTemplate.postForEntity(url, null, String.class);
+    @PutMapping("/modifyMenu/{id}")
+    public ResponseEntity<String> modifyMenu(@PathVariable int pk_menu, @RequestBody EntrepriseDTO dto) {
+        HttpEntity<EntrepriseDTO> requestEntity = new HttpEntity<>(dto);
+        return restTemplate.exchange(entrepriseBaseUrl + "/modifyMenu/" + pk_menu, HttpMethod.PUT, requestEntity,
+                String.class);
     }
 
-    @PostMapping("/deleteMenu")
-    public ResponseEntity<String> deleteMenu(@RequestParam Integer pk_menu, @RequestParam Integer userId) {
-        String url = entrepriseBaseUrl + "/deleteMenu?pk_menu=" + pk_menu + "&userId=" + userId;
-        return restTemplate.postForEntity(url, null, String.class);
+    @DeleteMapping("/deleteMenu/{id}")
+    public ResponseEntity<String> deleteMenu(@PathVariable int pk_menu, @RequestParam int fkEntreprise) {
+        // On garde userId en query param si besoin (tu peux le passer aussi dans le
+        // body sinon)
+        String url = entrepriseBaseUrl + "/deleteMenu/" + pk_menu + "?fkEntreprise=" + fkEntreprise;
+        restTemplate.delete(url);
+        return ResponseEntity.ok("Menu supprimé");
     }
 
-    @GetMapping("/getMenuList")
-    public ResponseEntity<Object> getMenuList() {
-        //
-        String url = entrepriseBaseUrl + "/getMenu";
-        return restTemplate.getForEntity(url, Object.class);
+    @GetMapping("/getMenuList/{fkEntreprise}")
+    public ResponseEntity<EntrepriseDTO[]> getMenuList(@PathVariable Integer fkEntreprise) {
+        String url = entrepriseBaseUrl + "/getMenu?fk_entreprise=" + fkEntreprise;
+        return restTemplate.getForEntity(url, EntrepriseDTO[].class);
     }
+    
 
     // ADMIN
 
