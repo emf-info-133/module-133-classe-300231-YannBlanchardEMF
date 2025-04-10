@@ -58,13 +58,13 @@ public class GatewayController {
 
     // ENTREPRISE
     @PostMapping("/addMenu")
-    public ResponseEntity<String> addMenu(@RequestBody EntrepriseDTO dto) {
+    public ResponseEntity<String> addMenu(@RequestBody Menu dto) {
         return restTemplate.postForEntity(entrepriseBaseUrl + "/addMenu", dto, String.class);
     }
 
-    @PutMapping("/modifyMenu")
-    public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody EntrepriseDTO dto) {
-        HttpEntity<EntrepriseDTO> requestEntity = new HttpEntity<>(dto);
+    @PutMapping("/modifyMenu/{pk_menu}")
+    public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody Menu dto) {
+        HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(entrepriseBaseUrl + "/modifyMenu/" + pk_menu, HttpMethod.PUT, requestEntity,
                 String.class);
     }

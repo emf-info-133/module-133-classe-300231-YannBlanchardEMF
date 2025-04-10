@@ -2,23 +2,24 @@ package main.code.controller;
 
 import main.code.dto.MenuDTO;
 import main.code.dto.UserResponse;
+import main.code.model.Entreprise;
+import main.code.model.Menu;
 import main.code.service.MenuService;
 import main.code.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class Controller {
 
-    private final UserService userService;
     private final MenuService menuService;
 
     @Autowired
     public Controller(MenuService menuService, UserService userService) {
         this.menuService = menuService;
-        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -32,27 +33,19 @@ public class Controller {
                 dto.getNom(),
                 dto.getImage(),
                 dto.getPrix(),
-                dto.getFkEntreprise()
-        );
+                dto.getFkEntreprise());
     }
 
-    @PostMapping(path = "/modifyMenu")
-    public String modifyMenu(@RequestBody MenuDTO dto) {
-        return menuService.modifyMenu(
-                dto.getPkMenu(),
-                dto.getNom(),
-                dto.getImage(),
-                dto.getPrix(),
-                dto.getFkEntreprise()
-        );
+    @PutMapping(path = "/modifyMenu/{pk_menu}")
+    public String modifyMenu(@PathVariable("pk_menu") Integer pkMenu, @RequestBody Menu menu) {
+        return menuService.modifyMenu(pkMenu, menu.getNom(), menu.getImage(), menu.getPrix(), menu.getFkEntreprise());    
     }
 
     @PostMapping(path = "/deleteMenu")
     public String deleteMenu(@RequestBody MenuDTO dto) {
         return menuService.deleteMenu(
                 dto.getPkMenu(),
-                dto.getFkEntreprise()
-        );
+                dto.getFkEntreprise());
     }
 
     @GetMapping(path = "/getMenu")
