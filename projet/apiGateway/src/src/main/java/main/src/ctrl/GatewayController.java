@@ -69,9 +69,9 @@ public class GatewayController {
                 String.class);
     }
 
-    @DeleteMapping("/deleteMenu")
-    public ResponseEntity<String> deleteMenu(@RequestParam Integer pk_menu, @RequestParam Integer fk_entreprise) {
-        String url = entrepriseBaseUrl + "/deleteMenu/?pkMenu=" + pk_menu + "?fkEntreprise=" + fk_entreprise;
+    @PostMapping("/deleteMenu")
+    public ResponseEntity<String> deleteMenu(@RequestParam Integer pkMenu) {
+        String url = entrepriseBaseUrl + "/deleteMenu?pkMenu=" + pkMenu;
         restTemplate.delete(url);
         return ResponseEntity.ok("Menu supprimé");
     }
