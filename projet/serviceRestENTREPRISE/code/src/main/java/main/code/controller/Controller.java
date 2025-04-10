@@ -43,9 +43,7 @@ public class Controller {
 
     @PostMapping(path = "/deleteMenu")
     public String deleteMenu(@RequestBody MenuDTO dto) {
-        return menuService.deleteMenu(
-                dto.getPkMenu(),
-                dto.getFkEntreprise());
+        return menuService.deleteMenu(dto.getPkMenu());
     }
 
     @GetMapping(path = "/getMenu")

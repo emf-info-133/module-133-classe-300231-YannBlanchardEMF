@@ -70,8 +70,8 @@ public class GatewayController {
     }
 
     @DeleteMapping("/deleteMenu")
-    public ResponseEntity<String> deleteMenu(@PathVariable Integer pk_menu, @RequestParam Integer fk_entreprise) {
-        String url = entrepriseBaseUrl + "/deleteMenu/" + pk_menu + "?fkEntreprise=" + fk_entreprise;
+    public ResponseEntity<String> deleteMenu(@RequestParam Integer pk_menu, @RequestParam Integer fk_entreprise) {
+        String url = entrepriseBaseUrl + "/deleteMenu/?pkMenu=" + pk_menu + "?fkEntreprise=" + fk_entreprise;
         restTemplate.delete(url);
         return ResponseEntity.ok("Menu supprimé");
     }

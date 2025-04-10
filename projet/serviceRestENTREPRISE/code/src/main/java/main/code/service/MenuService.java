@@ -33,8 +33,6 @@ public class MenuService {
     @Transactional
     public String modifyMenu(Integer pk_menu, String nom, String image, float prix, Integer fkEntreprise) {
         Menu menu = menuRepository.findById(pk_menu).orElse(null);
-        if (menu == null) return "menu not found";
-
         menu.setNom(nom);
         menu.setImage(image);
         menu.setPrix(prix);
@@ -44,10 +42,8 @@ public class MenuService {
     }
 
     @Transactional
-    public String deleteMenu(Integer pk_menu, Integer fkEntreprise) {
-        Menu menu = menuRepository.findById(pk_menu).orElse(null);
-        if (menu == null) return "menu not found";
-        menuRepository.delete(menu);
+    public String deleteMenu(Integer pk_menu) {
+        menuRepository.deleteById(pk_menu);
         return "Deleted";
     }
 
