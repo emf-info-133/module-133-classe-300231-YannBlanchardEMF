@@ -5,16 +5,16 @@ public class MenuDTO {
     private Integer pk_menu;
     private String nom;
     private String image;
-    private float prix_unitaire;
+    private float prix;
     private Integer fkEntreprise;
 
     public MenuDTO() {}
 
-    public MenuDTO(Integer pk_menu, String nom, String image, float prix_unitaire, Integer fkEntreprise) {
+    public MenuDTO(Integer pk_menu, String nom, String image, float prix, Integer fkEntreprise) {
         this.pk_menu = pk_menu;
         this.nom = nom;
         this.image = image;
-        this.prix_unitaire = prix_unitaire;
+        this.prix = prix;
         this.fkEntreprise = fkEntreprise;
     }
 
@@ -42,12 +42,12 @@ public class MenuDTO {
         this.image = image;
     }
 
-    public float getPrixUnitaire() {
-        return prix_unitaire;
+    public float getPrix() {
+        return prix;
     }
 
-    public void setPrixUnitaire(float prix_unitaire) {
-        this.prix_unitaire = prix_unitaire;
+    public void setPrix(float prix) {
+        this.prix = prix;
     }
 
     public Integer getFkEntreprise() {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import main.src.beans.Menu;
 import main.src.beans.Entreprise;
 import main.src.beans.User;
 import main.src.dto.AdminDTO;
@@ -61,14 +62,14 @@ public class GatewayController {
         return restTemplate.postForEntity(entrepriseBaseUrl + "/addMenu", dto, String.class);
     }
 
-    @PutMapping("/modifyMenu/{id}")
+    @PutMapping("/modifyMenu")
     public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody EntrepriseDTO dto) {
         HttpEntity<EntrepriseDTO> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(entrepriseBaseUrl + "/modifyMenu/" + pk_menu, HttpMethod.PUT, requestEntity,
                 String.class);
     }
 
-    @DeleteMapping("/deleteMenu/{id}")
+    @DeleteMapping("/deleteMenu")
     public ResponseEntity<String> deleteMenu(@PathVariable Integer pk_menu, @RequestParam Integer fk_entreprise) {
         String url = entrepriseBaseUrl + "/deleteMenu/" + pk_menu + "?fkEntreprise=" + fk_entreprise;
         restTemplate.delete(url);
@@ -76,10 +77,10 @@ public class GatewayController {
     }
 
     @GetMapping("/getMenuList")
-    public ResponseEntity<EntrepriseDTO[]> getMenuList(@RequestParam("fk_entreprise") Integer fk_entreprise) {
-        String url = entrepriseBaseUrl + "/getMenu?fkEntreprise=" + fk_entreprise; // <--- ici c'était fk_entreprise,
-                                                                                   // maintenant c'est fkEntreprise
-        return restTemplate.getForEntity(url, EntrepriseDTO[].class);
+    public ResponseEntity<Menu[]> getMenuList(@RequestParam("fk_entreprise") Integer fk_entreprise) {
+        return restTemplate.getForEntity(
+                entrepriseBaseUrl + "/getMenu?fkEntreprise=" + fk_entreprise,
+                Menu[].class);
     }
 
     // ADMIN

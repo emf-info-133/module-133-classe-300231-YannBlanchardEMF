@@ -31,7 +31,7 @@ public class Controller {
         return menuService.addNewMenu(
                 dto.getNom(),
                 dto.getImage(),
-                dto.getPrixUnitaire(),
+                dto.getPrix(),
                 dto.getFkEntreprise()
         );
     }
@@ -42,7 +42,7 @@ public class Controller {
                 dto.getPkMenu(),
                 dto.getNom(),
                 dto.getImage(),
-                dto.getPrixUnitaire(),
+                dto.getPrix(),
                 dto.getFkEntreprise()
         );
     }
@@ -58,10 +58,5 @@ public class Controller {
     @GetMapping(path = "/getMenu")
     public Iterable<MenuDTO> getAllMenusbyID(@RequestParam Integer fkEntreprise) {
         return menuService.findAllMenu(fkEntreprise);
-    }
-
-    @GetMapping(path = "/getUser")
-    public Iterable<UserResponse> getAllUser() {
-        return userService.findAllUser();
     }
 }

@@ -20,24 +20,24 @@ public class MenuService {
     private MenuRepository menuRepository;
 
     @Transactional
-    public String addNewMenu(String nom, String image, float prix_unitaire, Integer fk_entreprise) {
+    public String addNewMenu(String nom, String image, float prix, Integer fk_entreprise) {
         Menu newMenu = new Menu();
         newMenu.setNom(nom);
         newMenu.setImage(image);
-        newMenu.setPrix(prix_unitaire);
+        newMenu.setPrix(prix);
         newMenu.setFkEntreprise(fk_entreprise);
         menuRepository.save(newMenu);
         return "Saved";
     }
 
     @Transactional
-    public String modifyMenu(Integer pk_menu, String nom, String image, float prix_unitaire, Integer fkEntreprise) {
+    public String modifyMenu(Integer pk_menu, String nom, String image, float prix, Integer fkEntreprise) {
         Menu menu = menuRepository.findById(pk_menu).orElse(null);
         if (menu == null) return "menu not found";
 
         menu.setNom(nom);
         menu.setImage(image);
-        menu.setPrix(prix_unitaire);
+        menu.setPrix(prix);
         menu.setFkEntreprise(fkEntreprise);
         menuRepository.save(menu);
         return "Modified";

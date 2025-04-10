@@ -5,17 +5,15 @@ public class Menu {
     private int pkMenu;
     private String nom;
     private String image;
-    private Integer prix_unitaire;
-    private Integer quantite;
+    private float prix;
     private Integer fkEntreprise;
 
     public Menu() {}
 
-    public Menu(Integer pk_menu, String nom, String image, Integer prix_unitaire, Integer quantite, Integer fkEntreprise) {
+    public Menu(Integer pk_menu, String nom, String image, float prix, Integer fkEntreprise) {
         this.nom = nom;
         this.image = image;
-        this.prix_unitaire = prix_unitaire;
-        this.quantite = quantite;
+        this.prix = prix;
         this.fkEntreprise = fkEntreprise;
     }
 
@@ -45,12 +43,12 @@ public class Menu {
         this.image = image;
     }
 
-    public Integer getPrix() {
-        return prix_unitaire;
+    public float getPrix() {
+        return prix;
     }
 
-    public void setPrix(Integer prix_unitaire) {
-        this.prix_unitaire = prix_unitaire;
+    public void setPrix(float prix) {
+        this.prix = prix;
     }
 
     public Integer getFkEntreprise() {
@@ -59,13 +57,5 @@ public class Menu {
 
     public void setFkEntreprise(Integer fkEntreprise) {
         this.fkEntreprise = fkEntreprise;
-    }
-
-    public Integer getQuantite() {
-        return quantite;
-    }
-
-    public void setQuantite(Integer quantite) {
-        this.quantite = quantite;
     }
 }
