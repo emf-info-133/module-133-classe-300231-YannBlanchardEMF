@@ -1,25 +1,13 @@
 package main.src.ctrl;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import main.src.beans.Menu;
+import jakarta.servlet.http.HttpSession;
 import main.src.beans.Entreprise;
+import main.src.beans.Menu;
 import main.src.beans.User;
-import main.src.dto.AdminDTO;
 import main.src.dto.ClientDTO;
-import main.src.dto.EntrepriseDTO;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/gateway")
@@ -30,19 +18,45 @@ public class GatewayController {
     private final String entrepriseBaseUrl = "http://localhost:8082";
     private final String adminBaseUrl = "http://localhost:8083";
 
-    // CLIENT
+    // ---------------------- AUTH ----------------------
+
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody ClientDTO dto) {
-        return restTemplate.postForEntity(clientBaseUrl + "/login", dto, User.class);
+    public ResponseEntity<User> login(@RequestBody ClientDTO dto, HttpSession session) {
+        ResponseEntity<User> response = restTemplate.postForEntity(clientBaseUrl + "/login", dto, User.class);
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            User user = response.getBody();
+            session.setAttribute("id", user.getPk());
+            session.setAttribute("admin", user.isAdmin());
+            session.setAttribute("fkEntreprise", user.getFKEntreprise());
+        }
+        return response;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody ClientDTO dto) {
-        return restTemplate.postForEntity(clientBaseUrl + "/register", dto, User.class);
+    public ResponseEntity<User> register(@RequestBody ClientDTO dto, HttpSession session) {
+        ResponseEntity<User> response = restTemplate.postForEntity(clientBaseUrl + "/register", dto, User.class);
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            User user = response.getBody();
+            session.setAttribute("id", user.getPk());
+            session.setAttribute("admin", user.isAdmin());
+            session.setAttribute("fkEntreprise", null);
+        }
+        return response;
     }
 
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate();
+        return ResponseEntity.ok("Déconnexion réussie.");
+    }
+
+    // ---------------------- CLIENT ----------------------
+
     @PostMapping("/commande")
-    public ResponseEntity<String> commander(@RequestBody ClientDTO dto) {
+    public ResponseEntity<String> commander(@RequestBody ClientDTO dto, HttpSession session) {
+        if (session.getAttribute("id") == null) {
+            return ResponseEntity.status(401).body("Non connecté !");
+        }
         return restTemplate.postForEntity(clientBaseUrl + "/commande", dto, String.class);
     }
 
@@ -56,21 +70,34 @@ public class GatewayController {
         return restTemplate.getForEntity(clientBaseUrl + "/users", User[].class);
     }
 
-    // ENTREPRISE
+    // ---------------------- ENTREPRISE ----------------------
+
     @PostMapping("/addMenu")
-    public ResponseEntity<String> addMenu(@RequestBody Menu dto) {
+    public ResponseEntity<String> addMenu(@RequestBody Menu dto, HttpSession session) {
+        Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
+        if (sessionFk == null || !sessionFk.equals(dto.getFkEntreprise())) {
+            return ResponseEntity.status(403).body("Accès refusé");
+        }
         return restTemplate.postForEntity(entrepriseBaseUrl + "/addMenu", dto, String.class);
     }
 
     @PutMapping("/modifyMenu/{pk_menu}")
-    public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody Menu dto) {
+    public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody Menu dto,
+                                             HttpSession session) {
+        Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
+        if (sessionFk == null || !sessionFk.equals(dto.getFkEntreprise())) {
+            return ResponseEntity.status(403).body("Accès refusé");
+        }
         HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(entrepriseBaseUrl + "/modifyMenu/" + pk_menu, HttpMethod.PUT, requestEntity,
                 String.class);
     }
 
     @PostMapping("/deleteMenu")
-    public ResponseEntity<String> deleteMenu(@RequestParam Integer pkMenu) {
+    public ResponseEntity<String> deleteMenu(@RequestParam Integer pkMenu, HttpSession session) {
+        if (session.getAttribute("fkEntreprise") == null) {
+            return ResponseEntity.status(403).body("Accès refusé");
+        }
         String url = entrepriseBaseUrl + "/deleteMenu?pkMenu=" + pkMenu;
         restTemplate.delete(url);
         return ResponseEntity.ok("Menu supprimé");
@@ -83,11 +110,57 @@ public class GatewayController {
                 Menu[].class);
     }
 
-    // ADMIN
+    // ---------------------- ADMIN ----------------------
+
+    private boolean isAdmin(HttpSession session) {
+        return Boolean.TRUE.equals(session.getAttribute("admin")) && session.getAttribute("id") != null;
+    }
 
     @PostMapping("/addEntreprise")
-    public ResponseEntity<String> addEntreprise(@RequestBody Entreprise dto) {
+    public ResponseEntity<String> addEntreprise(@RequestBody Entreprise dto, HttpSession session) {
+        if (!isAdmin(session)) return ResponseEntity.status(403).body("Accès refusé");
         return restTemplate.postForEntity(adminBaseUrl + "/addEntreprise", dto, String.class);
+    }
+
+    @PutMapping("/modifyEntreprise/{id}")
+    public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody Entreprise dto,
+                                                   HttpSession session) {
+        if (!isAdmin(session)) return ResponseEntity.status(403).body("Accès refusé");
+        HttpEntity<Entreprise> requestEntity = new HttpEntity<>(dto);
+        return restTemplate.exchange(adminBaseUrl + "/modifyEntreprise/" + id, HttpMethod.PUT, requestEntity,
+                String.class);
+    }
+
+    @DeleteMapping("/deleteEntreprise/{id}")
+    public ResponseEntity<String> deleteEntreprise(@PathVariable Integer id, HttpSession session) {
+        if (!isAdmin(session)) return ResponseEntity.status(403).body("Accès refusé");
+        restTemplate.delete(adminBaseUrl + "/deleteEntreprise/" + id);
+        return ResponseEntity.ok("Entreprise supprimée");
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<String> addUser(@RequestBody User dto, HttpSession session) {
+        if (!isAdmin(session)) return ResponseEntity.status(403).body("Accès refusé");
+        return restTemplate.postForEntity(adminBaseUrl + "/addUser", dto, String.class);
+    }
+
+    @PutMapping("/modifyUser/{id}")
+    public ResponseEntity<String> modifyUser(@PathVariable Integer id, @RequestBody User dto, HttpSession session) {
+        if (!isAdmin(session)) return ResponseEntity.status(403).body("Accès refusé");
+        HttpEntity<User> requestEntity = new HttpEntity<>(dto);
+        return restTemplate.exchange(adminBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
+    }
+
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id, HttpSession session) {
+        if (!isAdmin(session)) return ResponseEntity.status(403).body("Accès refusé");
+        restTemplate.delete(adminBaseUrl + "/deleteUser/" + id);
+        return ResponseEntity.ok("Utilisateur supprimé");
+    }
+
+    @GetMapping("/getUsers")
+    public ResponseEntity<User[]> getUsers() {
+        return restTemplate.getForEntity(adminBaseUrl + "/getUsers", User[].class);
     }
 
     @GetMapping("/getEntreprises")
@@ -99,45 +172,4 @@ public class GatewayController {
     public ResponseEntity<Entreprise> getEntrepriseById(@PathVariable Integer id) {
         return restTemplate.getForEntity(adminBaseUrl + "/getEntreprises/" + id, Entreprise.class);
     }
-
-    @PutMapping("/modifyEntreprise/{id}")
-    public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody Entreprise dto) {
-        HttpEntity<Entreprise> requestEntity = new HttpEntity<>(dto);
-        return restTemplate.exchange(adminBaseUrl + "/modifyEntreprise/" + id, HttpMethod.PUT, requestEntity,
-                String.class);
-    }
-
-    @DeleteMapping("/deleteEntreprise/{id}")
-    public ResponseEntity<String> deleteEntreprise(@PathVariable Integer id) {
-        restTemplate.delete(adminBaseUrl + "/deleteEntreprise/" + id);
-        return ResponseEntity.ok("Entreprise supprimée");
-    }
-
-    @PostMapping("/addUser")
-    public ResponseEntity<String> addUser(@RequestBody User dto) {
-        return restTemplate.postForEntity(adminBaseUrl + "/addUser", dto, String.class);
-    }
-
-    @PutMapping("/modifyUser/{id}")
-    public ResponseEntity<String> modifyUser(@PathVariable Integer id, @RequestBody User dto) {
-        HttpEntity<User> requestEntity = new HttpEntity<>(dto);
-        return restTemplate.exchange(adminBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
-    }
-
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
-        restTemplate.delete(adminBaseUrl + "/deleteUser/" + id);
-        return ResponseEntity.ok("Utilisateur supprimé");
-    }
-
-    @GetMapping("/getUsers")
-    public ResponseEntity<User[]> getUsers() {
-        return restTemplate.getForEntity(adminBaseUrl + "/getUsers", User[].class);
-    }
-
-    @PostMapping("/loginUser")
-    public ResponseEntity<Boolean> loginUser(@RequestBody User dto) {
-        return restTemplate.postForEntity(adminBaseUrl + "/loginUser", dto, Boolean.class);
-    }
-
 }

@@ -6,7 +6,7 @@ public class User {
     private String prenom;
     private String login;
     private boolean admin;
-    private Integer idEntreprise;
+    private Integer fkEntreprise;
 
     public User() {}
 
@@ -51,11 +51,11 @@ public class User {
         this.admin = admin;
     }
 
-    public Integer getIdEntreprise() {
-        return idEntreprise;
+    public Integer getFKEntreprise() {
+        return fkEntreprise;
     }
 
-    public void setIdEntreprise(Integer idEntreprise) {
-        this.idEntreprise = idEntreprise;
+    public void setFKEntreprise(Integer fkEntreprise) {
+        this.fkEntreprise = fkEntreprise;
     }
 }

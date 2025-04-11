@@ -154,11 +154,7 @@ public class WrkDB {
             stmt.setString(2, user.getPrenom());
             stmt.setBoolean(3, user.isAdmin());
 
-            if (user.getFKEntreprise() != null) {
-                stmt.setInt(4, user.getFKEntreprise());
-            } else {
-                stmt.setNull(4, Types.INTEGER);
-            }
+            stmt.setNull(4, user.getFKEntreprise());
 
             stmt.setString(5, user.getPassword()); // stocke le hash
             stmt.setString(6, user.getLogin());

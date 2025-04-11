@@ -6,7 +6,6 @@ public class RegisterDTO {
     private String login;
     private String password;
     private boolean admin;
-    private Integer idEntreprise;
 
     public RegisterDTO() {}
 
@@ -50,11 +49,5 @@ public class RegisterDTO {
         this.admin = admin;
     }
 
-    public Integer getIdEntreprise() {
-        return idEntreprise;
-    }
 
-    public void setIdEntreprise(Integer idEntreprise) {
-        this.idEntreprise = idEntreprise;
-    }
 }

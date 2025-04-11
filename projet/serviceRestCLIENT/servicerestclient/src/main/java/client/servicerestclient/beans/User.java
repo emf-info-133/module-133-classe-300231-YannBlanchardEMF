@@ -27,7 +27,7 @@ public class User {
     private boolean isAdmin;
 
     @Column(name = "FK_Entreprise")
-    private Integer fkEntreprise;
+    private int fkEntreprise;
 
     public User() {
     }

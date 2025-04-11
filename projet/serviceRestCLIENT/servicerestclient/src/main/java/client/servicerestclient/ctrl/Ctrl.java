@@ -38,7 +38,6 @@ public class Ctrl {
         user.setPrenom(dto.getPrenom());
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
-        user.setFKEntreprise(dto.getIdEntreprise());
 
         if (wrk.addUser(user) != null) {
             return user;

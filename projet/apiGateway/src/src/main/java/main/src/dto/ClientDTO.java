@@ -8,12 +8,13 @@ public class ClientDTO {
     // Pour login
     private String login;
     private String password;
+    private Integer fkEntreprise;
 
     // Pour register
     private String nom;
     private String prenom;
     private boolean admin;
-    private Integer idEntreprise;
+
 
     // Pour commande
     private float total;
@@ -66,12 +67,12 @@ public class ClientDTO {
         this.admin = admin;
     }
 
-    public Integer getIdEntreprise() {
-        return idEntreprise;
+    public Integer getFKEntreprise() {
+        return fkEntreprise;
     }
 
-    public void setIdEntreprise(Integer idEntreprise) {
-        this.idEntreprise = idEntreprise;
+    public void setFKEntreprise(Integer fkEntreprise) {
+        this.fkEntreprise = fkEntreprise;
     }
 
     public float getTotal() {
