@@ -103,11 +103,17 @@ public class GatewayController {
         return ResponseEntity.ok("Menu supprimé");
     }
 
-    @GetMapping("/getMenuList")
-    public ResponseEntity<Menu[]> getMenuList(@RequestParam("fk_entreprise") Integer fk_entreprise) {
+    @GetMapping("/getMenuById")
+    public ResponseEntity<Menu[]> getMenuByID(@RequestParam("fk_entreprise") Integer fk_entreprise) {
         return restTemplate.getForEntity(
-                entrepriseBaseUrl + "/getMenu?fkEntreprise=" + fk_entreprise,
+                entrepriseBaseUrl + "/getMenuById?fkEntreprise=" + fk_entreprise,
                 Menu[].class);
+    }
+
+    @GetMapping("/getMenu")
+    public ResponseEntity<Menu[]> getMenu() {
+        return restTemplate.getForEntity(
+                entrepriseBaseUrl + "/getMenu", Menu[].class);
     }
 
     // ---------------------- ADMIN ----------------------

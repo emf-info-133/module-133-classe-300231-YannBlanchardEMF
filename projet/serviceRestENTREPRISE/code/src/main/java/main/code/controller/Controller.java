@@ -5,7 +5,6 @@ import main.code.dto.UserResponse;
 import main.code.model.Entreprise;
 import main.code.model.Menu;
 import main.code.service.MenuService;
-import main.code.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +17,7 @@ public class Controller {
     private final MenuService menuService;
 
     @Autowired
-    public Controller(MenuService menuService, UserService userService) {
+    public Controller(MenuService menuService) {
         this.menuService = menuService;
     }
 
@@ -46,8 +45,13 @@ public class Controller {
         return menuService.deleteMenu(pkMenu);
     }
 
-    @GetMapping(path = "/getMenu")
+    @GetMapping(path = "/getMenuById")
     public Iterable<MenuDTO> getAllMenusbyID(@RequestParam Integer fkEntreprise) {
-        return menuService.findAllMenu(fkEntreprise);
+        return menuService.findAllMenubyID(fkEntreprise);
+    }
+
+    @GetMapping(path = "/getMenu")
+    public Iterable<MenuDTO> getAllMenus() {
+        return menuService.findAllMenu();
     }
 }

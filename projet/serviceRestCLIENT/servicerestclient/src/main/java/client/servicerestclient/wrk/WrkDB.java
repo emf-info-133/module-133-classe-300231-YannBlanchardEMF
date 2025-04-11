@@ -216,7 +216,7 @@ public class WrkDB {
             int userId = rsUser.getInt("PK_Users");
 
             // Insérer dans T_Commande
-            String sqlInsertCommande = "INSERT INTO T_Commande (prix, date, FK_Users) VALUES (?, NOW(), ?)";
+            String sqlInsertCommande = "INSERT INTO T_Commande (prix, date, FK_User) VALUES (?, NOW(), ?)";
             PreparedStatement stmtCommande = connection.prepareStatement(sqlInsertCommande,
                     Statement.RETURN_GENERATED_KEYS);
             stmtCommande.setFloat(1, total);
@@ -234,7 +234,7 @@ public class WrkDB {
             int commandeId = rsCommande.getInt(1);
 
             // Insérer chaque menu dans TR_CommandeMenu
-            String sqlInsertTR = "INSERT INTO TR_CommandeMenu (PFK_Commande, PFK_Menu, quantite) VALUES (?, ?, ?)";
+            String sqlInsertTR = "INSERT INTO TR_CommandeMenus (PFK_Commande, PFK_Menu, quantite) VALUES (?, ?, ?)";
             PreparedStatement stmtTR = connection.prepareStatement(sqlInsertTR);
 
             for (Menu menu : menus) {
