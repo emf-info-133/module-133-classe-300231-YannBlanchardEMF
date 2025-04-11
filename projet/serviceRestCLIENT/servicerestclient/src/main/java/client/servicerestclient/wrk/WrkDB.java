@@ -6,7 +6,9 @@ import client.servicerestclient.beans.User;
 import java.sql.*;
 import java.util.ArrayList;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 public class WrkDB {
     private final String URL = "jdbc:mysql://localhost:3308/mydb";
@@ -232,82 +234,6 @@ public class WrkDB {
         }
     }
 
-    public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
-        if (connection == null) {
-            return false;
-        }
-
-        try {
-
-            // Démarrer transaction
-            connection.setAutoCommit(false);
-
-            // Récupérer l'ID utilisateur
-            String sqlGetUserId = "SELECT PK_Users FROM T_Users WHERE login = ?";
-            PreparedStatement stmtUser = connection.prepareStatement(sqlGetUserId);
-            stmtUser.setString(1, login);
-            ResultSet rsUser = stmtUser.executeQuery();
-
-            if (!rsUser.next()) {
-                connection.rollback();
-                System.out.println("Utilisateur introuvable.");
-                return false;
-            }
-
-            int userId = rsUser.getInt("PK_Users");
-
-            // Insérer dans T_Commande
-            String sqlInsertCommande = "INSERT INTO T_Commande (prix, date, FK_User) VALUES (?, NOW(), ?)";
-            PreparedStatement stmtCommande = connection.prepareStatement(sqlInsertCommande,
-                    Statement.RETURN_GENERATED_KEYS);
-            stmtCommande.setFloat(1, total);
-            stmtCommande.setInt(2, userId);
-            stmtCommande.executeUpdate();
-
-            // Récupérer l’ID de la commande générée
-            ResultSet rsCommande = stmtCommande.getGeneratedKeys();
-            if (!rsCommande.next()) {
-                connection.rollback();
-                System.out.println("Erreur : ID commande non récupéré");
-                return false;
-            }
-
-            int commandeId = rsCommande.getInt(1);
-
-            // Insérer chaque menu dans TR_CommandeMenu
-            String sqlInsertTR = "INSERT INTO TR_CommandeMenus (PFK_Commande, PFK_Menu, quantite) VALUES (?, ?, ?)";
-            PreparedStatement stmtTR = connection.prepareStatement(sqlInsertTR);
-
-            for (Menu menu : menus) {
-                System.out.println("CommandeId = " + commandeId + ", MenuId = " + menu.getPkMenu() + ", Quantité = "
-                        + menu.getQuantite());
-                stmtTR.setInt(1, commandeId);
-                stmtTR.setInt(2, menu.getPkMenu());
-                stmtTR.setInt(3, menu.getQuantite());
-                stmtTR.executeUpdate();
-            }
-
-            // Valider la transaction
-            connection.commit();
-            return true;
-
-        } catch (SQLException e) {
-            try {
-                connection.rollback();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            e.printStackTrace();
-            return false;
-        } finally {
-            try {
-                connection.setAutoCommit(true);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public User modifyUser(User user) {
         if (connection == null) {
             return null;
@@ -366,6 +292,146 @@ public class WrkDB {
             }
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
+        for (Menu m : menus) {
+            System.out.println("REÇU → menuID = " + m.getPkMenu() + ", quantite = " + m.getQuantite());
+        }
+        if (connection == null) {
+            return false;
+        }
+
+        try {
+
+            // Démarrer transaction
+            connection.setAutoCommit(false);
+
+            // Récupérer l'ID utilisateur
+
+            int userId = -1;
+            String sqlGetUserId = "SELECT PK_Users FROM T_Users WHERE login = ?";
+            PreparedStatement stmtUser = connection.prepareStatement(sqlGetUserId);
+            stmtUser.setString(1, login);
+            ResultSet rsUser = stmtUser.executeQuery();
+
+            if (!rsUser.next()) {
+                connection.rollback();
+                System.out.println("Utilisateur introuvable.");
+                return false;
+            }
+
+            userId = rsUser.getInt("PK_Users");
+
+            System.out.println("id du user cassé de con qui marche pas : " + userId);
+
+            // Récupère les vrais menus depuis l’entreprise (via Gateway)
+            String url = "http://localhost:8080/gateway/getMenuByPK?";
+            for (int i = 0; i < menus.size(); i++) {
+                Menu m = menus.get(i);
+                url += "pk=" + m.getPkMenu();
+
+                if (i < menus.size() - 1) {
+                    url += "&";
+                }
+            }
+
+            System.out.println("url de con : " + url);
+
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Menu[]> res = restTemplate.getForEntity(url, Menu[].class);
+
+            if (!res.getStatusCode().is2xxSuccessful() || res.getBody() == null) {
+                connection.rollback();
+                System.out.println("Erreur lors de la récupération des menus.");
+                return false;
+            }
+
+            ArrayList<Menu> menusReels = new ArrayList<>();
+            for (Menu m : res.getBody()) {
+                menusReels.add(m);
+            }
+
+            // Vérifie que tous les menus sont valides (en comparant les IDs)
+            if (menusReels.size() != menus.size()) {
+                connection.rollback();
+                System.out.println("Un ou plusieurs menus sont invalides.");
+                return false;
+            }
+
+            // Fusionne avec les quantités et recalcule le total
+            float totalRecalcule = 0;
+            System.out.println("menus reels taille" + menusReels.size());
+            for (int i = 0; i < menusReels.size(); i++) {
+                Menu menuReel = menusReels.get(i);
+                for (int j = 0; j < menus.size(); j++) {
+                    Menu menuEnvoye = menus.get(j);
+                    
+                    if (Integer.valueOf(menuReel.getPkMenu()).equals(menuEnvoye.getPkMenu())) {
+                        menuReel.setQuantite(menuEnvoye.getQuantite());
+                        totalRecalcule += menuReel.getPrix() * menuEnvoye.getQuantite();
+                        break;
+                    }
+                }
+            }
+
+            // Vérification du total
+            if (!Float.valueOf(totalRecalcule).equals(total)) {
+                connection.rollback();
+                System.out.println("Total invalide. Recalculé : " + totalRecalcule);
+                return false;
+            }
+
+            // Insérer dans T_Commande
+            String sqlInsertCommande = "INSERT INTO T_Commande (prix, date, FK_User) VALUES (?, NOW(), ?)";
+            PreparedStatement stmtCommande = connection.prepareStatement(sqlInsertCommande,
+                    Statement.RETURN_GENERATED_KEYS);
+            stmtCommande.setFloat(1, total);
+            stmtCommande.setInt(2, userId);
+            stmtCommande.executeUpdate();
+
+            // Récupérer l’ID de la commande générée
+            ResultSet rsCommande = stmtCommande.getGeneratedKeys();
+            if (!rsCommande.next()) {
+                connection.rollback();
+                System.out.println("Erreur : ID commande non récupéré");
+                return false;
+            }
+
+            int commandeId = rsCommande.getInt(1);
+
+            // Insérer chaque menu dans TR_CommandeMenu
+            String sqlInsertTR = "INSERT INTO TR_CommandeMenus (PFK_Commande, PFK_Menu, quantite) VALUES (?, ?, ?)";
+            PreparedStatement stmtTR = connection.prepareStatement(sqlInsertTR);
+
+            for (Menu menu : menus) {
+                System.out.println("CommandeId = " + commandeId + ", MenuId = " + menu.getPkMenu() + ", Quantité = "
+                        + menu.getQuantite());
+                stmtTR.setInt(1, commandeId);
+                stmtTR.setInt(2, menu.getPkMenu());
+                stmtTR.setInt(3, menu.getQuantite());
+                stmtTR.executeUpdate();
+            }
+
+            // Valider la transaction
+            connection.commit();
+            return true;
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
         } finally {
             try {
                 connection.setAutoCommit(true);

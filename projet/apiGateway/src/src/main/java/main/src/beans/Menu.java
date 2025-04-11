@@ -7,10 +7,12 @@ public class Menu {
     private String image;
     private float prix;
     private Integer fkEntreprise;
+    private int quantite; // ✅ le champ manquant
 
     public Menu() {}
 
     public Menu(Integer pk_menu, String nom, String image, float prix, Integer fkEntreprise) {
+        this.pkMenu = pk_menu;
         this.nom = nom;
         this.image = image;
         this.prix = prix;
@@ -57,5 +59,13 @@ public class Menu {
 
     public void setFkEntreprise(Integer fkEntreprise) {
         this.fkEntreprise = fkEntreprise;
+    }
+
+    public int getQuantite() {
+        return quantite;
+    }
+
+    public void setQuantite(int quantite) {
+        this.quantite = quantite;
     }
 }

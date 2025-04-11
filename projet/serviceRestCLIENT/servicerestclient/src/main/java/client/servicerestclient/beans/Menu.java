@@ -1,31 +1,21 @@
 package client.servicerestclient.beans;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "T_Menu")
 public class Menu {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PK_Menu")
     private int pkMenu;
 
-    @Column(name = "nom")
     private String nom;
 
-    @Column(name = "image")
     private String image;
 
-    @Column(name = "prix")
     private float prix;
 
-    @Column(name = "FK_Entreprise")
     private int FK_Entreprise;
 
     private int quantite;
 
-    public Menu() {}
+    public Menu() {
+    }
 
     public Menu(String nom, String image, float prix, int FK_Entreprise, int quantite) {
         this.nom = nom;
@@ -57,7 +47,7 @@ public class Menu {
         return FK_Entreprise;
     }
 
-    public int getQuantite(){
+    public int getQuantite() {
         return quantite;
     }
 
@@ -81,7 +71,7 @@ public class Menu {
         this.FK_Entreprise = FK_Entreprise;
     }
 
-    public void setQuantite(int quantite){
+    public void setQuantite(int quantite) {
         this.quantite = quantite;
     }
 }

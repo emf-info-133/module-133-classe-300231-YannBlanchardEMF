@@ -89,9 +89,12 @@ public class GatewayController {
 
     @PostMapping("/commande")
     public ResponseEntity<String> commander(@RequestBody ClientDTO dto, HttpSession session) {
+        // Vérifie que l'utilisateur est connecté
         if (session.getAttribute("id") == null) {
             return ResponseEntity.status(401).body("Non connecté !");
         }
+
+        // Forward direct vers le microservice client
         return restTemplate.postForEntity(clientBaseUrl + "/commande", dto, String.class);
     }
 
@@ -198,7 +201,7 @@ public class GatewayController {
     public ResponseEntity<String> addUser(@RequestBody User dto, HttpSession session) {
         if (!isAdmin(session))
             return ResponseEntity.status(403).body("Accès refusé");
-        return restTemplate.postForEntity(adminBaseUrl + "/addUser", dto, String.class);
+        return restTemplate.postForEntity(clientBaseUrl + "/addUser", dto, String.class);
     }
 
     @PutMapping("/modifyUser/{id}")

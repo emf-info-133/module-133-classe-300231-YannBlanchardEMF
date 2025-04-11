@@ -5,6 +5,7 @@ public class User {
     private String nom;
     private String prenom;
     private String login;
+    private String password;
     private boolean admin;
     private Integer fkEntreprise;
 
@@ -57,5 +58,13 @@ public class User {
 
     public void setFKEntreprise(Integer fkEntreprise) {
         this.fkEntreprise = fkEntreprise;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
