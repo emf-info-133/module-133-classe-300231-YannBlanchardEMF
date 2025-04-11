@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CommandeAvenir</title>
-  <link rel="stylesheet" href="css/css.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil</title>
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Fichier JavaScript du contrôleur -->
+    <script src="javascripts/controllers/indexCtrl.js" defer></script>
+
+     <!-- CSS-->
+     <link rel="stylesheet" href="css/css.css" />
+
 </head>
-<body>
-  <header>
-    <div class="nav-left">
-      <a href="index.html">Accueil</a>
-      <a href="menu.html">Menus</a>
-      <a href="panier.html">Panier</a>
+<body class="accueil">
+    <nav class="navbar">
+        <div class="nav-links">
+            <a href="index.html" class="nav-item"><img src="images/iconMaison.png" width="30" height="30" alt="Accueil"> Accueil</a>
+            <a href="menu.html" class="nav-item"><img src="images/iconMenu.png" width="30" height="30" alt="Menus"> Menus</a>
+            <a href="panier.html" class="nav-item"><img src="images/iconPanier.png" width="30" height="30" alt="Panier"> Panier</a>
+        </div>
+    
+        <div class="user-container">
+            <!-- Conteneur pour l'affichage conditionnel -->
+            
+            <div class="login-container" id="login-container">
+                <button class="login-button" onclick="window.location.href='login.html'">Se connecter</button>
+                <button class="register-button" onclick="window.location.href='register.html'">S'enregister</button>
+            </div>
+    
+            <div class="user-info hidden" id="user-info">
+                <img src="images/iconUser.png" width="30" height="30" alt="user">
+                <button class="logout-button" id="btn-logout">Déconnexion</button>
+            </div>
+        </div>
+    </nav>
+    
+    
+    <div class="content">
+        <h1>Bienvenue dans notre restaurant</h1>
+        <p>Découvrez nos plats et passez commande en ligne</p>
     </div>
-    <div class="nav-right">
-      <button id="btnSignUp" class="signup" onclick="window.location.href='register.html'">Sign Up</button>
-      <button id="btnLogin" class="login" onclick="window.location.href='login.html'">Log In</button>
-    </div>    
-  </header>
-
-  <main>
-    <div class="text-content">
-      <h1 id="mainTitle">CommandeAvenir</h1>
-      <p id="sloganText">
-        Supporting statement for your product's tagline.<br />
-        This text should communicate your unique selling proposition to the reader.
-      </p>
-    </div>
-    <div class="image-content" id="mainImage">
-      <!-- Placeholder image box -->
-    </div>
-  </main>
-
-  <script src="js/index.js"></script>
 </body>
 </html>
+
+

@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Connexion</title>
-  <link rel="stylesheet" href="css/css.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Fichier JavaScript du contrôleur -->
+    <script src="javascripts/controllers/indexCtrl.js" defer></script>
+
+     <!-- CSS-->
+     <link rel="stylesheet" href="css/css.css" />
+
 </head>
-<body>
+<body class="login-page">
+    <div class="form-container">
+        <h1>Se connecter</h1>
+        <form>
+            <label for="username">Nom d'utilisateur :</label>
+            <input type="text" id="login-username" name="username" required>
 
-  <main class="register-container">
-    <h2>Login</h2>
-    <form class="register-form">
-        <input type="text" id="login-username" placeholder="USERNAME" required />
-        <input type="password" id="login-password" placeholder="Password" required />
-        <button type="submit" id="btnLogin" class="commander-btn dark">CONTINUER</button>        
-  </main>
+            <label for="password">Mot de passe :</label>
+            <input type="password" id="login-password" name="password" required>
 
+            <button type="submit" id="btn-login" class="btn-submit">Se connecter</button>
+        </form>
+    </div>
 </body>
 </html>
+
