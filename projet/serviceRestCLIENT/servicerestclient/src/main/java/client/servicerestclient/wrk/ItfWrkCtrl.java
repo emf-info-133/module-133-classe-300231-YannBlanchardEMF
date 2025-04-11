@@ -11,5 +11,7 @@ public interface ItfWrkCtrl {
     boolean ajouterCommande(String login, ArrayList<Menu> menus, float total);
     ArrayList<User> getAllUsers();
     User getUser(String pk);
+    boolean deleteUser(int id);
+    User modifyUser(User user);
 
 }

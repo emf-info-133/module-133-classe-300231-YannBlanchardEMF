@@ -1,22 +1,12 @@
 package main.code.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
-@Entity
-@Table(name = "T_Entreprise")
+
+
 public class Entreprise {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Pk_Entreprise")
     private int pk_entreprise;
     
-    @Column(name = "Nom", length = 50)
     private String nom;
 
     // Getters et Setters

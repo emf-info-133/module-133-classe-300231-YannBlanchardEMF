@@ -54,4 +54,10 @@ public class Controller {
     public Iterable<MenuDTO> getAllMenus() {
         return menuService.findAllMenu();
     }
+
+    @GetMapping(path = "/getMenuByPK")
+    public Iterable<MenuDTO> getMenusbyPK(@RequestParam List<Integer> pk) {
+        return menuService.findMenubyPK(pk);
+    }
+
 }

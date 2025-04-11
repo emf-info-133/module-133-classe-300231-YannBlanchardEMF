@@ -84,5 +84,24 @@ public class MenuService {
     
         return menuDTOs;
     }
+
+    @Transactional
+    public List<MenuDTO> findMenubyPK(List<Integer> pk) {
+        List<Menu> menus = menuRepository.findBypkMenuIn(pk);
+        List<MenuDTO> menuDTOs = new ArrayList<>();
+    
+        for (Menu menu : menus) {
+            MenuDTO menuDTO = new MenuDTO(
+                menu.getPkMenu(),
+                menu.getNom(),
+                menu.getImage(),
+                menu.getPrix(),
+                menu.getFkEntreprise()
+            );
+            menuDTOs.add(menuDTO);
+        }
+    
+        return menuDTOs;
+    }
     
 }

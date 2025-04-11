@@ -1,25 +1,32 @@
 package client.servicerestclient.ctrl;
 
 import client.servicerestclient.wrk.*;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import client.servicerestclient.beans.Menu;
 import client.servicerestclient.beans.User;
 import client.servicerestclient.dto.CommandeDTO;
 import client.servicerestclient.dto.LoginDTO;
 import client.servicerestclient.dto.RegisterDTO;
-import client.servicerestclient.dto.UserDTO;
 
 @RestController
 public class Ctrl {
 
     ItfWrkCtrl wrk;
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final String menuServiceUrl = "http://localhost:8080"; // ou docker host
 
     public Ctrl() {
         wrk = new Wrk();
@@ -38,6 +45,7 @@ public class Ctrl {
         user.setPrenom(dto.getPrenom());
         user.setLogin(dto.getLogin());
         user.setPassword(dto.getPassword());
+        user.setFKEntreprise(null);
 
         if (wrk.addUser(user) != null) {
             return user;
@@ -64,6 +72,37 @@ public class Ctrl {
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.status(404).build();
+        }
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        if (wrk.addUser(user) != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @DeleteMapping("/deleteUser")
+    public ResponseEntity<String> deleteUser(@RequestParam int pk) {
+        boolean deleted = wrk.deleteUser(pk);
+
+        if (deleted) {
+            return ResponseEntity.ok("Utilisateur supprimé avec succès");
+        } else {
+            return ResponseEntity.status(404).body("Utilisateur introuvable");
+        }
+    }
+
+    @PutMapping("/modifyUser")
+    public ResponseEntity<User> modifyUser(@RequestBody User user) {
+        User updatedUser = wrk.modifyUser(user);
+
+        if (updatedUser != null) {
+            return ResponseEntity.ok(updatedUser);
+        } else {
+            return ResponseEntity.status(404).body(null);
         }
     }
 

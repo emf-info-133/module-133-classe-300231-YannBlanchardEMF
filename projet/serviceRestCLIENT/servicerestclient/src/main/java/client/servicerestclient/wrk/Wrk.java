@@ -38,4 +38,14 @@ public class Wrk implements ItfWrkCtrl {
         return wrkDB.getUser(pk);
     }
 
+    @Override
+    public boolean deleteUser(int pk) {
+        return wrkDB.deleteUser(pk);
+    }
+
+    @Override
+    public User modifyUser(User user) {
+        return wrkDB.modifyUser(user);
+    }
+
 }

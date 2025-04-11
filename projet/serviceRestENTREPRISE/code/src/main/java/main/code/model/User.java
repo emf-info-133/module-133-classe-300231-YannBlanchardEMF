@@ -1,32 +1,19 @@
 package main.code.model;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "T_Users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "PK_Users")
     private int pkUser;
 
-    @Column(name = "nom", nullable = false)
     private String nom;
 
-    @Column(name = "prenom", nullable = false)
     private String prenom;
 
-    @Column(name = "login", nullable = false, unique = true)
     private String login;
 
-    @Column(name = "mdp", nullable = false)
     private String password;
 
-    @Column(name = "isAdmin", nullable = false)
     private boolean isAdmin;
 
-    @Column(name = "FK_Entreprise")
     private int fkEntreprise;
 
     public User() {
@@ -87,7 +74,7 @@ public class User {
         return isAdmin;
     }
 
-    public boolean setAdmin( boolean statu) {
+    public boolean setAdmin(boolean statu) {
         return this.isAdmin = statu;
     }
 
@@ -99,4 +86,3 @@ public class User {
         this.fkEntreprise = fkEntreprise;
     }
 }
-

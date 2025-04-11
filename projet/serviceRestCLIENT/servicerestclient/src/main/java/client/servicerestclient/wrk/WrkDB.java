@@ -154,7 +154,7 @@ public class WrkDB {
             stmt.setString(2, user.getPrenom());
             stmt.setBoolean(3, user.isAdmin());
 
-            stmt.setNull(4, user.getFKEntreprise());
+            stmt.setInt(4, user.getFKEntreprise());
 
             stmt.setString(5, user.getPassword()); // stocke le hash
             stmt.setString(6, user.getLogin());
@@ -182,6 +182,47 @@ public class WrkDB {
             }
             e.printStackTrace();
             return null;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public boolean deleteUser(int pk) {
+        if (connection == null) {
+            return false;
+        }
+
+        try {
+            connection.setAutoCommit(false);
+
+            String query = "DELETE FROM T_Users WHERE PK_Users = ?";
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setInt(1, pk);
+
+            int rows = stmt.executeUpdate();
+
+            if (rows != 1) {
+                connection.rollback();
+                System.out.println("Aucun utilisateur supprimé (id peut-être invalide).");
+                return false;
+            }
+
+            connection.commit();
+            System.out.println("Utilisateur supprimé avec succès (ID : " + pk + ")");
+            return true;
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
         } finally {
             try {
                 connection.setAutoCommit(true);
@@ -258,6 +299,73 @@ public class WrkDB {
             }
             e.printStackTrace();
             return false;
+        } finally {
+            try {
+                connection.setAutoCommit(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public User modifyUser(User user) {
+        if (connection == null) {
+            return null;
+        }
+
+        try {
+            connection.setAutoCommit(false);
+
+            // Récupérer l'utilisateur existant
+            String selectQuery = "SELECT * FROM T_Users WHERE PK_Users = ?";
+            PreparedStatement selectStmt = connection.prepareStatement(selectQuery);
+            selectStmt.setInt(1, user.getPK());
+            ResultSet rs = selectStmt.executeQuery();
+
+            if (!rs.next()) {
+                connection.rollback();
+                System.out.println("Utilisateur introuvable.");
+                return null;
+            }
+
+            // Préparer le hash du mot de passe (si modifié)
+            String hashedPassword = rs.getString("mdp");
+            if (user.getPassword() != null && !user.getPassword().isBlank()) {
+                hashedPassword = passwordEncoder.encode(user.getPassword());
+            }
+
+            // Update
+            String updateQuery = "UPDATE T_Users SET nom = ?, prenom = ?, login = ?, isAdmin = ?, FK_Entreprise = ?, mdp = ? WHERE PK_Users = ?";
+            PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
+
+            updateStmt.setString(1, user.getNom());
+            updateStmt.setString(2, user.getPrenom());
+            updateStmt.setString(3, user.getLogin());
+            updateStmt.setBoolean(4, user.isAdmin());
+            updateStmt.setInt(5, user.getFKEntreprise());
+            updateStmt.setString(6, hashedPassword);
+            updateStmt.setInt(7, user.getPK());
+
+            int rows = updateStmt.executeUpdate();
+
+            if (rows != 1) {
+                connection.rollback();
+                System.out.println("Aucune modification effectuée.");
+                return null;
+            }
+
+            connection.commit();
+            user.setPassword(null); // on ne renvoie jamais le mdp
+            return user;
+
+        } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return null;
         } finally {
             try {
                 connection.setAutoCommit(true);

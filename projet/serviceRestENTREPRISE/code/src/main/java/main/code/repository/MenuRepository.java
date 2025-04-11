@@ -6,5 +6,6 @@ import main.code.model.Menu;
 
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
     List<Menu> findByFkEntreprise(Integer fkEntreprise);
+    List<Menu> findBypkMenuIn(List<Integer> pk);
 }
 
