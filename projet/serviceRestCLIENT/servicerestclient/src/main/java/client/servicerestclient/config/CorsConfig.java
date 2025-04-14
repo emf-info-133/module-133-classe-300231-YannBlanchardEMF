@@ -14,10 +14,11 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://apigateway:8080")
-                        .allowCredentials(true)
-                        .allowedMethods("*");
+                        .allowedOrigins("http://apigateway:8080") // 💡 le nom du conteneur dans Docker
+                        .allowedMethods("*")
+                        .allowCredentials(true);
             }
         };
     }
 }
+
