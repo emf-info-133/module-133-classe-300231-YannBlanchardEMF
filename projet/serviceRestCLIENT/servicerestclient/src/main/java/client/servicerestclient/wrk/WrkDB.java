@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 public class WrkDB {
-    private final String URL = "jdbc:mysql://localhost:3308/mydb";
+    private final String URL = "jdbc:mysql://mysql:3306/mydb";
     private final String USER = "root";
     private final String PASSWORD = "emf123";
 
@@ -161,7 +161,6 @@ public class WrkDB {
             } else {
                 stmt.setInt(4, user.getFKEntreprise());
             }
-            
 
             stmt.setString(5, user.getPassword()); // stocke le hash
             stmt.setString(6, user.getLogin());
@@ -243,58 +242,58 @@ public class WrkDB {
         if (connection == null) {
             return null;
         }
-    
+
         try {
             connection.setAutoCommit(false);
-    
+
             // Récupérer l'utilisateur existant
             String selectQuery = "SELECT * FROM T_Users WHERE PK_Users = ?";
             PreparedStatement selectStmt = connection.prepareStatement(selectQuery);
             selectStmt.setInt(1, user.getPK());
             ResultSet rs = selectStmt.executeQuery();
-    
+
             if (!rs.next()) {
                 connection.rollback();
                 System.out.println("Utilisateur introuvable.");
                 return null;
             }
-    
+
             // Préparer le hash du mot de passe (si modifié)
             String hashedPassword = rs.getString("mdp");
             if (user.getPassword() != null && !user.getPassword().isBlank()) {
                 hashedPassword = passwordEncoder.encode(user.getPassword());
             }
-    
+
             // Update
             String updateQuery = "UPDATE T_Users SET nom = ?, prenom = ?, login = ?, isAdmin = ?, FK_Entreprise = ?, mdp = ? WHERE PK_Users = ?";
             PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
-    
+
             updateStmt.setString(1, user.getNom());
             updateStmt.setString(2, user.getPrenom());
             updateStmt.setString(3, user.getLogin());
             updateStmt.setBoolean(4, user.isAdmin());
-    
+
             if (user.getFKEntreprise() != null) {
                 updateStmt.setInt(5, user.getFKEntreprise());
             } else {
                 updateStmt.setNull(5, java.sql.Types.INTEGER);
             }
-    
+
             updateStmt.setString(6, hashedPassword);
             updateStmt.setInt(7, user.getPK());
-    
+
             int rows = updateStmt.executeUpdate();
-    
+
             if (rows != 1) {
                 connection.rollback();
                 System.out.println("Aucune modification effectuée.");
                 return null;
             }
-    
+
             connection.commit();
             user.setPassword(null); // on ne renvoie jamais le mdp
             return user;
-    
+
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -311,7 +310,6 @@ public class WrkDB {
             }
         }
     }
-    
 
     public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
         for (Menu m : menus) {
@@ -345,7 +343,8 @@ public class WrkDB {
             System.out.println("id du user cassé de con qui marche pas : " + userId);
 
             // Récupère les vrais menus depuis l’entreprise (via Gateway)
-            String url = "http://localhost:8080/gateway/getMenuByPK?";
+            String url = "http://apigateway:8080/gateway/getMenuByPK?";
+
             for (int i = 0; i < menus.size(); i++) {
                 Menu m = menus.get(i);
                 url += "pk=" + m.getPkMenu();
@@ -385,7 +384,7 @@ public class WrkDB {
                 Menu menuReel = menusReels.get(i);
                 for (int j = 0; j < menus.size(); j++) {
                     Menu menuEnvoye = menus.get(j);
-                    
+
                     if (Integer.valueOf(menuReel.getPkMenu()).equals(menuEnvoye.getPkMenu())) {
                         menuReel.setQuantite(menuEnvoye.getQuantite());
                         totalRecalcule += menuReel.getPrix() * menuEnvoye.getQuantite();

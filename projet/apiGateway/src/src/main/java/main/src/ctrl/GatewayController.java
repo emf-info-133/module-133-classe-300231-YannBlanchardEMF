@@ -17,9 +17,10 @@ import org.springframework.web.client.RestTemplate;
 public class GatewayController {
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private final String clientBaseUrl = "http://localhost:8081";
-    private final String entrepriseBaseUrl = "http://localhost:8082";
-    private final String adminBaseUrl = "http://localhost:8083";
+    private final String clientBaseUrl = "http://client:8081";
+    private final String entrepriseBaseUrl = "http://entreprise:8082";
+    private final String adminBaseUrl = "http://admin:8083";
+    
 
     // ---------------------- AUTH ----------------------
 
@@ -35,6 +36,8 @@ public class GatewayController {
             session.setAttribute("id", user.getPk());
             session.setAttribute("admin", user.isAdmin());
             session.setAttribute("fkEntreprise", user.getFKEntreprise());
+
+            System.out.println("fk entreprise : " + user.getFKEntreprise());
 
             // Appel au service entreprise pour récupérer l'entreprise liée
             if (user.getFKEntreprise() != null) {
@@ -123,6 +126,8 @@ public class GatewayController {
     public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody Menu dto,
             HttpSession session) {
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
+        System.out.println("dto menu :" + dto.getFkEntreprise());
+        System.out.println("fk session" + sessionFk);
         if (sessionFk == null || !sessionFk.equals(dto.getFkEntreprise())) {
             return ResponseEntity.status(403).body("Accès refusé");
         }
@@ -232,11 +237,6 @@ public ResponseEntity<String> deleteMenu(@PathVariable Integer pk_menu, HttpSess
             return ResponseEntity.status(403).body("Accès refusé");
         restTemplate.delete(clientBaseUrl + "/deleteUser/" + id);
         return ResponseEntity.ok("Utilisateur supprimé");
-    }
-
-    @GetMapping("/getUsers")
-    public ResponseEntity<User[]> getUsers() {
-        return restTemplate.getForEntity(clientBaseUrl + "/users", User[].class);
     }
 
     @GetMapping("/getEntreprises")

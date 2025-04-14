@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
-
-import client.servicerestclient.beans.Menu;
 import client.servicerestclient.beans.User;
 import client.servicerestclient.dto.CommandeDTO;
 import client.servicerestclient.dto.LoginDTO;
@@ -26,8 +23,7 @@ import client.servicerestclient.dto.RegisterDTO;
 public class Ctrl {
 
     ItfWrkCtrl wrk;
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final String menuServiceUrl = "http://localhost:8080"; // ou docker host
+    
 
     public Ctrl() {
         wrk = new Wrk();
