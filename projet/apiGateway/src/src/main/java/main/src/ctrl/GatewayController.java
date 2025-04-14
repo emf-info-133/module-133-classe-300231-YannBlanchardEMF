@@ -5,6 +5,7 @@ import main.src.beans.Entreprise;
 import main.src.beans.Menu;
 import main.src.beans.User;
 import main.src.dto.ClientDTO;
+import main.src.dto.EntrepriseDTO;
 
 import java.util.List;
 
@@ -20,7 +21,6 @@ public class GatewayController {
     private final String clientBaseUrl = "http://client:8081";
     private final String entrepriseBaseUrl = "http://entreprise:8082";
     private final String adminBaseUrl = "http://admin:8083";
-    
 
     // ---------------------- AUTH ----------------------
 
@@ -116,9 +116,11 @@ public class GatewayController {
     @PostMapping("/addMenu")
     public ResponseEntity<String> addMenu(@RequestBody Menu dto, HttpSession session) {
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
-        if (sessionFk == null || !sessionFk.equals(dto.getFkEntreprise())) {
+        if (sessionFk == null) {
             return ResponseEntity.status(403).body("Accès refusé");
         }
+
+        dto.setFkEntreprise(sessionFk);
         return restTemplate.postForEntity(entrepriseBaseUrl + "/addMenu", dto, String.class);
     }
 
@@ -126,38 +128,46 @@ public class GatewayController {
     public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody Menu dto,
             HttpSession session) {
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
-        System.out.println("dto menu :" + dto.getFkEntreprise());
-        System.out.println("fk session" + sessionFk);
-        if (sessionFk == null || !sessionFk.equals(dto.getFkEntreprise())) {
+        if (sessionFk == null) {
             return ResponseEntity.status(403).body("Accès refusé");
         }
+
+        ResponseEntity<Menu[]> response = restTemplate.getForEntity(
+                entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu, Menu[].class);
+        Menu[] menus = response.getBody();
+
+        if (menus == null || menus.length == 0 || !sessionFk.equals(menus[0].getFkEntreprise())) {
+            return ResponseEntity.status(403).body("Accès refusé");
+        }
+
+        dto.setFkEntreprise(sessionFk);
         HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
-        return restTemplate.exchange(entrepriseBaseUrl + "/modifyMenu/" + pk_menu, HttpMethod.PUT, requestEntity,
+
+        return restTemplate.exchange(
+                entrepriseBaseUrl + "/modifyMenu/" + pk_menu,
+                HttpMethod.PUT,
+                requestEntity,
                 String.class);
     }
 
     @DeleteMapping("/deleteMenu/{pk_menu}")
-public ResponseEntity<String> deleteMenu(@PathVariable Integer pk_menu, HttpSession session) {
-    Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
-    if (sessionFk == null) {
-        return ResponseEntity.status(403).body("Accès refusé");
+    public ResponseEntity<String> deleteMenu(@PathVariable Integer pk_menu, HttpSession session) {
+        Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
+        if (sessionFk == null) {
+            return ResponseEntity.status(403).body("Accès refusé");
+        }
+
+        ResponseEntity<Menu[]> response = restTemplate.getForEntity(
+                entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu, Menu[].class);
+                Menu[] menus = response.getBody();
+
+        if (menus == null || menus.length == 0 || !sessionFk.equals(menus[0].getFkEntreprise())) {
+            return ResponseEntity.status(403).body("Accès refusé");
+        }
+
+        restTemplate.delete(entrepriseBaseUrl + "/deleteMenu/" + pk_menu);
+        return ResponseEntity.ok("Menu supprimé");
     }
-
-    // Appel au microservice pour récupérer le menu (en GET)
-    ResponseEntity<Menu[]> response = restTemplate.getForEntity(
-        entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu, Menu[].class);
-    
-    Menu[] menus = response.getBody();
-
-    if (menus == null || menus.length == 0 || !menus[0].getFkEntreprise().equals(sessionFk)) {
-        return ResponseEntity.status(403).body("Accès refusé");
-    }
-
-    // Suppression effective
-    restTemplate.delete(entrepriseBaseUrl + "/deleteMenu/" + pk_menu);
-    return ResponseEntity.ok("Menu supprimé");
-}
-
 
     @GetMapping("/getMenuById")
     public ResponseEntity<Menu[]> getMenuByID(@RequestParam("fk_entreprise") Integer fk_entreprise) {
