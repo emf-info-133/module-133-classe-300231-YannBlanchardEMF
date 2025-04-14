@@ -117,7 +117,7 @@ public class GatewayController {
     public ResponseEntity<String> addMenu(@RequestBody Menu dto, HttpSession session) {
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
         if (sessionFk == null) {
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - AddMenu");
         }
 
         dto.setFkEntreprise(sessionFk);
@@ -166,7 +166,7 @@ public class GatewayController {
     public ResponseEntity<String> deleteMenu(@PathVariable Integer pk_menu, HttpSession session) {
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
         if (sessionFk == null) {
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - DeleteMenu");
         }
 
         ResponseEntity<Menu[]> response = restTemplate.getForEntity(
@@ -174,7 +174,7 @@ public class GatewayController {
         Menu[] menus = response.getBody();
 
         if (menus == null || menus.length == 0 || !sessionFk.equals(menus[0].getFkEntreprise())) {
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - DeleteMenu");
         }
 
         restTemplate.delete(entrepriseBaseUrl + "/deleteMenu/" + pk_menu);
@@ -215,7 +215,7 @@ public class GatewayController {
     @PostMapping("/addEntreprise")
     public ResponseEntity<String> addEntreprise(@RequestBody Entreprise dto, HttpSession session) {
         if (!isAdmin(session))
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - Addentreprise");
         return restTemplate.postForEntity(adminBaseUrl + "/addEntreprise", dto, String.class);
     }
 
@@ -223,7 +223,7 @@ public class GatewayController {
     public ResponseEntity<String> modifyEntreprise(@PathVariable Integer id, @RequestBody Entreprise dto,
             HttpSession session) {
         if (!isAdmin(session))
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - ModifyEntreprise");
         HttpEntity<Entreprise> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(adminBaseUrl + "/modifyEntreprise/" + id, HttpMethod.PUT, requestEntity,
                 String.class);
@@ -232,7 +232,7 @@ public class GatewayController {
     @DeleteMapping("/deleteEntreprise/{id}")
     public ResponseEntity<String> deleteEntreprise(@PathVariable Integer id, HttpSession session) {
         if (!isAdmin(session))
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - delEntreprise");
         restTemplate.delete(adminBaseUrl + "/deleteEntreprise/" + id);
         return ResponseEntity.ok("Entreprise supprimée");
     }
@@ -240,14 +240,14 @@ public class GatewayController {
     @PostMapping("/addUser")
     public ResponseEntity<String> addUser(@RequestBody User dto, HttpSession session) {
         if (!isAdmin(session))
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - addUser");
         return restTemplate.postForEntity(clientBaseUrl + "/addUser", dto, String.class);
     }
 
     @PutMapping("/modifyUser/{id}")
     public ResponseEntity<String> modifyUser(@PathVariable Integer id, @RequestBody User dto, HttpSession session) {
         if (!isAdmin(session))
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - modUser");
 
         HttpEntity<User> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(clientBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
@@ -256,7 +256,7 @@ public class GatewayController {
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer id, HttpSession session) {
         if (!isAdmin(session))
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé - delUser");
         restTemplate.delete(clientBaseUrl + "/deleteUser/" + id);
         return ResponseEntity.ok("Utilisateur supprimé");
     }
