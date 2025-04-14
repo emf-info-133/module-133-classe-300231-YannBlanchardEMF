@@ -134,6 +134,7 @@ public class GatewayController {
 
         ResponseEntity<Menu[]> response = restTemplate.getForEntity(
                 entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu, Menu[].class);
+
         Menu[] menus = response.getBody();
 
         if (menus == null || menus.length == 0 || !sessionFk.equals(menus[0].getFkEntreprise())) {
@@ -141,8 +142,8 @@ public class GatewayController {
         }
 
         dto.setFkEntreprise(sessionFk);
-        HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
 
+        HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
         return restTemplate.exchange(
                 entrepriseBaseUrl + "/modifyMenu/" + pk_menu,
                 HttpMethod.PUT,
@@ -157,6 +158,7 @@ public class GatewayController {
             return ResponseEntity.status(403).body("Accès refusé");
         }
 
+        // Récupérer le menu pour vérifier son fkEntreprise
         ResponseEntity<Menu[]> response = restTemplate.getForEntity(
                 entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu, Menu[].class);
                 Menu[] menus = response.getBody();
