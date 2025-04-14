@@ -131,28 +131,27 @@ public class GatewayController {
             @RequestBody Menu dto,
             HttpSession session) {
 
-        // 🔐 Récupérer la fkEntreprise de l'utilisateur connecté
+        // 🔐 fkEntreprise uniquement via la session
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
         if (sessionFk == null) {
-            return ResponseEntity.status(403).body("Accès refusé");
+            return ResponseEntity.status(403).body("Accès refusé (non connecté)");
         }
 
-        // 🔍 Récupérer le menu existant depuis le microservice
+        // 🔍 On vérifie que le menu existe et qu’il appartient à la même entreprise
         String url = entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu;
         ResponseEntity<Menu[]> response = restTemplate.getForEntity(url, Menu[].class);
         Menu[] menus = response.getBody();
 
-        // 🚫 Si aucun menu trouvé ou mauvaise entreprise → interdit
         if (menus == null || menus.length == 0) {
             return ResponseEntity.status(404).body("Menu introuvable");
         }
 
         Menu menuOriginal = menus[0];
         if (!sessionFk.equals(menuOriginal.getFkEntreprise())) {
-            return ResponseEntity.status(403).body("Accès refusé à ce menu");
+            return ResponseEntity.status(403).body("Ce menu n’appartient pas à votre entreprise");
         }
 
-        // ✅ Mise à jour autorisée → on force la bonne entreprise
+        // ✅ fkEntreprise validée → on ignore celle du JSON et on met celle de session
         dto.setFkEntreprise(sessionFk);
 
         HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
