@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://apigateway:8080") // 💡 le nom du conteneur dans Docker
+                        .allowedOrigins("http://apigateway:8080")
                         .allowedMethods("*")
                         .allowCredentials(true);
             }

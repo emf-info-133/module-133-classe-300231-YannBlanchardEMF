@@ -26,6 +26,7 @@ public class GatewayController {
 
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody ClientDTO dto, HttpSession session) {
+
         // Appel au service client pour authentifier l'utilisateur
         ResponseEntity<User> response = restTemplate.postForEntity(clientBaseUrl + "/login", dto, User.class);
 
@@ -131,13 +132,13 @@ public class GatewayController {
             @RequestBody Menu dto,
             HttpSession session) {
 
-        // 🔐 fkEntreprise uniquement via la session
+        // fkEntreprise uniquement via la session
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
         if (sessionFk == null) {
             return ResponseEntity.status(403).body("Accès refusé (non connecté)");
         }
 
-        // 🔍 On vérifie que le menu existe et qu’il appartient à la même entreprise
+        // On vérifie que le menu existe et qu’il appartient à la même entreprise
         String url = entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu;
         ResponseEntity<Menu[]> response = restTemplate.getForEntity(url, Menu[].class);
         Menu[] menus = response.getBody();
@@ -151,7 +152,7 @@ public class GatewayController {
             return ResponseEntity.status(403).body("Ce menu n’appartient pas à votre entreprise");
         }
 
-        // ✅ fkEntreprise validée → on ignore celle du JSON et on met celle de session
+        // fkEntreprise validée → on ignore celle du JSON et on met celle de session
         dto.setFkEntreprise(sessionFk);
 
         HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
