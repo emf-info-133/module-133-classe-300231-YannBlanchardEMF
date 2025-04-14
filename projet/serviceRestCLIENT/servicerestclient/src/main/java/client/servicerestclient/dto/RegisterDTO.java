@@ -7,6 +7,7 @@ public class RegisterDTO {
     private String password;
     private boolean admin;
 
+
     public RegisterDTO() {}
 
     public String getNom() {

@@ -243,52 +243,58 @@ public class WrkDB {
         if (connection == null) {
             return null;
         }
-
+    
         try {
             connection.setAutoCommit(false);
-
+    
             // Récupérer l'utilisateur existant
             String selectQuery = "SELECT * FROM T_Users WHERE PK_Users = ?";
             PreparedStatement selectStmt = connection.prepareStatement(selectQuery);
             selectStmt.setInt(1, user.getPK());
             ResultSet rs = selectStmt.executeQuery();
-
+    
             if (!rs.next()) {
                 connection.rollback();
                 System.out.println("Utilisateur introuvable.");
                 return null;
             }
-
+    
             // Préparer le hash du mot de passe (si modifié)
             String hashedPassword = rs.getString("mdp");
             if (user.getPassword() != null && !user.getPassword().isBlank()) {
                 hashedPassword = passwordEncoder.encode(user.getPassword());
             }
-
+    
             // Update
             String updateQuery = "UPDATE T_Users SET nom = ?, prenom = ?, login = ?, isAdmin = ?, FK_Entreprise = ?, mdp = ? WHERE PK_Users = ?";
             PreparedStatement updateStmt = connection.prepareStatement(updateQuery);
-
+    
             updateStmt.setString(1, user.getNom());
             updateStmt.setString(2, user.getPrenom());
             updateStmt.setString(3, user.getLogin());
             updateStmt.setBoolean(4, user.isAdmin());
-            updateStmt.setInt(5, user.getFKEntreprise());
+    
+            if (user.getFKEntreprise() != null) {
+                updateStmt.setInt(5, user.getFKEntreprise());
+            } else {
+                updateStmt.setNull(5, java.sql.Types.INTEGER);
+            }
+    
             updateStmt.setString(6, hashedPassword);
             updateStmt.setInt(7, user.getPK());
-
+    
             int rows = updateStmt.executeUpdate();
-
+    
             if (rows != 1) {
                 connection.rollback();
                 System.out.println("Aucune modification effectuée.");
                 return null;
             }
-
+    
             connection.commit();
             user.setPassword(null); // on ne renvoie jamais le mdp
             return user;
-
+    
         } catch (SQLException e) {
             try {
                 connection.rollback();
@@ -305,6 +311,7 @@ public class WrkDB {
             }
         }
     }
+    
 
     public boolean ajouterCommande(String login, ArrayList<Menu> menus, float total) {
         for (Menu m : menus) {

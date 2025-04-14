@@ -87,7 +87,7 @@ public class User {
         return isAdmin;
     }
 
-    public boolean setAdmin( boolean statu) {
+    public boolean setAdmin(boolean statu) {
         return this.isAdmin = statu;
     }
 
@@ -98,4 +98,6 @@ public class User {
     public void setFKEntreprise(Integer fkEntreprise) {
         this.fkEntreprise = fkEntreprise;
     }
+
+
 }

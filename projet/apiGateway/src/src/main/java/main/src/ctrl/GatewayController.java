@@ -131,15 +131,28 @@ public class GatewayController {
                 String.class);
     }
 
-    @PostMapping("/deleteMenu")
-    public ResponseEntity<String> deleteMenu(@RequestParam Integer pkMenu, HttpSession session) {
-        if (session.getAttribute("fkEntreprise") == null) {
-            return ResponseEntity.status(403).body("Accès refusé");
-        }
-        String url = entrepriseBaseUrl + "/deleteMenu?pkMenu=" + pkMenu;
-        restTemplate.delete(url);
-        return ResponseEntity.ok("Menu supprimé");
+    @DeleteMapping("/deleteMenu/{pk_menu}")
+public ResponseEntity<String> deleteMenu(@PathVariable Integer pk_menu, HttpSession session) {
+    Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
+    if (sessionFk == null) {
+        return ResponseEntity.status(403).body("Accès refusé");
     }
+
+    // Appel au microservice pour récupérer le menu (en GET)
+    ResponseEntity<Menu[]> response = restTemplate.getForEntity(
+        entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu, Menu[].class);
+    
+    Menu[] menus = response.getBody();
+
+    if (menus == null || menus.length == 0 || !menus[0].getFkEntreprise().equals(sessionFk)) {
+        return ResponseEntity.status(403).body("Accès refusé");
+    }
+
+    // Suppression effective
+    restTemplate.delete(entrepriseBaseUrl + "/deleteMenu/" + pk_menu);
+    return ResponseEntity.ok("Menu supprimé");
+}
+
 
     @GetMapping("/getMenuById")
     public ResponseEntity<Menu[]> getMenuByID(@RequestParam("fk_entreprise") Integer fk_entreprise) {
@@ -208,21 +221,22 @@ public class GatewayController {
     public ResponseEntity<String> modifyUser(@PathVariable Integer id, @RequestBody User dto, HttpSession session) {
         if (!isAdmin(session))
             return ResponseEntity.status(403).body("Accès refusé");
+
         HttpEntity<User> requestEntity = new HttpEntity<>(dto);
-        return restTemplate.exchange(adminBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
+        return restTemplate.exchange(clientBaseUrl + "/modifyUser/" + id, HttpMethod.PUT, requestEntity, String.class);
     }
 
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Integer id, HttpSession session) {
         if (!isAdmin(session))
             return ResponseEntity.status(403).body("Accès refusé");
-        restTemplate.delete(adminBaseUrl + "/deleteUser/" + id);
+        restTemplate.delete(clientBaseUrl + "/deleteUser/" + id);
         return ResponseEntity.ok("Utilisateur supprimé");
     }
 
     @GetMapping("/getUsers")
     public ResponseEntity<User[]> getUsers() {
-        return restTemplate.getForEntity(adminBaseUrl + "/getUsers", User[].class);
+        return restTemplate.getForEntity(clientBaseUrl + "/users", User[].class);
     }
 
     @GetMapping("/getEntreprises")

@@ -37,11 +37,11 @@ public class Controller {
 
     @PutMapping(path = "/modifyMenu/{pk_menu}")
     public String modifyMenu(@PathVariable("pk_menu") Integer pkMenu, @RequestBody Menu menu) {
-        return menuService.modifyMenu(pkMenu, menu.getNom(), menu.getImage(), menu.getPrix(), menu.getFkEntreprise());    
+        return menuService.modifyMenu(pkMenu, menu.getNom(), menu.getImage(), menu.getPrix(), menu.getFkEntreprise());
     }
 
-    @DeleteMapping(path = "/deleteMenu")
-    public String deleteMenu(@RequestParam Integer pkMenu) {
+    @DeleteMapping(path = "/deleteMenu/{pkMenu}")
+    public String deleteMenu(@PathVariable Integer pkMenu) {
         return menuService.deleteMenu(pkMenu);
     }
 
