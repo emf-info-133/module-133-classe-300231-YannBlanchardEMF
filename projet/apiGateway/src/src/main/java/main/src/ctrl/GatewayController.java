@@ -126,21 +126,33 @@ public class GatewayController {
     }
 
     @PutMapping("/modifyMenu/{pk_menu}")
-    public ResponseEntity<String> modifyMenu(@PathVariable Integer pk_menu, @RequestBody Menu dto,
+    public ResponseEntity<String> modifyMenu(
+            @PathVariable Integer pk_menu,
+            @RequestBody Menu dto,
             HttpSession session) {
+
+        // 🔐 Récupérer la fkEntreprise de l'utilisateur connecté
         Integer sessionFk = (Integer) session.getAttribute("fkEntreprise");
         if (sessionFk == null) {
             return ResponseEntity.status(403).body("Accès refusé");
         }
 
-        ResponseEntity<Menu[]> response = restTemplate.getForEntity(
-                entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu, Menu[].class);
+        // 🔍 Récupérer le menu existant depuis le microservice
+        String url = entrepriseBaseUrl + "/getMenuByPK?pk=" + pk_menu;
+        ResponseEntity<Menu[]> response = restTemplate.getForEntity(url, Menu[].class);
         Menu[] menus = response.getBody();
 
-        if (menus == null || menus.length == 0 || !sessionFk.equals(menus[0].getFkEntreprise())) {
-            return ResponseEntity.status(403).body("Accès refusé");
+        // 🚫 Si aucun menu trouvé ou mauvaise entreprise → interdit
+        if (menus == null || menus.length == 0) {
+            return ResponseEntity.status(404).body("Menu introuvable");
         }
 
+        Menu menuOriginal = menus[0];
+        if (!sessionFk.equals(menuOriginal.getFkEntreprise())) {
+            return ResponseEntity.status(403).body("Accès refusé à ce menu");
+        }
+
+        // ✅ Mise à jour autorisée → on force la bonne entreprise
         dto.setFkEntreprise(sessionFk);
 
         HttpEntity<Menu> requestEntity = new HttpEntity<>(dto);
